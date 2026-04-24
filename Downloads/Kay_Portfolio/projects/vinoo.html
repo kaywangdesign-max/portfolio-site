@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RT-Mart Wine App — Kay Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../project-page.css" />
+  <style>
+    /* ── Vinoo-specific ── */
+
+    /* Brand identity side-by-side */
+    .brand-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 24px;
+    }
+    .brand-card {
+      background: var(--card);
+      border: 2px solid var(--fg);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: 4px 4px 0 var(--fg);
+    }
+    .brand-card-label {
+      padding: 10px 16px;
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--muted-fg);
+      border-bottom: 2px solid var(--border);
+      background: var(--muted);
+    }
+    .brand-card-visual {
+      padding: 24px;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 160px;
+      background: #1C1917;
+    }
+    .brand-card-visual img {
+      max-height: 120px;
+      max-width: 100%;
+      display: block;
+    }
+    .brand-card-body { padding: 16px 20px; }
+    .brand-card-concept {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.9rem;
+      color: var(--fg); margin-bottom: 6px;
+    }
+    .brand-card-rationale {
+      font-size: 0.8rem; color: var(--muted-fg); line-height: 1.65;
+    }
+
+    /* Filter dimension grid */
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .filter-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 14px 12px;
+      text-align: center;
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .filter-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 10px;
+      border: 2px solid var(--fg);
+      box-shadow: 2px 2px 0 var(--fg);
+    }
+    .filter-icon [data-lucide] { width: 18px; height: 18px; stroke-width: 2.5px; color: #fff; }
+    .filter-name {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.8rem;
+      color: var(--fg); margin-bottom: 4px;
+    }
+    .filter-examples {
+      font-size: 0.68rem; color: var(--muted-fg); line-height: 1.5;
+    }
+
+    /* Strategy numbered blocks */
+    .strategy-block {
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .strategy-block-header {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 20px;
+      background: var(--muted);
+      border-bottom: 2px solid var(--border);
+    }
+    .strategy-block-num {
+      font-family: var(--font-head); font-weight: 900; font-size: 1.5rem;
+      color: var(--border); flex-shrink: 0; line-height: 1;
+      width: 32px; text-align: center;
+    }
+    .strategy-block-title {
+      font-family: var(--font-head); font-weight: 800; font-size: 1rem;
+      color: var(--fg);
+    }
+    .strategy-block-body { padding: 16px 20px; background: var(--card); }
+    .strategy-block-desc { font-size: 0.875rem; color: var(--muted-fg); line-height: 1.7; margin-bottom: 12px; }
+    .strategy-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .strategy-bullets li {
+      display: flex; gap: 8px; align-items: flex-start;
+      font-size: 0.8125rem; color: var(--fg); line-height: 1.5;
+      padding-left: 16px; position: relative;
+    }
+    .strategy-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--muted-fg); }
+
+    /* Visual style comparison */
+    .style-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .style-panel {
+      border: 2px solid var(--fg);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: 4px 4px 0 var(--fg);
+    }
+    .style-panel-header {
+      padding: 12px 18px;
+      border-bottom: 2px solid var(--fg);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .style-panel-name {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.9375rem;
+    }
+    .style-panel-badge {
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 3px 10px; border-radius: 9999px;
+      border: 1.5px solid;
+    }
+    .style-panel-screens {
+      display: flex; flex-direction: column; gap: 2px;
+      background: var(--border);
+    }
+    .style-panel-screens img {
+      width: 100%; display: block;
+    }
+    .style-panel-body { padding: 14px 18px; background: var(--card); }
+    .style-panel-mood {
+      font-size: 0.8125rem; color: var(--muted-fg); line-height: 1.65;
+    }
+
+    /* Wireframe / concept row */
+    .wireframe-row {
+      display: grid;
+      grid-template-columns: 1fr 1.8fr;
+      gap: 24px;
+      align-items: start;
+      margin: 24px 0;
+    }
+
+    @media (max-width: 768px) {
+      .brand-pair { grid-template-columns: 1fr; }
+      .filter-grid { grid-template-columns: repeat(3, 1fr); }
+      .style-compare { grid-template-columns: 1fr; }
+      .wireframe-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">K.W.</a>
+  <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+    <button class="lang-opt active" data-lang="en">EN</button>
+    <button class="lang-opt" data-lang="zh">繁中</button>
+  </div>
+  <a href="../index.html#projects" class="back-btn" data-i18n="back-btn"><i data-lucide="arrow-left"></i> All Work</a>
+</nav>
+
+<div class="proj-hero">
+  <div class="proj-hero-bg">
+    <img src="../images/vinoo.png" alt="RT-Mart Wine App — Vinoo" />
+  </div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-content">
+    <div class="proj-hero-cat" data-i18n="hero-cat">Consumer Lifestyle · Mobile App · Branding</div>
+    <h1 class="proj-hero-title">RT-Mart Wine App</h1>
+    <p class="proj-hero-sub" data-i18n="hero-sub">A social wine discovery app for RT-Mart — with a KOL taster community, 5-dimension filtering, loyalty mechanics, and a full brand identity designed from zero</p>
+  </div>
+</div>
+
+<div class="proj-meta-bar">
+  <div class="proj-meta-row">
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-client">Client</div><div class="meta-value" data-i18n="meta-client-val">RT-Mart</div></div>
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-agency">Agency</div><div class="meta-value">Skywind Inc.</div></div>
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-role-label">My Role</div><div class="meta-value" data-i18n="meta-role-val">UX/UI + Branding Designer</div></div>
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-timeline">Timeline</div><div class="meta-value">2017</div></div>
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-platform-label">Platform</div><div class="meta-value" data-i18n="meta-platform-val">iOS (iPhone X)</div></div>
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-type">Project Type</div><div class="meta-value"><span class="goal-badge new-product" data-i18n="badge-new-product">New Product</span></div></div>
+  </div>
+</div>
+
+<div class="proj-body">
+  <div class="proj-col">
+
+    <!-- 01 · Context -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s01-eyebrow">01 · Context</div>
+      <h2 class="content-heading" data-i18n="s01-heading">RT-Mart's wine aisle had no digital voice</h2>
+      <p class="content-text" data-i18n="s01-p1">RT-Mart was expanding its wine product range — but their digital presence for wine was limited to their general e-commerce platform. No dedicated discovery experience, no community, no way to communicate the product range's depth. Wine shoppers were browsing in-store or abandoning online because filtering was too blunt to be useful.</p>
+      <p class="content-text" data-i18n="s01-p2">This was not just a UI project. It was a brand-and-product problem: build a wine app with its own identity, its own community logic, and a filtering system intelligent enough to serve both casual buyers and wine professionals — all within the RT-Mart ecosystem.</p>
+
+      <div class="challenge-strip">
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="users"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch1-label">Dual Audience</div>
+            <div class="challenge-value" data-i18n="ch1-val">Casual buyers and wine professionals — one app</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="pen-tool"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch2-label">Full Brand</div>
+            <div class="challenge-value" data-i18n="ch2-val">Zero-to-one: name, icon, logo, identity system</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="repeat"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch3-label">Retention</div>
+            <div class="challenge-value" data-i18n="ch3-val">Build habits that bring users back beyond one-time purchase</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · Brand Identity -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s02-eyebrow">02 · Brand Identity</div>
+      <h2 class="content-heading" data-i18n="s02-heading">愛酒窖 — A brand built on wordplay and wine metaphor</h2>
+      <p class="content-text" data-i18n="s02-p1">The brand name and visual identity were designed simultaneously — each informing the other. The name "Vinoo" (愛酒窖, ài jiǔ jiào) is a homophonic pun: "愛" (ài) sounds like "i" in English, meaning love. Combined with "酒窖" (jiǔ jiào), wine cellar — the name reads as both "I love wine cellar" and "Vinoo the wine app." Both the icon and logo express this love-meets-wine concept through shape, gradient, and cultural wordplay.</p>
+
+      <div class="brand-pair">
+        <div class="brand-card">
+          <div class="brand-card-label" data-i18n="brand-icon-label">App Icon</div>
+          <div class="brand-card-visual">
+            <img src="https://static.wixstatic.com/media/c8b53d_d1370556ba304591816614bb69a41f13~mv2.png"
+                 alt="Vinoo app icon — heart-shaped wine glass" class="js-magnify" />
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-card-concept" data-i18n="icon-concept">Heart × Wine Glass</div>
+            <div class="brand-card-rationale" data-i18n="icon-rationale"><strong>Visual:</strong> Alcohol precipitation in a wine glass forms a heart-shaped afterimage — the swirling motion of wine naturally creates a heart silhouette. This makes the icon feel discovered, not designed.<br /><br /><strong>Colour:</strong> The gradient moves from rose champagne to deep burgundy — mirroring how a wine's hue shifts through light and shadow. The warm gradient conveys an intoxicating, celebratory warmth.</div>
+          </div>
+        </div>
+
+        <div class="brand-card">
+          <div class="brand-card-label" data-i18n="wordmark-label">Wordmark — 愛酒窖</div>
+          <div class="brand-card-visual">
+            <img src="https://static.wixstatic.com/media/c8b53d_bfa62fe991c84d9fbc296dfb2422b05f~mv2.png"
+                 alt="Vinoo / 愛酒窖 logotype" class="js-magnify" />
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-card-concept" data-i18n="wordmark-concept">Homophonic Naming — 愛 = i = Love</div>
+            <div class="brand-card-rationale" data-i18n="wordmark-rationale"><strong>Naming logic:</strong> The icon preceding the wordmark doubles as the letter "i" — which in Mandarin pronunciation (ài) means "love." So the logo reads simultaneously as "i Cellar" and "Love Cellar" — a bilingual pun embedded in the identity.<br /><br /><strong>Colour:</strong> The gradient echoes the icon — rose champagne transitioning into dark red wine — creating a coherent tonal identity across both lockup versions.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout pink" style="margin-top:24px;">
+        <div class="callout-title" data-i18n="callout1-title">Why wordplay matters in brand design</div>
+        <p data-i18n="callout1-body">In Taiwanese consumer culture, brand names with homophonic double meanings are both memorable and socially shareable — people explain the pun to others, which becomes organic word-of-mouth. The name "愛酒窖" is a conversation starter built into the identity itself.</p>
+      </div>
+    </div>
+
+    <!-- 03 · UX Strategy -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s03-eyebrow">03 · UX Strategy</div>
+      <h2 class="content-heading" data-i18n="s03-heading">Three strategic pillars — retention, precision, breadth</h2>
+      <p class="content-text" data-i18n="s03-p1">Before wireframing, I studied wine platforms and competitor apps, mapping their common features and end-user behaviours. The key insight: most wine apps solved either discovery <em>or</em> community — rarely both. The opportunity was to design a system where social mechanics and product filtering reinforced each other: community creates trust, trust drives exploration, filtering makes exploration useful.</p>
+
+      <!-- Strategy 1 -->
+      <div class="strategy-block">
+        <div class="strategy-block-header">
+          <div class="strategy-block-num">01</div>
+          <div class="strategy-block-title" data-i18n="strat1-title">Improve User Return Rates — Social &amp; Loyalty Loop</div>
+        </div>
+        <div class="strategy-block-body">
+          <div class="strategy-block-desc" data-i18n="strat1-desc">The core retention insight: wine is inherently social. People share bottles, ask for recommendations, and follow trusted voices. Building a loyalty loop around these existing behaviours — rather than inventing artificial mechanics — made the retention system feel natural rather than gamified-for-its-own-sake.</div>
+          <ul class="strategy-bullets">
+            <li data-i18n="strat1-b1">Social login via existing accounts — eliminates registration friction and fast-tracks community identity</li>
+            <li data-i18n="strat1-b2">Sharing rewards system — share a product or review, earn discount points redeemable at checkout</li>
+            <li data-i18n="strat1-b3">KOL (Key Opinion Leader) wine taster profiles — verified experts with curated collections that wine enthusiasts can follow and trust</li>
+            <li data-i18n="strat1-b4">Structured review format (aroma / taste / pairing) — ensures reviews are informative, not just star ratings</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Strategy 2 -->
+      <div class="strategy-block">
+        <div class="strategy-block-header">
+          <div class="strategy-block-num">02</div>
+          <div class="strategy-block-title" data-i18n="strat2-title">More Accurate Filtering — 5 Dimensions for Every Buyer Type</div>
+        </div>
+        <div class="strategy-block-body">
+          <div class="strategy-block-desc" data-i18n="strat2-desc">General e-commerce filtering treats wine like any product — category and price. Wine buyers, especially returning ones, have much more specific needs. A casual buyer filters by price; an enthusiast filters by vineyard and vintage year. The filter system had to serve both without overwhelming either.</div>
+          <div class="filter-grid" style="margin-bottom:16px;">
+            <div class="filter-card">
+              <div class="filter-icon" style="background:#7B1A1A;"><i data-lucide="wine"></i></div>
+              <div class="filter-name" data-i18n="filter1-name">Type</div>
+              <div class="filter-examples" data-i18n="filter1-ex">Red, white, rosé, sparkling, champagne</div>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon" style="background:#A52415;"><i data-lucide="map-pin"></i></div>
+              <div class="filter-name" data-i18n="filter2-name">Vineyard</div>
+              <div class="filter-examples" data-i18n="filter2-ex">Lavaux, Yarra Yering, Chateau Montelena, Chard Farm</div>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon" style="background:#C84018;"><i data-lucide="globe"></i></div>
+              <div class="filter-name" data-i18n="filter3-name">Country</div>
+              <div class="filter-examples" data-i18n="filter3-ex">Italy, France, Spain, Australia, Chile, USA</div>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon" style="background:#DC6612;"><i data-lucide="dollar-sign"></i></div>
+              <div class="filter-name" data-i18n="filter4-name">Price Range</div>
+              <div class="filter-examples" data-i18n="filter4-ex">Budget-first discovery for price-sensitive buyers</div>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon" style="background:#F5920E;"><i data-lucide="calendar"></i></div>
+              <div class="filter-name" data-i18n="filter5-name">Vintage Year</div>
+              <div class="filter-examples" data-i18n="filter5-ex">Critical for professionals; unique to wine UX</div>
+            </div>
+          </div>
+          <ul class="strategy-bullets">
+            <li data-i18n="strat2-b1">Saved filter presets — returning users skip the setup and resume their last search profile</li>
+            <li data-i18n="strat2-b2">Filters are combinable — a buyer can filter by country + type + price simultaneously</li>
+            <li data-i18n="strat2-b3">Vintage year filter was specifically identified from research as the most underserved dimension in competitor apps</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Strategy 3 -->
+      <div class="strategy-block">
+        <div class="strategy-block-header">
+          <div class="strategy-block-num">03</div>
+          <div class="strategy-block-title" data-i18n="strat3-title">Diverse Entry Points — Casual to Connoisseur</div>
+        </div>
+        <div class="strategy-block-body">
+          <div class="strategy-block-desc" data-i18n="strat3-desc">A wine app that only serves enthusiasts misses the majority of RT-Mart's customer base. The home screen needed to work for four completely different buying mindsets simultaneously — using social proof, promotions, and novelty as parallel entry points that each user could claim as "theirs."</div>
+          <ul class="strategy-bullets">
+            <li data-i18n="strat3-b1"><strong>Hot rankings</strong> — social proof through popularity. RT-Mart's physical store network gives these rankings genuine credibility: these are actual bestsellers, not algorithmic boosts</li>
+            <li data-i18n="strat3-b2"><strong>Public star ratings</strong> — aggregated in-app reviews build trust for hesitant buyers who wouldn't follow a KOL</li>
+            <li data-i18n="strat3-b3"><strong>Promotions &amp; events</strong> — timed deals from both RT-Mart and wine brand partnerships drive urgency without feeling spammy</li>
+            <li data-i18n="strat3-b4"><strong>New arrivals</strong> — always interesting to enthusiasts, especially paired with new-launch discounts</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 · Wireframe -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s04-eyebrow">04 · Concept &amp; Wireframe</div>
+      <h2 class="content-heading" data-i18n="s04-heading">Structure before style — mapping the full app logic</h2>
+      <p class="content-text" data-i18n="s04-p1">Before either visual direction was explored, the app's information architecture and core flows were mapped in wireframe. This phase established the page hierarchy, navigation model, and feature groupings that both Style A and Style B would later share. The wireframe also served as a client alignment tool — agreeing on what the app does before discussing how it looks.</p>
+
+      <div class="content-visual">
+        <img src="https://static.wixstatic.com/media/c8b53d_ca3e465b9c154da4a9b9aa5a6127cb7b~mv2.jpg"
+             alt="Vinoo — wireframe and concept layout" />
+      </div>
+    </div>
+
+  </div><!-- /proj-col -->
+</div><!-- /proj-body -->
+
+<!-- 05 · Visual Design — two style directions -->
+<div class="layout-section">
+  <div class="layout-section-inner">
+    <div class="section-eyebrow" data-i18n="s05-eyebrow">05 · Visual Design</div>
+    <h2 class="layout-section-heading" data-i18n="s05-heading">Two visual directions — same structure, different personality</h2>
+    <p class="layout-section-sub" data-i18n="s05-sub">The app was presented in two complete visual directions — allowing RT-Mart to choose the emotional register that best fit their brand positioning. Both share the same IA and feature set; only the visual language differs.</p>
+  </div>
+</div>
+
+<div class="proj-body" style="padding-top:0;padding-bottom:80px;">
+  <div class="proj-col">
+
+    <div class="style-compare">
+
+      <!-- Style A -->
+      <div class="style-panel">
+        <div class="style-panel-header" style="background:#1C1917;">
+          <div class="style-panel-name" style="color:#fff;">Style A</div>
+          <div class="style-panel-badge" style="background:rgba(255,255,255,0.1); color:#FCA5A5; border-color:#7F1D1D;" data-i18n="styleA-badge">Dark Red Mood</div>
+        </div>
+        <div class="style-panel-screens">
+          <img src="https://static.wixstatic.com/media/c8b53d_5fbf5eff04db4d28bbd210ea460c79f7~mv2.png"
+               alt="Style A — Dark Red Mood, screen 1" class="js-magnify" />
+          <img src="https://static.wixstatic.com/media/c8b53d_69aa2a133bce46128d06c3e26fef7ec2~mv2.png"
+               alt="Style A — Dark Red Mood, screen 2" class="js-magnify" />
+        </div>
+        <div class="style-panel-body">
+          <div class="style-panel-mood" data-i18n="styleA-mood"><strong>Emotional register:</strong> Bold, sophisticated, sensory. Deep crimson and near-black backgrounds evoke the depth and complexity of fine wine. Targets users who see wine as a passion — collectors, enthusiasts, connoisseurs. The dark UI also makes product photography of wine bottles and labels look dramatically vivid against the background.</div>
+        </div>
+      </div>
+
+      <!-- Style B -->
+      <div class="style-panel">
+        <div class="style-panel-header" style="background: linear-gradient(135deg, #BE185D, #F97316);">
+          <div class="style-panel-name" style="color:#fff;">Style B</div>
+          <div class="style-panel-badge" style="background:rgba(255,255,255,0.2); color:#fff; border-color:rgba(255,255,255,0.5);" data-i18n="styleB-badge">Sunset Wave</div>
+        </div>
+        <div class="style-panel-screens">
+          <img src="https://static.wixstatic.com/media/c8b53d_43fd5330a0e84745a1f320ed1244d71d~mv2.png"
+               alt="Style B — Sunset Wave, screen 1" class="js-magnify" />
+          <img src="https://static.wixstatic.com/media/c8b53d_96676509f8084ca58d8ad2c8e59394c6~mv2.png"
+               alt="Style B — Sunset Wave, screen 2" class="js-magnify" />
+        </div>
+        <div class="style-panel-body">
+          <div class="style-panel-mood" data-i18n="styleB-mood"><strong>Emotional register:</strong> Warm, social, celebratory. A gradient from rosé champagne pink to amber-orange captures the colour of wine in afternoon light — and the mood of sharing a bottle with friends. More approachable for casual buyers and the social-sharing community feature. The warm palette also reinforces the brand gradient from the icon and wordmark.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout" style="margin-top:32px;">
+      <div class="callout-title" data-i18n="callout2-title">Why present two directions?</div>
+      <p data-i18n="callout2-body">A single visual direction presented as "the answer" limits client input and risks misalignment with the brand team's vision. Two fully realised directions — each with a clear strategic rationale — give the client a genuine choice that's informed by design thinking, not just preference. The decision becomes a conversation, not a guessing game.</p>
+    </div>
+
+    <!-- Style comparison final -->
+    <div style="margin-top:48px;">
+      <div class="content-visual-label" data-i18n="vl-compare">Final comparison — Style A (Dark Red Mood) vs Style B (Sunset Wave)</div>
+      <div class="content-visual">
+        <img src="https://static.wixstatic.com/media/c8b53d_c5ac8048da004b8ba140e8a185451855~mv2.png"
+             alt="Vinoo — Style A vs Style B side-by-side final comparison" />
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 06 · Design System -->
+<div class="ds-section">
+  <div class="proj-col">
+    <div class="section-eyebrow" data-i18n="s06-eyebrow">06 · Design System</div>
+    <h2 class="ds-heading" data-i18n="s06-heading">Two palettes — one brand gradient</h2>
+
+    <p class="content-text" style="margin-bottom:24px;" data-i18n="s06-p1">Both visual directions share the same brand gradient — rosé champagne to deep burgundy — expressed differently at the UI level. Style A uses it as an accent against dark backgrounds; Style B uses it as the primary surface colour throughout. The gradient is the throughline that keeps both directions feeling unmistakably "Vinoo."</p>
+
+    <div class="sub-head" data-i18n="sub-styleA">Style A — Dark Red Mood</div>
+    <div class="color-palette" style="margin-bottom:28px;">
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#7F1D1D;"></div>
+        <div class="color-chip-hex">#7F1D1D</div>
+        <div class="color-chip-role">Primary</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#1C1917; border:none;"></div>
+        <div class="color-chip-hex">#1C1917</div>
+        <div class="color-chip-role">Background</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#FCA5A5;"></div>
+        <div class="color-chip-hex">#FCA5A5</div>
+        <div class="color-chip-role">Accent</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#F5F5F4;"></div>
+        <div class="color-chip-hex">#F5F5F4</div>
+        <div class="color-chip-role">Text / Light</div>
+      </div>
+    </div>
+
+    <div class="sub-head" data-i18n="sub-styleB">Style B — Sunset Wave</div>
+    <div class="color-palette" style="margin-bottom:28px;">
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#BE185D;"></div>
+        <div class="color-chip-hex">#BE185D</div>
+        <div class="color-chip-role">Primary</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#F97316;"></div>
+        <div class="color-chip-hex">#F97316</div>
+        <div class="color-chip-role">Gradient End</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#FFF1F2;"></div>
+        <div class="color-chip-hex">#FFF1F2</div>
+        <div class="color-chip-role">Surface / Light</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#1C1917; border:none;"></div>
+        <div class="color-chip-hex">#1C1917</div>
+        <div class="color-chip-role">Text</div>
+      </div>
+    </div>
+
+    <div class="sub-head" data-i18n="sub-gradient">Shared Brand Gradient</div>
+    <div style="height:48px; border-radius:var(--r-md); border:2px solid var(--fg); background:linear-gradient(90deg,#f9a8b8,#BE185D,#7F1D1D); box-shadow:3px 3px 0 var(--fg); margin-top:12px;"></div>
+    <p class="content-text" style="margin-top:10px; font-size:0.8125rem; color:var(--muted-fg);" data-i18n="gradient-desc">Rose champagne → Deep burgundy — the colour journey of wine from light to depth, from celebratory to contemplative. Applied to icon, logo, UI highlights, and CTA buttons across both directions.</p>
+
+    <div class="type-system" style="margin-top:24px;">
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-head-tag">Headings</div>
+        <div class="type-sample" style="font-weight:800; letter-spacing:-0.02em;">Serif Display</div>
+        <div class="type-detail" data-i18n="type-head-detail">Elegant, high-contrast display type for wine names and headings — signals craft and premium quality without cold luxury</div>
+      </div>
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-body-tag">Body / UI</div>
+        <div class="type-sample" style="font-family:'Plus Jakarta Sans',sans-serif;">Plus Jakarta Sans</div>
+        <div class="type-detail" data-i18n="type-body-detail">Clean, legible body and UI type — warm neutral that pairs comfortably with both the dark and light palettes</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="proj-tags-row">
+  <span class="proj-tag">iOS</span>
+  <span class="proj-tag">Branding</span>
+  <span class="proj-tag">Logo Design</span>
+  <span class="proj-tag">Social Features</span>
+  <span class="proj-tag">KOL System</span>
+  <span class="proj-tag">Consumer</span>
+  <span class="proj-tag">FinTech-Adjacent</span>
+  <span class="proj-tag">Retail</span>
+</div>
+
+<div class="next-project-strip">
+  <div>
+    <div class="next-label" data-i18n="next-label">Next project</div>
+    <div class="next-title">Eslite Bookeys</div>
+  </div>
+  <a href="eslite.html" class="next-btn" data-i18n="next-btn-text">View case study <i data-lucide="arrow-right"></i></a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Kay Wang</div>
+    <div data-i18n="footer-role">Senior UI/UX Designer · Taipei, Taiwan</div>
+    <div>© 2024 Kay Wang</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script src="../project-page.js"></script>
+<script>
+var translations = {
+  en: {
+    'back-btn': '<i data-lucide="arrow-left"></i> All Work',
+    'hero-cat': 'Consumer Lifestyle · Mobile App · Branding',
+    'hero-sub': 'A social wine discovery app for RT-Mart — with a KOL taster community, 5-dimension filtering, loyalty mechanics, and a full brand identity designed from zero',
+    'meta-client': 'Client',
+    'meta-client-val': 'RT-Mart',
+    'meta-agency': 'Agency',
+    'meta-role-label': 'My Role',
+    'meta-role-val': 'UX/UI + Branding Designer',
+    'meta-timeline': 'Timeline',
+    'meta-platform-label': 'Platform',
+    'meta-platform-val': 'iOS (iPhone X)',
+    'meta-type': 'Project Type',
+    'badge-new-product': 'New Product',
+    's01-eyebrow': '01 · Context',
+    's01-heading': 'RT-Mart\'s wine aisle had no digital voice',
+    's01-p1': 'RT-Mart was expanding its wine product range — but their digital presence for wine was limited to their general e-commerce platform. No dedicated discovery experience, no community, no way to communicate the product range\'s depth. Wine shoppers were browsing in-store or abandoning online because filtering was too blunt to be useful.',
+    's01-p2': 'This was not just a UI project. It was a brand-and-product problem: build a wine app with its own identity, its own community logic, and a filtering system intelligent enough to serve both casual buyers and wine professionals — all within the RT-Mart ecosystem.',
+    'ch1-label': 'Dual Audience',
+    'ch1-val': 'Casual buyers and wine professionals — one app',
+    'ch2-label': 'Full Brand',
+    'ch2-val': 'Zero-to-one: name, icon, logo, identity system',
+    'ch3-label': 'Retention',
+    'ch3-val': 'Build habits that bring users back beyond one-time purchase',
+    's02-eyebrow': '02 · Brand Identity',
+    's02-heading': '愛酒窖 — A brand built on wordplay and wine metaphor',
+    's02-p1': 'The brand name and visual identity were designed simultaneously — each informing the other. The name "Vinoo" (愛酒窖, ài jiǔ jiào) is a homophonic pun: "愛" (ài) sounds like "i" in English, meaning love. Combined with "酒窖" (jiǔ jiào), wine cellar — the name reads as both "I love wine cellar" and "Vinoo the wine app." Both the icon and logo express this love-meets-wine concept through shape, gradient, and cultural wordplay.',
+    'brand-icon-label': 'App Icon',
+    'icon-concept': 'Heart × Wine Glass',
+    'icon-rationale': '<strong>Visual:</strong> Alcohol precipitation in a wine glass forms a heart-shaped afterimage — the swirling motion of wine naturally creates a heart silhouette. This makes the icon feel discovered, not designed.<br /><br /><strong>Colour:</strong> The gradient moves from rose champagne to deep burgundy — mirroring how a wine\'s hue shifts through light and shadow. The warm gradient conveys an intoxicating, celebratory warmth.',
+    'wordmark-label': 'Wordmark — 愛酒窖',
+    'wordmark-concept': 'Homophonic Naming — 愛 = i = Love',
+    'wordmark-rationale': '<strong>Naming logic:</strong> The icon preceding the wordmark doubles as the letter "i" — which in Mandarin pronunciation (ài) means "love." So the logo reads simultaneously as "i Cellar" and "Love Cellar" — a bilingual pun embedded in the identity.<br /><br /><strong>Colour:</strong> The gradient echoes the icon — rose champagne transitioning into dark red wine — creating a coherent tonal identity across both lockup versions.',
+    'callout1-title': 'Why wordplay matters in brand design',
+    'callout1-body': 'In Taiwanese consumer culture, brand names with homophonic double meanings are both memorable and socially shareable — people explain the pun to others, which becomes organic word-of-mouth. The name "愛酒窖" is a conversation starter built into the identity itself.',
+    's03-eyebrow': '03 · UX Strategy',
+    's03-heading': 'Three strategic pillars — retention, precision, breadth',
+    's03-p1': 'Before wireframing, I studied wine platforms and competitor apps, mapping their common features and end-user behaviours. The key insight: most wine apps solved either discovery <em>or</em> community — rarely both. The opportunity was to design a system where social mechanics and product filtering reinforced each other: community creates trust, trust drives exploration, filtering makes exploration useful.',
+    'strat1-title': 'Improve User Return Rates — Social &amp; Loyalty Loop',
+    'strat1-desc': 'The core retention insight: wine is inherently social. People share bottles, ask for recommendations, and follow trusted voices. Building a loyalty loop around these existing behaviours — rather than inventing artificial mechanics — made the retention system feel natural rather than gamified-for-its-own-sake.',
+    'strat1-b1': 'Social login via existing accounts — eliminates registration friction and fast-tracks community identity',
+    'strat1-b2': 'Sharing rewards system — share a product or review, earn discount points redeemable at checkout',
+    'strat1-b3': 'KOL (Key Opinion Leader) wine taster profiles — verified experts with curated collections that wine enthusiasts can follow and trust',
+    'strat1-b4': 'Structured review format (aroma / taste / pairing) — ensures reviews are informative, not just star ratings',
+    'strat2-title': 'More Accurate Filtering — 5 Dimensions for Every Buyer Type',
+    'strat2-desc': 'General e-commerce filtering treats wine like any product — category and price. Wine buyers, especially returning ones, have much more specific needs. A casual buyer filters by price; an enthusiast filters by vineyard and vintage year. The filter system had to serve both without overwhelming either.',
+    'filter1-name': 'Type',
+    'filter1-ex': 'Red, white, rosé, sparkling, champagne',
+    'filter2-name': 'Vineyard',
+    'filter2-ex': 'Lavaux, Yarra Yering, Chateau Montelena, Chard Farm',
+    'filter3-name': 'Country',
+    'filter3-ex': 'Italy, France, Spain, Australia, Chile, USA',
+    'filter4-name': 'Price Range',
+    'filter4-ex': 'Budget-first discovery for price-sensitive buyers',
+    'filter5-name': 'Vintage Year',
+    'filter5-ex': 'Critical for professionals; unique to wine UX',
+    'strat2-b1': 'Saved filter presets — returning users skip the setup and resume their last search profile',
+    'strat2-b2': 'Filters are combinable — a buyer can filter by country + type + price simultaneously',
+    'strat2-b3': 'Vintage year filter was specifically identified from research as the most underserved dimension in competitor apps',
+    'strat3-title': 'Diverse Entry Points — Casual to Connoisseur',
+    'strat3-desc': 'A wine app that only serves enthusiasts misses the majority of RT-Mart\'s customer base. The home screen needed to work for four completely different buying mindsets simultaneously — using social proof, promotions, and novelty as parallel entry points that each user could claim as "theirs."',
+    'strat3-b1': '<strong>Hot rankings</strong> — social proof through popularity. RT-Mart\'s physical store network gives these rankings genuine credibility: these are actual bestsellers, not algorithmic boosts',
+    'strat3-b2': '<strong>Public star ratings</strong> — aggregated in-app reviews build trust for hesitant buyers who wouldn\'t follow a KOL',
+    'strat3-b3': '<strong>Promotions &amp; events</strong> — timed deals from both RT-Mart and wine brand partnerships drive urgency without feeling spammy',
+    'strat3-b4': '<strong>New arrivals</strong> — always interesting to enthusiasts, especially paired with new-launch discounts',
+    's04-eyebrow': '04 · Concept &amp; Wireframe',
+    's04-heading': 'Structure before style — mapping the full app logic',
+    's04-p1': 'Before either visual direction was explored, the app\'s information architecture and core flows were mapped in wireframe. This phase established the page hierarchy, navigation model, and feature groupings that both Style A and Style B would later share. The wireframe also served as a client alignment tool — agreeing on what the app does before discussing how it looks.',
+    's05-eyebrow': '05 · Visual Design',
+    's05-heading': 'Two visual directions — same structure, different personality',
+    's05-sub': 'The app was presented in two complete visual directions — allowing RT-Mart to choose the emotional register that best fit their brand positioning. Both share the same IA and feature set; only the visual language differs.',
+    'styleA-badge': 'Dark Red Mood',
+    'styleA-mood': '<strong>Emotional register:</strong> Bold, sophisticated, sensory. Deep crimson and near-black backgrounds evoke the depth and complexity of fine wine. Targets users who see wine as a passion — collectors, enthusiasts, connoisseurs. The dark UI also makes product photography of wine bottles and labels look dramatically vivid against the background.',
+    'styleB-badge': 'Sunset Wave',
+    'styleB-mood': '<strong>Emotional register:</strong> Warm, social, celebratory. A gradient from rosé champagne pink to amber-orange captures the colour of wine in afternoon light — and the mood of sharing a bottle with friends. More approachable for casual buyers and the social-sharing community feature. The warm palette also reinforces the brand gradient from the icon and wordmark.',
+    'callout2-title': 'Why present two directions?',
+    'callout2-body': 'A single visual direction presented as "the answer" limits client input and risks misalignment with the brand team\'s vision. Two fully realised directions — each with a clear strategic rationale — give the client a genuine choice that\'s informed by design thinking, not just preference. The decision becomes a conversation, not a guessing game.',
+    'vl-compare': 'Final comparison — Style A (Dark Red Mood) vs Style B (Sunset Wave)',
+    's06-eyebrow': '06 · Design System',
+    's06-heading': 'Two palettes — one brand gradient',
+    's06-p1': 'Both visual directions share the same brand gradient — rosé champagne to deep burgundy — expressed differently at the UI level. Style A uses it as an accent against dark backgrounds; Style B uses it as the primary surface colour throughout. The gradient is the throughline that keeps both directions feeling unmistakably "Vinoo."',
+    'sub-styleA': 'Style A — Dark Red Mood',
+    'sub-styleB': 'Style B — Sunset Wave',
+    'sub-gradient': 'Shared Brand Gradient',
+    'gradient-desc': 'Rose champagne → Deep burgundy — the colour journey of wine from light to depth, from celebratory to contemplative. Applied to icon, logo, UI highlights, and CTA buttons across both directions.',
+    'type-head-tag': 'Headings',
+    'type-head-detail': 'Elegant, high-contrast display type for wine names and headings — signals craft and premium quality without cold luxury',
+    'type-body-tag': 'Body / UI',
+    'type-body-detail': 'Clean, legible body and UI type — warm neutral that pairs comfortably with both the dark and light palettes',
+    'next-label': 'Next project',
+    'next-btn-text': 'View case study <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Senior UI/UX Designer · Taipei, Taiwan'
+  },
+  zh: {
+    'back-btn': '<i data-lucide="arrow-left"></i> 所有作品',
+    'hero-cat': '消費生活 · 行動應用 · 品牌設計',
+    'hero-sub': '大潤發專屬社群選酒 App——含 KOL 品酒師社群、五維度篩選、集點忠誠機制，以及從零打造的完整品牌識別',
+    'meta-client': '客戶',
+    'meta-client-val': '大潤發',
+    'meta-agency': '代理商',
+    'meta-role-label': '我的角色',
+    'meta-role-val': 'UX/UI + 品牌設計師',
+    'meta-timeline': '時間',
+    'meta-platform-label': '平台',
+    'meta-platform-val': 'iOS（iPhone X）',
+    'meta-type': '專案類型',
+    'badge-new-product': '全新產品',
+    's01-eyebrow': '01 · 背景脈絡',
+    's01-heading': '大潤發的酒類通路，缺少一個數位窗口',
+    's01-p1': '大潤發正在擴大葡萄酒品項——但他們的酒類數位體驗僅限於一般電商平台。沒有專屬的探索體驗、沒有社群、也沒有辦法讓消費者感受到品項的深度。選酒的人要麼在實體店面逛，要麼因為線上篩選功能太粗糙而直接放棄。',
+    's01-p2': '這不只是一個 UI 設計專案，而是一個品牌與產品的命題：打造一款擁有獨立識別、自有社群邏輯的選酒 App，搭配足以服務從普通買家到專業酒客的智慧篩選系統——同時融入大潤發的生態體系。',
+    'ch1-label': '雙重受眾',
+    'ch1-val': '普通買家與葡萄酒專業人士——同一款 App',
+    'ch2-label': '完整品牌',
+    'ch2-val': '從零到一：命名、圖示、Logo、識別系統',
+    'ch3-label': '留存機制',
+    'ch3-val': '打造讓用戶在一次購買後還願意回來的使用習慣',
+    's02-eyebrow': '02 · 品牌識別',
+    's02-heading': '愛酒窖——以文字遊戲與酒的意象打造品牌',
+    's02-p1': '品牌名稱與視覺識別同步設計——相互啟發。「愛酒窖（Vinoo）」是一個音諧雙關：「愛」的拼音 ài 與英文字母 i 同音，意思是「愛/喜愛」。結合「酒窖」，整個名稱同時讀作「i（愛）酒窖」與「Vinoo 這款選酒 App」。圖示與 Logo 透過造型、漸層與文化文字遊戲，共同表達出這份「愛與酒」的品牌核心。',
+    'brand-icon-label': 'App 圖示',
+    'icon-concept': '愛心 × 酒杯',
+    'icon-rationale': '<strong>視覺：</strong>葡萄酒在酒杯中旋轉後，酒漬在杯壁留下心形的殘影——酒的自然流動本身就能勾勒出愛心輪廓。這讓圖示感覺像是「被發現的」，而非刻意「被設計的」。<br /><br /><strong>色彩：</strong>漸層從玫瑰香檳色過渡到深勃根地紅——映照出葡萄酒在光影中的色澤變化。暖色漸層傳遞出一種令人陶醉的慶典溫度。',
+    'wordmark-label': '字標——愛酒窖',
+    'wordmark-concept': '音諧命名——愛 = i = Love',
+    'wordmark-rationale': '<strong>命名邏輯：</strong>圖示置於字標前方，同時充當字母「i」——在國語發音中（ài）即為「愛」。因此整個 Logo 可同時讀作「i 酒窖」與「愛酒窖」——一個雙語雙關嵌入品牌識別之中。<br /><br /><strong>色彩：</strong>漸層呼應圖示——從玫瑰香檳過渡到深紅酒色——在兩個版本的品牌組合中，建立一致的色調識別。',
+    'callout1-title': '為什麼品牌設計中文字遊戲很重要',
+    'callout1-body': '在台灣消費文化中，品牌名稱若帶有諧音雙關，往往既好記又容易被社交分享——人們會主動把這個梗說給別人聽，形成有機口耳相傳。「愛酒窖」這個名字本身，就是一個內建於識別之中的話題引子。',
+    's03-eyebrow': '03 · UX 策略',
+    's03-heading': '三大策略支柱——留存、精準、廣度',
+    's03-p1': '在線框圖之前，我研究了各大選酒平台與競品 App，整理出常見功能與使用行為。關鍵洞察：大多數選酒 App 只解決了「探索」或「社群」其中一個問題——很少兩者兼顧。機會在於設計一套讓社群機制與篩選功能相互增強的系統：社群建立信任，信任驅動探索，篩選讓探索有意義。',
+    'strat1-title': '提升用戶回流率——社群與忠誠度循環',
+    'strat1-desc': '核心留存洞察：葡萄酒本質上是社交的。人們分享一瓶酒、詢問推薦、追隨信任的聲音。圍繞這些既有行為建立忠誠度循環——而非發明人工的激勵機制——讓留存系統感覺自然，而非為遊戲化而遊戲化。',
+    'strat1-b1': '社群帳號一鍵登入——消除註冊摩擦，快速建立社群身份',
+    'strat1-b2': '分享回饋機制——分享產品或評價即可累積折扣點數，可在結帳時折抵',
+    'strat1-b3': 'KOL（關鍵意見領袖）品酒師主頁——認證專家的精選酒單，讓愛酒人士可以追蹤與信賴',
+    'strat1-b4': '結構化評論格式（香氣 / 口感 / 配餐）——確保評論有資訊價值，而非僅僅是星級評分',
+    'strat2-title': '更精準的篩選——五維度服務所有買家類型',
+    'strat2-desc': '一般電商的篩選把葡萄酒當成普通商品對待——類別加上價格。選酒買家，尤其是回頭客，有更具體的需求。普通買家依價格篩選；愛好者依酒莊與年份篩選。篩選系統必須同時服務這兩類人，且不讓任何一方感到不知所措。',
+    'filter1-name': '類型',
+    'filter1-ex': '紅酒、白酒、粉紅酒、氣泡酒、香檳',
+    'filter2-name': '酒莊',
+    'filter2-ex': 'Lavaux、Yarra Yering、Chateau Montelena、Chard Farm',
+    'filter3-name': '產地',
+    'filter3-ex': '義大利、法國、西班牙、澳洲、智利、美國',
+    'filter4-name': '價格區間',
+    'filter4-ex': '以價格為優先的探索，服務價格敏感的買家',
+    'filter5-name': '年份',
+    'filter5-ex': '專業人士的關鍵選擇；選酒 UX 中最獨特的篩選維度',
+    'strat2-b1': '已儲存的篩選預設組合——回頭用戶略過設定，直接恢復上次的搜尋偏好',
+    'strat2-b2': '篩選條件可組合——買家可同時依產地 + 類型 + 價格篩選',
+    'strat2-b3': '年份篩選是從研究中發現的、競品 App 中最被忽視的一個維度',
+    'strat3-title': '多元入口——從休閒到內行',
+    'strat3-desc': '一款只服務愛好者的選酒 App，會錯失大潤發大多數客群。首頁必須同時服務四種截然不同的購買心態——以社群口碑、促銷活動與新鮮感作為並行入口，讓每位用戶都能找到屬於自己的切入點。',
+    'strat3-b1': '<strong>熱銷排行</strong>——以人氣建立社群口碑。大潤發的實體門市網絡，讓這些排行具有真實可信度：這些是真正的暢銷品，而非演算法加持',
+    'strat3-b2': '<strong>公開星級評分</strong>——彙整的 App 內評論，為不願追蹤 KOL 的猶豫型買家建立信任',
+    'strat3-b3': '<strong>促銷與活動</strong>——來自大潤發與酒品牌合作的限時優惠，製造緊迫感而不令人反感',
+    'strat3-b4': '<strong>新品上架</strong>——對愛好者永遠有吸引力，搭配新品優惠更具吸引力',
+    's04-eyebrow': '04 · 概念與線框圖',
+    's04-heading': '先定結構，再談風格——完整的 App 架構規劃',
+    's04-p1': '在探索任何視覺方向之前，App 的資訊架構與核心流程先以線框圖確立。這個階段建立了頁面層級、導覽模型與功能分組——之後的 A 方案與 B 方案都共用這套架構。線框圖同時也作為客戶溝通工具——在討論「長什麼樣子」之前，先就「能做什麼」達成共識。',
+    's05-eyebrow': '05 · 視覺設計',
+    's05-heading': '兩種視覺方向——相同架構，不同個性',
+    's05-sub': '這款 App 以兩套完整的視覺方向呈現客戶選擇——讓大潤發決定最符合品牌定位的情感調性。兩者共用相同的 IA 與功能集；唯一不同的是視覺語言。',
+    'styleA-badge': '深紅情調',
+    'styleA-mood': '<strong>情感調性：</strong>大膽、精緻、感官。深紅與近黑的背景喚起頂級葡萄酒的深度與複雜感。目標用戶是把葡萄酒視為一種熱情的人——收藏家、愛好者、行家。深色 UI 也讓酒瓶與標籤的產品攝影在背景映襯下顯得格外鮮明生動。',
+    'styleB-badge': '日落波浪',
+    'styleB-mood': '<strong>情感調性：</strong>溫暖、社交、慶典感。從玫瑰香檳粉到琥珀橙的漸層，捕捉了午後陽光中葡萄酒的色澤——以及與朋友共享一瓶酒的氛圍。對休閒買家與社群分享功能的使用者更為親切。溫暖色調也呼應了圖示與字標中的品牌漸層。',
+    'callout2-title': '為什麼要呈現兩種設計方向？',
+    'callout2-body': '把單一視覺方向當作「答案」呈現，會限制客戶的參與空間，也有可能與品牌團隊的想法有所落差。兩套完整實現、各有清晰策略理由的方向——給客戶一個真正有依據的選擇，而非僅憑偏好決定。決策因此變成一場對話，而非一場猜謎。',
+    'vl-compare': '最終比對——A 方案（深紅情調）vs B 方案（日落波浪）',
+    's06-eyebrow': '06 · 設計系統',
+    's06-heading': '雙色系，一個品牌漸層',
+    's06-p1': '兩種視覺方向共用同一套品牌漸層——玫瑰香檳到深勃根地紅——只是在 UI 層面的表現方式不同。A 方案將其作為深色背景上的強調色；B 方案則將其作為全頁的主要介面色。漸層是讓兩個方向都無庸置疑是「愛酒窖」的共同主線。',
+    'sub-styleA': 'A 方案——深紅情調',
+    'sub-styleB': 'B 方案——日落波浪',
+    'sub-gradient': '共用品牌漸層',
+    'gradient-desc': '玫瑰香檳 → 深勃根地紅——葡萄酒從輕盈到深沉、從慶典到沉思的色彩旅程。應用於圖示、Logo、UI 高亮，以及兩種方案的 CTA 按鈕。',
+    'type-head-tag': '標題',
+    'type-head-detail': '優雅、高對比的展示字型，用於酒款名稱與標題——傳達工藝感與高端質感，卻不顯得冰冷奢華',
+    'type-body-tag': '內文 / UI',
+    'type-body-detail': '乾淨易讀的內文與 UI 字型——溫暖中性，能與深色及淺色兩種配色系統和諧搭配',
+    'next-label': '下一個專案',
+    'next-btn-text': '查看案例 <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Senior UI/UX Designer · 台北，台灣'
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-opt').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+  localStorage.setItem('kw-lang-vinoo', lang);
+  lucide.createIcons();
+}
+
+document.getElementById('langSwitch').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-opt');
+  if (!btn) return;
+  applyLang(btn.getAttribute('data-lang'));
+});
+
+</script>
+</body>
+</html>

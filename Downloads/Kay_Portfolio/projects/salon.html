@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Salon Walker / Maker — Kay Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../project-page.css" />
+  <style>
+    /* ── Salon-specific ── */
+
+    /* App identity header — Walker vs Maker */
+    .app-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 28px;
+    }
+    .app-id-card {
+      border: 2px solid var(--fg);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: 4px 4px 0 var(--fg);
+    }
+    .app-id-header {
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px;
+      border-bottom: 2px solid var(--fg);
+    }
+    .app-id-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--fg);
+      flex-shrink: 0;
+    }
+    .app-id-icon img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .app-id-name {
+      font-family: var(--font-head); font-weight: 900; font-size: 1.1rem;
+      color: var(--fg); margin-bottom: 2px;
+    }
+    .app-id-user {
+      font-size: 0.75rem; font-weight: 600; color: var(--muted-fg);
+    }
+    .app-id-body { padding: 16px 20px; background: var(--card); }
+    .app-id-mission {
+      background: var(--muted); border-radius: var(--r-sm);
+      padding: 10px 12px; font-size: 0.8125rem; font-weight: 600;
+      color: var(--fg); line-height: 1.5; margin-bottom: 14px;
+    }
+    .app-mission-label {
+      display: block; font-size: 0.6rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.09em;
+      color: var(--muted-fg); margin-bottom: 3px;
+    }
+    .app-id-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .app-id-bullets li {
+      display: flex; gap: 8px; align-items: flex-start;
+      font-size: 0.8rem; color: var(--fg); line-height: 1.5;
+    }
+    .walker-card .app-id-bullets li::before { content: '◆'; color: #C2185B; font-size: 0.45rem; flex-shrink: 0; margin-top: 6px; }
+    .maker-card  .app-id-bullets li::before { content: '◆'; color: #5C6BC0; font-size: 0.45rem; flex-shrink: 0; margin-top: 6px; }
+    .walker-card .app-id-header { background: #FFF0F5; }
+    .maker-card  .app-id-header { background: #F0F0FF; }
+
+    /* Strategy trio */
+    .strategy-trio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .strategy-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 20px;
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .strategy-num {
+      font-family: var(--font-head); font-weight: 900; font-size: 2rem;
+      color: var(--border); line-height: 1; margin-bottom: 8px;
+    }
+    .strategy-title {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.9375rem;
+      color: var(--fg); margin-bottom: 6px;
+    }
+    .strategy-desc { font-size: 0.8125rem; color: var(--muted-fg); line-height: 1.65; }
+
+    /* Feature rows — icon + copy */
+    .feature-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .feature-row:last-child { border-bottom: none; }
+    .feature-row-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--fg);
+      box-shadow: 2px 2px 0 var(--fg);
+    }
+    .feature-row-icon [data-lucide] { width: 18px; height: 18px; stroke-width: 2.5px; }
+    .feature-row-title {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.9375rem;
+      color: var(--fg); margin-bottom: 4px;
+    }
+    .feature-row-desc { font-size: 0.8125rem; color: var(--muted-fg); line-height: 1.65; }
+    .feature-row-tag {
+      display: inline-block; margin-top: 8px;
+      padding: 2px 10px; border-radius: 9999px;
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      border: 1.5px solid;
+    }
+
+    /* App section headers */
+    .app-section-head {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--r-md);
+      border: 2px solid var(--fg);
+      margin-bottom: 4px;
+    }
+    .app-section-head-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px; overflow: hidden; flex-shrink: 0;
+    }
+    .app-section-head-icon img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .app-section-head-name {
+      font-family: var(--font-head); font-weight: 800; font-size: 1rem;
+      color: var(--fg);
+    }
+    .app-section-head-sub { font-size: 0.75rem; color: var(--muted-fg); }
+
+    @media (max-width: 768px) {
+      .app-split { grid-template-columns: 1fr; }
+      .strategy-trio { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">K.W.</a>
+  <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+    <button class="lang-opt active" data-lang="en">EN</button>
+    <button class="lang-opt" data-lang="zh">繁中</button>
+  </div>
+  <a href="../index.html#projects" class="back-btn" data-i18n="back-btn"><i data-lucide="arrow-left"></i> All Work</a>
+</nav>
+
+<div class="proj-hero">
+  <div class="proj-hero-bg">
+    <img src="../images/salon.jpg" alt="Salon Walker / Maker" />
+  </div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-content">
+    <div class="proj-hero-cat" data-i18n="hero-cat">Consumer Lifestyle · Dual-Sided Marketplace · iOS</div>
+    <h1 class="proj-hero-title">Salon Walker / Maker</h1>
+    <p class="proj-hero-sub" data-i18n="hero-sub">Two companion apps — Walker for customers discovering freelance stylists nearby, Maker for stylists finding salon slots and managing their independent practice anywhere in the world</p>
+  </div>
+</div>
+
+<div class="proj-meta-bar">
+  <div class="proj-meta-row">
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-client">Client</div><div class="meta-value" data-i18n="meta-client-val">Warmsun Hair Products</div></div>
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-agency">Agency</div><div class="meta-value">Skywind Co.</div></div>
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-role-label">My Role</div><div class="meta-value" data-i18n="meta-role-val">UX/UI Designer</div></div>
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-timeline">Timeline</div><div class="meta-value">2017</div></div>
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-platform-label">Platform</div><div class="meta-value" data-i18n="meta-platform-val">iOS · Android</div></div>
+    <div class="meta-item"><div class="meta-label" data-i18n="meta-type">Project Type</div><div class="meta-value"><span class="goal-badge new-product" data-i18n="badge-new-product">New Product</span></div></div>
+  </div>
+</div>
+
+<div class="proj-body">
+  <div class="proj-col">
+
+    <!-- 01 · Context -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s01-eyebrow">01 · Context</div>
+      <h2 class="content-heading" data-i18n="s01-heading">Two broken markets — one product to fix both</h2>
+      <p class="content-text" data-i18n="s01-p1">Warmsun Hair Products saw a gap on both sides of the salon industry. Customers had no reliable way to discover and book qualified freelance stylists near them — they relied on word of mouth, outdated directories, or fixed-chair salons that didn't reflect the growing freelance culture in beauty. Meanwhile, skilled freelance stylists had nowhere to find available salon chairs to rent, and no platform to build and grow their independent practice.</p>
+      <p class="content-text" data-i18n="s01-p2">The insight: these two problems are the mirror image of each other. A platform solving one side automatically feeds the other. This was a dual-sided marketplace design — which meant designing two separate products that needed to communicate in real-time, while each feeling completely native to its user.</p>
+
+      <div class="challenge-strip">
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="users"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch1-label">Two User Groups</div>
+            <div class="challenge-value" data-i18n="ch1-val">Completely different mental models, one ecosystem</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="smartphone"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch2-label">Two Apps</div>
+            <div class="challenge-value" data-i18n="ch2-val">Shared design system, distinct UX identities</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="link"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch3-label">Real-Time Match</div>
+            <div class="challenge-value" data-i18n="ch3-val">Booking logic connecting both sides instantly</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · Two Apps, One Ecosystem -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s02-eyebrow">02 · Two Apps, One Ecosystem</div>
+      <h2 class="content-heading" data-i18n="s02-heading">Walker finds. Maker fills.</h2>
+      <p class="content-text" data-i18n="s02-p1">The two apps serve opposite entry points to the same transaction — but users never feel like they're using "half a product." Each app is designed as a complete, standalone experience: Walker is a discovery and booking tool; Maker is a business operations tool. The connection between them happens in the background.</p>
+
+      <div class="app-split">
+        <div class="app-id-card walker-card">
+          <div class="app-id-header">
+            <div class="app-id-icon">
+              <img src="https://static.wixstatic.com/media/c8b53d_d22d0dce81124d859a95e0a749eb001b~mv2.png"
+                   alt="Salon Walker app icon" class="js-magnify" />
+            </div>
+            <div>
+              <div class="app-id-name">Salon Walker</div>
+              <div class="app-id-user" data-i18n="walker-user">For customers · Discovery &amp; booking</div>
+            </div>
+          </div>
+          <div class="app-id-body">
+            <div class="app-id-mission" data-i18n="walker-mission-box"><span class="app-mission-label">Core job-to-be-done</span>Find the right stylist, at the right place, right now</div>
+            <ul class="app-id-bullets">
+              <li data-i18n="walker-b1">Location-based stylist map with portfolio and pricing</li>
+              <li data-i18n="walker-b2">Real-time availability and instant booking confirmation</li>
+              <li data-i18n="walker-b3">Trust built through portfolio preview and reviews</li>
+              <li data-i18n="walker-b4">Push notifications to manage upcoming appointments</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="app-id-card maker-card">
+          <div class="app-id-header">
+            <div class="app-id-icon">
+              <img src="https://static.wixstatic.com/media/c8b53d_7760396169c54b11a11aaa067496dd04~mv2.png"
+                   alt="Salon Maker app icon" class="js-magnify" />
+            </div>
+            <div>
+              <div class="app-id-name">Salon Maker</div>
+              <div class="app-id-user" data-i18n="maker-user">For stylists · Business operations</div>
+            </div>
+          </div>
+          <div class="app-id-body">
+            <div class="app-id-mission" data-i18n="maker-mission-box"><span class="app-mission-label">Core job-to-be-done</span>Work anywhere, own your schedule, grow independently</div>
+            <ul class="app-id-bullets">
+              <li data-i18n="maker-b1">Real-time discovery of available salon chairs nearby</li>
+              <li data-i18n="maker-b2">Client scheduling and booking management dashboard</li>
+              <li data-i18n="maker-b3">Location-independent — find slots at any partnered salon worldwide</li>
+              <li data-i18n="maker-b4">Revenue analytics and performance tracking</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 · UX Strategy -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s03-eyebrow">03 · UX Strategy</div>
+      <h2 class="content-heading" data-i18n="s03-heading">One visual system. Two UX grammars.</h2>
+      <p class="content-text" data-i18n="s03-p1">Designing a dual-sided marketplace means solving two fundamentally different information problems simultaneously. Customers need discovery and trust signals — they're asking "who should I choose?" Stylists need operational control — they're asking "what do I have, and when?" These questions require completely different interface logic, even within a shared brand.</p>
+
+      <div class="strategy-trio">
+        <div class="strategy-card">
+          <div class="strategy-num">01</div>
+          <div class="strategy-title" data-i18n="strat1-title">Separate UX Identity — Shared Brand</div>
+          <div class="strategy-desc" data-i18n="strat1-desc">Walker and Maker share typography, colours, and component primitives — but their information hierarchy is completely distinct. Walker's home screen is a discovery map. Maker's is a dashboard. Same brand, different UX grammar.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-num">02</div>
+          <div class="strategy-title" data-i18n="strat2-title">Trust Is Asymmetric</div>
+          <div class="strategy-desc" data-i18n="strat2-desc">Customers build trust through portfolio previews, verified reviews, and visible credentials before booking. Stylists build trust through confirmed payments and client history. The same "trust" problem has two completely different solutions depending on which side of the marketplace you're on.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-num">03</div>
+          <div class="strategy-title" data-i18n="strat3-title">The Matching Logic Must Be Invisible</div>
+          <div class="strategy-desc" data-i18n="strat3-desc">When a customer books, Maker users receive a notification — with the stylist's profile, service request, and time. Neither side needs to think about "how the connection works." The matching logic is real-time and silent: good UX makes coordination feel effortless.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 · Salon Walker — Customer Experience -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s04-eyebrow">04 · Salon Walker — Customer Experience</div>
+
+      <div class="app-section-head" style="background:#FFF0F5;">
+        <div class="app-section-head-icon">
+          <img src="https://static.wixstatic.com/media/c8b53d_d22d0dce81124d859a95e0a749eb001b~mv2.png" alt="Walker icon" />
+        </div>
+        <div>
+          <div class="app-section-head-name">Salon Walker</div>
+          <div class="app-section-head-sub" data-i18n="walker-section-sub">Discovery-first design for customers who don't know what they want yet</div>
+        </div>
+      </div>
+
+      <div class="feature-row" style="margin-top:8px;">
+        <div class="feature-row-icon" style="background:#FFF0F5;">
+          <i data-lucide="map-pin"></i>
+        </div>
+        <div>
+          <div class="feature-row-title" data-i18n="fr-w1-title">Location-Based Stylist Discovery</div>
+          <div class="feature-row-desc" data-i18n="fr-w1-desc">The home screen opens as a map — not a list. Nearby stylists appear as pins with profile photos, so users immediately understand geographic proximity before reading any text. Tapping a pin expands into a preview card: portfolio thumbnail, service specialities, pricing tier, and live availability. The map is the primary navigation; filtering is secondary.</div>
+          <span class="feature-row-tag" style="background:#FFF0F5; color:#C2185B; border-color:#C2185B;" data-i18n="fr-w1-tag">UX Rationale: visual first, filter second</span>
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-row-icon" style="background:#F3E5F5;">
+          <i data-lucide="calendar-check"></i>
+        </div>
+        <div>
+          <div class="feature-row-title" data-i18n="fr-w2-title">Real-Time Booking with Instant Confirmation</div>
+          <div class="feature-row-desc" data-i18n="fr-w2-desc">Booking is a 3-step flow: select time slot from the stylist's live calendar → confirm service and price → receive booking confirmation with stylist contact. The calendar only shows genuinely available slots — no "request to book" ambiguity. Instant confirmation removes the anxiety of not knowing whether a booking went through.</div>
+          <span class="feature-row-tag" style="background:#FFF0F5; color:#C2185B; border-color:#C2185B;" data-i18n="fr-w2-tag">UX Rationale: no-ambiguity confirmation</span>
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-row-icon" style="background:#FCE4EC;">
+          <i data-lucide="star"></i>
+        </div>
+        <div>
+          <div class="feature-row-title" data-i18n="fr-w3-title">Review System — Trust Built Over Time</div>
+          <div class="feature-row-desc" data-i18n="fr-w3-desc">Reviews are tied to verified bookings only — you can only leave a review if you completed a session. This prevents fake reviews and gives Walker's rating system genuine credibility. Portfolio photos are curated by stylists and linked to specific completed services, so customers can evaluate real work, not stock imagery.</div>
+          <span class="feature-row-tag" style="background:#FFF0F5; color:#C2185B; border-color:#C2185B;" data-i18n="fr-w3-tag">UX Rationale: verified = trustworthy</span>
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-row-icon" style="background:#FFEBEE;">
+          <i data-lucide="bell"></i>
+        </div>
+        <div>
+          <div class="feature-row-title" data-i18n="fr-w4-title">Push Reminders — Reducing No-Shows</div>
+          <div class="feature-row-desc" data-i18n="fr-w4-desc">Automated push notifications 24h and 1h before appointments, with a one-tap cancel or reschedule. Stylists benefit directly: fewer no-shows means predictable revenue. Customers benefit: fewer forgotten appointments. A friction-reducer for both sides embedded in the customer-facing app.</div>
+          <span class="feature-row-tag" style="background:#FFF0F5; color:#C2185B; border-color:#C2185B;" data-i18n="fr-w4-tag">UX Rationale: benefits both sides</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 · Salon Maker — Stylist Experience -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s05-eyebrow">05 · Salon Maker — Stylist Experience</div>
+
+      <div class="app-section-head" style="background:#F0F0FF;">
+        <div class="app-section-head-icon">
+          <img src="https://static.wixstatic.com/media/c8b53d_7760396169c54b11a11aaa067496dd04~mv2.png" alt="Maker icon" />
+        </div>
+        <div>
+          <div class="app-section-head-name">Salon Maker</div>
+          <div class="app-section-head-sub" data-i18n="maker-section-sub">Operations-first design for stylists who run their practice like a business</div>
+        </div>
+      </div>
+
+      <div class="feature-row" style="margin-top:8px;">
+        <div class="feature-row-icon" style="background:#F0F0FF;">
+          <i data-lucide="search"></i>
+        </div>
+        <div>
+          <div class="feature-row-title" data-i18n="fr-m1-title">Salon Slot Discovery — Work Anywhere</div>
+          <div class="feature-row-desc" data-i18n="fr-m1-desc">Freelance stylists can browse available chairs at partnered salons nearby — or anywhere in the world. The discovery interface mirrors Walker's map approach, but instead of stylists, pins represent open salon chairs with hourly/daily rental rates, salon facilities, and available time windows. A freelancer can plan a work week across multiple salons without a single phone call.</div>
+          <span class="feature-row-tag" style="background:#F0F0FF; color:#5C6BC0; border-color:#5C6BC0;" data-i18n="fr-m1-tag">UX Rationale: location independence</span>
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-row-icon" style="background:#EDE7F6;">
+          <i data-lucide="layout-dashboard"></i>
+        </div>
+        <div>
+          <div class="feature-row-title" data-i18n="fr-m2-title">Booking Management Dashboard</div>
+          <div class="feature-row-desc" data-i18n="fr-m2-desc">The Maker home screen is a scheduling dashboard — upcoming bookings, client profiles, and pending requests in a time-based view. Stylists can accept, reschedule, or decline requests directly from the dashboard. Client profiles auto-build over time: service history, preferences noted, rebooking patterns. Every repeat client becomes easier to serve.</div>
+          <span class="feature-row-tag" style="background:#F0F0FF; color:#5C6BC0; border-color:#5C6BC0;" data-i18n="fr-m2-tag">UX Rationale: control and predictability</span>
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-row-icon" style="background:#E8EAF6;">
+          <i data-lucide="bar-chart-2"></i>
+        </div>
+        <div>
+          <div class="feature-row-title" data-i18n="fr-m3-title">Revenue Analytics — Track Growth</div>
+          <div class="feature-row-desc" data-i18n="fr-m3-desc">Monthly revenue, session count, repeat client rate, and average booking value — surfaced in a clean analytics view. This data is not a vanity feature: it helps stylists price themselves correctly, identify their best-performing services, and understand whether they're growing. For a freelancer with no HR or finance team, this view replaces a spreadsheet.</div>
+          <span class="feature-row-tag" style="background:#F0F0FF; color:#5C6BC0; border-color:#5C6BC0;" data-i18n="fr-m3-tag">UX Rationale: data as empowerment</span>
+        </div>
+      </div>
+
+      <div class="callout pink" style="margin-top:28px;">
+        <div class="callout-title" data-i18n="callout-title">The hardest design problem in a dual-sided marketplace</div>
+        <p data-i18n="callout-body">Customers want discovery and serendipity. Stylists want predictability and control. These are opposing information needs. Solving them in the same product — without compromising either — meant designing two completely different home screen architectures that share zero layout logic, while remaining visually coherent as a family of two.</p>
+      </div>
+    </div>
+
+  </div><!-- /proj-col -->
+</div><!-- /proj-body -->
+
+<!-- 06 · Visual Design — full app composite -->
+<div class="layout-section">
+  <div class="layout-section-inner">
+    <div class="section-eyebrow" data-i18n="s06-eyebrow">06 · Visual Design</div>
+    <h2 class="layout-section-heading" data-i18n="s06-heading">Walker + Maker — complete UI from onboarding to analytics</h2>
+    <p class="layout-section-sub" data-i18n="s06-sub">Both apps share a warm, confident visual system — clean typography, map-led layouts, and a booking flow designed for speed. Click to magnify and scroll through the full design.</p>
+  </div>
+</div>
+
+<div class="proj-body" style="padding-top:0;padding-bottom:80px;">
+  <div class="proj-col">
+    <div class="content-visual-label" data-i18n="vl-full">Full app screens — Salon Walker (customer) · Salon Maker (stylist)</div>
+    <img src="https://static.wixstatic.com/media/c8b53d_fe13da6119a248da8067eee8687c674d~mv2.jpg"
+         alt="Salon Walker and Maker — complete app UI showing both customer and stylist experiences"
+         style="width:100%;display:block;cursor:zoom-in;border:2px solid var(--border);border-radius:var(--r-md);"
+         onclick="(function(src,alt){
+           var o=document.createElement('div');
+           o.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:rgba(15,23,42,0.92);overflow-y:scroll;-webkit-overflow-scrolling:touch;box-sizing:border-box;padding:40px 24px;cursor:zoom-out;';
+           var i=document.createElement('img');
+           i.src=src;i.alt=alt;
+           i.style.cssText='display:block;width:860px;max-width:calc(100vw - 48px);height:auto;margin:0 auto;border-radius:8px;border:3px solid #1E293B;box-shadow:0 24px 64px rgba(0,0,0,0.5);';
+           o.appendChild(i);document.body.appendChild(o);
+           o.addEventListener('click',function(){o.remove();});
+           document.addEventListener('keydown',function f(e){if(e.key==='Escape'){o.remove();document.removeEventListener('keydown',f);}});
+         })(this.src,this.alt)" />
+  </div>
+</div>
+
+<!-- 07 · Design System -->
+<div class="ds-section">
+  <div class="proj-col">
+    <div class="section-eyebrow" data-i18n="s07-eyebrow">07 · Design System</div>
+    <h2 class="ds-heading" data-i18n="s07-heading">Visual identity — one brand, two personalities</h2>
+
+    <p class="content-text" style="margin-bottom:24px;" data-i18n="s07-p1">The visual identity uses a bold, high-contrast palette built around a signature mint green, deep indigo, and black. The same system runs across both Walker and Maker — differentiated through layout and UX grammar, not colour.</p>
+
+    <div class="sub-head" data-i18n="sub-head-brand">Brand Palette</div>
+    <div class="color-palette" style="margin-bottom:32px;">
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#3DF9B1;"></div>
+        <div class="color-chip-hex">#3DF9B1</div>
+        <div class="color-chip-role">Mint / Primary</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#2f10a0;"></div>
+        <div class="color-chip-hex">#2f10a0</div>
+        <div class="color-chip-role">Indigo / Secondary</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#000000; border:1px solid #eee;"></div>
+        <div class="color-chip-hex">#000000</div>
+        <div class="color-chip-role">Black / Text</div>
+      </div>
+    </div>
+
+    <div class="type-system" style="margin-top:32px;">
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-latin-tag">Latin</div>
+        <div class="type-sample" style="letter-spacing:0.05em;">LATO</div>
+        <div class="type-detail" data-i18n="type-latin-detail">Geometric sans-serif — clean and neutral for UI text, labels, and data. Used across all Latin characters in both apps.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-zh-tag">Chinese</div>
+        <div class="type-sample" style="font-family:'PingFang TC','Noto Sans TC',sans-serif;">PingFang TC</div>
+        <div class="type-detail" data-i18n="type-zh-detail">Apple's system typeface for Traditional Chinese — consistent, legible, and platform-native on iOS. Ensures a seamless reading experience for Chinese-speaking users.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="proj-tags-row">
+  <span class="proj-tag">Dual-Sided Marketplace</span>
+  <span class="proj-tag">iOS</span>
+  <span class="proj-tag">B2B2C</span>
+  <span class="proj-tag">Matching UX</span>
+  <span class="proj-tag">Location-Based</span>
+  <span class="proj-tag">Consumer</span>
+  <span class="proj-tag">Freelancer Tools</span>
+</div>
+
+<div class="next-project-strip">
+  <div>
+    <div class="next-label" data-i18n="next-label">Next project</div>
+    <div class="next-title">Vinoo</div>
+  </div>
+  <a href="vinoo.html" class="next-btn" data-i18n="next-btn-text">View case study <i data-lucide="arrow-right"></i></a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Kay Wang</div>
+    <div data-i18n="footer-role">Senior UI/UX Designer · Taipei, Taiwan</div>
+    <div>© 2024 Kay Wang</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script src="../project-page.js"></script>
+<script>
+var translations = {
+  en: {
+    'back-btn': '<i data-lucide="arrow-left"></i> All Work',
+    'hero-cat': 'Consumer Lifestyle · Dual-Sided Marketplace · iOS',
+    'hero-sub': 'Two companion apps — Walker for customers discovering freelance stylists nearby, Maker for stylists finding salon slots and managing their independent practice anywhere in the world',
+    'meta-client': 'Client',
+    'meta-agency': 'Agency',
+    'meta-role-label': 'My Role',
+    'meta-role-val': 'UX/UI Designer',
+    'meta-timeline': 'Timeline',
+    'meta-platform-label': 'Platform',
+    'meta-client-val': 'Warmsun Hair Products',
+    'meta-platform-val': 'iOS · Android',
+    'meta-type': 'Project Type',
+    'badge-new-product': 'New Product',
+    's01-eyebrow': '01 · Context',
+    's01-heading': 'Two broken markets — one product to fix both',
+    's01-p1': 'Warmsun Hair Products saw a gap on both sides of the salon industry. Customers had no reliable way to discover and book qualified freelance stylists near them — they relied on word of mouth, outdated directories, or fixed-chair salons that didn\'t reflect the growing freelance culture in beauty. Meanwhile, skilled freelance stylists had nowhere to find available salon chairs to rent, and no platform to build and grow their independent practice.',
+    's01-p2': 'The insight: these two problems are the mirror image of each other. A platform solving one side automatically feeds the other. This was a dual-sided marketplace design — which meant designing two separate products that needed to communicate in real-time, while each feeling completely native to its user.',
+    'ch1-label': 'Two User Groups',
+    'ch1-val': 'Completely different mental models, one ecosystem',
+    'ch2-label': 'Two Apps',
+    'ch2-val': 'Shared design system, distinct UX identities',
+    'ch3-label': 'Real-Time Match',
+    'ch3-val': 'Booking logic connecting both sides instantly',
+    's02-eyebrow': '02 · Two Apps, One Ecosystem',
+    's02-heading': 'Walker finds. Maker fills.',
+    's02-p1': 'The two apps serve opposite entry points to the same transaction — but users never feel like they\'re using "half a product." Each app is designed as a complete, standalone experience: Walker is a discovery and booking tool; Maker is a business operations tool. The connection between them happens in the background.',
+    'walker-user': 'For customers · Discovery &amp; booking',
+    'walker-mission-box': '<span class="app-mission-label">Core job-to-be-done</span>Find the right stylist, at the right place, right now',
+    'walker-b1': 'Location-based stylist map with portfolio and pricing',
+    'walker-b2': 'Real-time availability and instant booking confirmation',
+    'walker-b3': 'Trust built through portfolio preview and reviews',
+    'walker-b4': 'Push notifications to manage upcoming appointments',
+    'maker-user': 'For stylists · Business operations',
+    'maker-mission-box': '<span class="app-mission-label">Core job-to-be-done</span>Work anywhere, own your schedule, grow independently',
+    'maker-b1': 'Real-time discovery of available salon chairs nearby',
+    'maker-b2': 'Client scheduling and booking management dashboard',
+    'maker-b3': 'Location-independent — find slots at any partnered salon worldwide',
+    'maker-b4': 'Revenue analytics and performance tracking',
+    's03-eyebrow': '03 · UX Strategy',
+    's03-heading': 'One visual system. Two UX grammars.',
+    's03-p1': 'Designing a dual-sided marketplace means solving two fundamentally different information problems simultaneously. Customers need discovery and trust signals — they\'re asking "who should I choose?" Stylists need operational control — they\'re asking "what do I have, and when?" These questions require completely different interface logic, even within a shared brand.',
+    'strat1-title': 'Separate UX Identity — Shared Brand',
+    'strat1-desc': 'Walker and Maker share typography, colours, and component primitives — but their information hierarchy is completely distinct. Walker\'s home screen is a discovery map. Maker\'s is a dashboard. Same brand, different UX grammar.',
+    'strat2-title': 'Trust Is Asymmetric',
+    'strat2-desc': 'Customers build trust through portfolio previews, verified reviews, and visible credentials before booking. Stylists build trust through confirmed payments and client history. The same "trust" problem has two completely different solutions depending on which side of the marketplace you\'re on.',
+    'strat3-title': 'The Matching Logic Must Be Invisible',
+    'strat3-desc': 'When a customer books, Maker users receive a notification — with the stylist\'s profile, service request, and time. Neither side needs to think about "how the connection works." The matching logic is real-time and silent: good UX makes coordination feel effortless.',
+    's04-eyebrow': '04 · Salon Walker — Customer Experience',
+    'walker-section-sub': 'Discovery-first design for customers who don\'t know what they want yet',
+    'fr-w1-title': 'Location-Based Stylist Discovery',
+    'fr-w1-desc': 'The home screen opens as a map — not a list. Nearby stylists appear as pins with profile photos, so users immediately understand geographic proximity before reading any text. Tapping a pin expands into a preview card: portfolio thumbnail, service specialities, pricing tier, and live availability. The map is the primary navigation; filtering is secondary.',
+    'fr-w1-tag': 'UX Rationale: visual first, filter second',
+    'fr-w2-title': 'Real-Time Booking with Instant Confirmation',
+    'fr-w2-desc': 'Booking is a 3-step flow: select time slot from the stylist\'s live calendar → confirm service and price → receive booking confirmation with stylist contact. The calendar only shows genuinely available slots — no "request to book" ambiguity. Instant confirmation removes the anxiety of not knowing whether a booking went through.',
+    'fr-w2-tag': 'UX Rationale: no-ambiguity confirmation',
+    'fr-w3-title': 'Review System — Trust Built Over Time',
+    'fr-w3-desc': 'Reviews are tied to verified bookings only — you can only leave a review if you completed a session. This prevents fake reviews and gives Walker\'s rating system genuine credibility. Portfolio photos are curated by stylists and linked to specific completed services, so customers can evaluate real work, not stock imagery.',
+    'fr-w3-tag': 'UX Rationale: verified = trustworthy',
+    'fr-w4-title': 'Push Reminders — Reducing No-Shows',
+    'fr-w4-desc': 'Automated push notifications 24h and 1h before appointments, with a one-tap cancel or reschedule. Stylists benefit directly: fewer no-shows means predictable revenue. Customers benefit: fewer forgotten appointments. A friction-reducer for both sides embedded in the customer-facing app.',
+    'fr-w4-tag': 'UX Rationale: benefits both sides',
+    's05-eyebrow': '05 · Salon Maker — Stylist Experience',
+    'maker-section-sub': 'Operations-first design for stylists who run their practice like a business',
+    'fr-m1-title': 'Salon Slot Discovery — Work Anywhere',
+    'fr-m1-desc': 'Freelance stylists can browse available chairs at partnered salons nearby — or anywhere in the world. The discovery interface mirrors Walker\'s map approach, but instead of stylists, pins represent open salon chairs with hourly/daily rental rates, salon facilities, and available time windows. A freelancer can plan a work week across multiple salons without a single phone call.',
+    'fr-m1-tag': 'UX Rationale: location independence',
+    'fr-m2-title': 'Booking Management Dashboard',
+    'fr-m2-desc': 'The Maker home screen is a scheduling dashboard — upcoming bookings, client profiles, and pending requests in a time-based view. Stylists can accept, reschedule, or decline requests directly from the dashboard. Client profiles auto-build over time: service history, preferences noted, rebooking patterns. Every repeat client becomes easier to serve.',
+    'fr-m2-tag': 'UX Rationale: control and predictability',
+    'fr-m3-title': 'Revenue Analytics — Track Growth',
+    'fr-m3-desc': 'Monthly revenue, session count, repeat client rate, and average booking value — surfaced in a clean analytics view. This data is not a vanity feature: it helps stylists price themselves correctly, identify their best-performing services, and understand whether they\'re growing. For a freelancer with no HR or finance team, this view replaces a spreadsheet.',
+    'fr-m3-tag': 'UX Rationale: data as empowerment',
+    'callout-title': 'The hardest design problem in a dual-sided marketplace',
+    'callout-body': 'Customers want discovery and serendipity. Stylists want predictability and control. These are opposing information needs. Solving them in the same product — without compromising either — meant designing two completely different home screen architectures that share zero layout logic, while remaining visually coherent as a family of two.',
+    's06-eyebrow': '06 · Visual Design',
+    's06-heading': 'Walker + Maker — complete UI from onboarding to analytics',
+    's06-sub': 'Both apps share a warm, confident visual system — clean typography, map-led layouts, and a booking flow designed for speed. Click to magnify and scroll through the full design.',
+    'vl-full': 'Full app screens — Salon Walker (customer) · Salon Maker (stylist)',
+    's07-eyebrow': '07 · Design System',
+    's07-heading': 'Visual identity — one brand, two personalities',
+    's07-p1': 'The visual identity uses a bold, high-contrast palette built around a signature mint green, deep indigo, and black. The same system runs across both Walker and Maker — differentiated through layout and UX grammar, not colour.',
+    'sub-head-brand': 'Brand Palette',
+    'type-latin-tag': 'Latin',
+    'type-latin-detail': 'Geometric sans-serif — clean and neutral for UI text, labels, and data. Used across all Latin characters in both apps.',
+    'type-zh-tag': 'Chinese',
+    'type-zh-detail': 'Apple\'s system typeface for Traditional Chinese — consistent, legible, and platform-native on iOS. Ensures a seamless reading experience for Chinese-speaking users.',
+    'next-label': 'Next project',
+    'next-btn-text': 'View case study <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Senior UI/UX Designer · Taipei, Taiwan'
+  },
+  zh: {
+    'back-btn': '<i data-lucide="arrow-left"></i> 所有作品',
+    'hero-cat': '消費生活 · 雙邊市場 · iOS',
+    'hero-sub': '兩款互補 App——Walker 讓顧客探索附近的自由接案設計師，Maker 讓設計師隨時找到沙龍空位、在全球任何地方管理獨立業務',
+    'meta-client': '客戶',
+    'meta-agency': '代理商',
+    'meta-role-label': '我的角色',
+    'meta-role-val': 'UX/UI 設計師',
+    'meta-timeline': '時間',
+    'meta-platform-label': '平台',
+    'meta-client-val': '魔法部屋',
+    'meta-platform-val': 'iOS · Android',
+    'meta-type': '專案類型',
+    'badge-new-product': '全新產品',
+    's01-eyebrow': '01 · 背景脈絡',
+    's01-heading': '兩個破碎的市場，一個產品來解決',
+    's01-p1': 'Warmsun 髮品公司看到了美髮產業兩端的缺口。顧客缺乏可靠的方式發現並預約附近優秀的自由接案髮型師——他們只能靠口耳相傳、過時目錄，或那些跟不上美業自由職業風潮的傳統沙龍。另一方面，技術精湛的自由髮型師也苦無平台可以尋找可租用的空椅，更別說建立與成長自己的獨立業務。',
+    's01-p2': '關鍵洞察：這兩個問題其實是彼此的鏡像。解決了其中一端，另一端自然受益。這是一個雙邊市場設計——這意味著需要設計兩款各自獨立的產品，讓它們能夠即時溝通，同時讓每一款都對目標用戶感覺完全自然。',
+    'ch1-label': '兩種使用族群',
+    'ch1-val': '心智模型截然不同，卻共屬同一生態',
+    'ch2-label': '兩款 App',
+    'ch2-val': '共用設計系統，各有獨特的 UX 識別',
+    'ch3-label': '即時媒合',
+    'ch3-val': '即時串聯雙方的預約邏輯',
+    's02-eyebrow': '02 · 兩款 App，同一生態系',
+    's02-heading': 'Walker 探索。Maker 接案。',
+    's02-p1': '兩款 App 服務同一筆交易的相反入口——但用戶絕不會感覺自己只用了「半個產品」。每款 App 都被設計為完整、獨立的體驗：Walker 是探索與預約工具；Maker 是業務營運工具。兩者之間的連結在後台悄然發生。',
+    'walker-user': '消費者 · 探索與預約',
+    'walker-mission-box': '<span class="app-mission-label">核心任務目標</span>找到對的設計師，在對的地方，就在當下',
+    'walker-b1': '以定位為基礎的設計師地圖，含作品集與定價資訊',
+    'walker-b2': '即時空檔查詢與即時預約確認',
+    'walker-b3': '透過作品集預覽與評價建立信任感',
+    'walker-b4': '推播通知管理即將到來的預約',
+    'maker-user': '設計師 · 業務營運',
+    'maker-mission-box': '<span class="app-mission-label">核心任務目標</span>隨時工作，掌控自己的行程，獨立成長',
+    'maker-b1': '即時探索附近可用的沙龍空椅',
+    'maker-b2': '顧客預約管理與時程儀表板',
+    'maker-b3': '不受地點限制——可在全球任一合作沙龍尋找空位',
+    'maker-b4': '營收分析與業績追蹤',
+    's03-eyebrow': '03 · UX 策略',
+    's03-heading': '同一視覺系統，兩套 UX 語法',
+    's03-p1': '設計雙邊市場，意味著要同時解決兩個本質上截然不同的資訊問題。消費者需要探索與建立信任的訊號——他們在問「我該選誰？」設計師需要的是操作掌控感——他們在問「我有什麼、什麼時候有？」這些問題需要完全不同的介面邏輯，即便處於同一品牌之下。',
+    'strat1-title': '各自的 UX 識別，共同的品牌',
+    'strat1-desc': 'Walker 與 Maker 共用字型、色彩與元件基礎——但資訊層級架構截然不同。Walker 的首頁是探索地圖；Maker 的首頁是儀表板。同一品牌，不同的 UX 語法。',
+    'strat2-title': '信任是不對稱的',
+    'strat2-desc': '消費者透過作品集預覽、認證評價與可見的資歷在預約前建立信任。設計師則透過確認款項與顧客歷史紀錄建立信任。同樣的「信任」問題，在市場的不同端有兩種截然不同的解法。',
+    'strat3-title': '媒合邏輯必須隱形',
+    'strat3-desc': '當消費者完成預約，Maker 用戶會收到通知——包含服務需求與時間。雙方都無需思考「連結是怎麼運作的」。媒合邏輯是即時且無聲的：好的 UX 讓協調過程感覺毫不費力。',
+    's04-eyebrow': '04 · Salon Walker — 消費者體驗',
+    'walker-section-sub': '以探索為優先的設計，服務那些還不確定想要什麼的消費者',
+    'fr-w1-title': '以定位為基礎的設計師探索',
+    'fr-w1-desc': '首頁以地圖呈現——而非列表。附近的設計師以個人照片標記顯示，讓用戶在閱讀任何文字前就直觀理解地理距離。點擊標記可展開預覽卡：作品集縮圖、服務專長、價格區間與即時空檔。地圖是主要導覽方式；篩選是其次。',
+    'fr-w1-tag': 'UX 理念：先視覺，再篩選',
+    'fr-w2-title': '即時預約與立即確認',
+    'fr-w2-desc': '預約流程只有三步：從設計師的即時日曆選擇時段 → 確認服務與價格 → 收到含設計師聯絡資訊的預約確認。日曆只顯示真正可用的時段——沒有「申請預約」的曖昧狀態。立即確認消除了不知道預約是否成功的焦慮。',
+    'fr-w2-tag': 'UX 理念：零歧義的確認體驗',
+    'fr-w3-title': '評價系統——隨時間累積的信任',
+    'fr-w3-desc': '評價僅限於完成過真實預約的用戶才能留下——不能憑空評價。這防止了假評，讓 Walker 的評分系統具有真實可信度。設計師上傳的作品集照片都與特定完成的服務相連結，讓消費者可以評估真實作品，而非模糊的庫存圖。',
+    'fr-w3-tag': 'UX 理念：驗證 = 可信賴',
+    'fr-w4-title': '推播提醒——降低爽約率',
+    'fr-w4-desc': '預約前 24 小時與 1 小時自動推播通知，支援一鍵取消或改期。設計師直接受益：爽約減少代表收入更可預期。消費者受益：減少忘記預約。一個嵌入消費者端 App 的雙向摩擦消除設計。',
+    'fr-w4-tag': 'UX 理念：雙邊皆受益',
+    's05-eyebrow': '05 · Salon Maker — 設計師體驗',
+    'maker-section-sub': '以營運為優先的設計，服務把事業當公司在經營的設計師',
+    'fr-m1-title': '沙龍空椅探索——隨處工作',
+    'fr-m1-desc': '自由接案設計師可以瀏覽附近或全球任一合作沙龍的可用空椅。探索介面沿用 Walker 的地圖方式，但標記代表的是可使用的沙龍空椅，附含每小時/每日租金、沙龍設施與可用時窗。一位自由工作者可以不打任何一通電話，就規劃好橫跨多家沙龍的整週工作行程。',
+    'fr-m1-tag': 'UX 理念：地點自由',
+    'fr-m2-title': '預約管理儀表板',
+    'fr-m2-desc': 'Maker 首頁是一個排程儀表板——即將到來的預約、顧客資料與待確認請求以時間軸呈現。設計師可直接從儀表板接受、改期或婉拒請求。顧客資料會隨時間自動累積：服務歷史、偏好備註、回購規律。每一位回頭客都會變得更容易服務。',
+    'fr-m2-tag': 'UX 理念：掌控感與可預期性',
+    'fr-m3-title': '營收分析——追蹤成長',
+    'fr-m3-desc': '月營收、服務次數、回頭客比例與平均預約金額——以清晰的分析視圖呈現。這不是虛榮的功能：它幫助設計師正確定價、識別最有競爭力的服務，並了解自己是否在成長。對一位沒有 HR 或財務團隊的自由工作者來說，這個畫面取代了一張試算表。',
+    'fr-m3-tag': 'UX 理念：數據即賦能',
+    'callout-title': '雙邊市場中最難解的設計問題',
+    'callout-body': '消費者想要探索與驚喜。設計師想要可預期性與掌控感。這是相反的資訊需求。在同一個產品中解決兩者——不妥協任何一方——意味著設計兩套共享零佈局邏輯的首頁架構，卻在視覺上保持作為一個產品家族的和諧感。',
+    's06-eyebrow': '06 · 視覺設計',
+    's06-heading': 'Walker + Maker — 從 Onboarding 到分析的完整 UI',
+    's06-sub': '兩款 App 共享一套溫暖而自信的視覺系統——乾淨的字型、以地圖為主的版面，以及為速度而設計的預約流程。點擊可放大並瀏覽完整設計。',
+    'vl-full': '完整 App 畫面——Salon Walker（消費者）· Salon Maker（設計師）',
+    's07-eyebrow': '07 · 設計系統',
+    's07-heading': '視覺識別——同一品牌，兩種個性',
+    's07-p1': '視覺識別採用大膽、高對比的色彩系統，以標誌性薄荷綠、深靛藍與黑色為核心。同一套系統同時運用於 Walker 與 Maker——兩款 App 的差異來自版面架構與 UX 語法，而非色彩。',
+    'sub-head-brand': '品牌色',
+    'type-latin-tag': '英文字型',
+    'type-latin-detail': '幾何無襯線字型——乾淨中立，適用於 UI 文字、標籤與數據。兩款 App 的所有英文內容均採用此字型。',
+    'type-zh-tag': '中文字型',
+    'type-zh-detail': 'Apple 正體中文系統字型——清晰易讀、原生於 iOS 平台。確保中文使用者有流暢一致的閱讀體驗。',
+    'next-label': '下一個專案',
+    'next-btn-text': '查看案例 <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Senior UI/UX Designer · 台北，台灣'
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-opt').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+  localStorage.setItem('kw-lang-salon', lang);
+  lucide.createIcons();
+}
+
+document.getElementById('langSwitch').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-opt');
+  if (!btn) return;
+  applyLang(btn.getAttribute('data-lang'));
+});
+
+</script>
+</body>
+</html>

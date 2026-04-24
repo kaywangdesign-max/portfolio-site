@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experience — Kay Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #FFFDF5;
+      --fg:       #1E293B;
+      --muted:    #F1F5F9;
+      --muted-fg: #64748B;
+      --accent:   #8B5CF6;
+      --border:   #E2E8F0;
+      --card:     #FFFFFF;
+      --r-sm: 8px; --r-md: 16px; --r-lg: 24px;
+      --font-head: 'Outfit', system-ui, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+
+    /* ── Nav ─────────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 60px;
+      background: rgba(255,253,245,0.92);
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.125rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 5px 16px;
+      border-radius: 9999px;
+      text-decoration: none;
+    }
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.875rem;
+      color: var(--fg);
+      text-decoration: none;
+      border: 2px solid var(--fg);
+      padding: 6px 14px;
+      border-radius: var(--r-sm);
+      transition: all 0.15s;
+    }
+    .back-btn:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    .back-btn [data-lucide] { width: 15px; height: 15px; stroke-width: 2.5px; }
+
+    /* ── Lang switch ─────────────────────────────── */
+    .lang-switch {
+      display: flex; align-items: center;
+      background: var(--muted); border: 1.5px solid var(--border);
+      border-radius: 9999px; padding: 3px; gap: 2px;
+    }
+    .lang-opt {
+      font-family: var(--font-head); font-size: 11.5px; font-weight: 700;
+      letter-spacing: .04em; padding: 5px 13px; border-radius: 9999px;
+      border: none; background: transparent; color: var(--muted-fg);
+      cursor: pointer; transition: all 0.18s; line-height: 1;
+    }
+    .lang-opt.active { background: var(--fg); color: #fff; }
+    .lang-opt:hover:not(.active) { color: var(--fg); }
+
+    /* ── Page hero ───────────────────────────────── */
+    .exp-hero {
+      background: var(--fg);
+      color: #fff;
+      padding: 72px 40px 64px;
+      text-align: center;
+    }
+    .exp-hero-eyebrow {
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 16px;
+    }
+    .exp-hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .exp-hero h1 span { color: #A78BFA; }
+    .exp-hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── Timeline wrapper ────────────────────────── */
+    .timeline-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 24px 40px;
+    }
+
+    .timeline-section-label {
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted-fg);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .timeline-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1.5px;
+      background: var(--border);
+    }
+
+    /* The vertical line */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    /* Individual entry */
+    .tl-entry {
+      position: relative;
+      margin-bottom: 48px;
+    }
+    .tl-entry:last-child { margin-bottom: 0; }
+
+    /* Dot on the line */
+    .tl-dot {
+      position: absolute;
+      left: -28px;
+      top: 6px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2.5px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--border);
+      background: var(--muted-fg);
+    }
+
+    /* Current role — bigger pulsing dot */
+    .tl-entry.current .tl-dot {
+      background: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent), 0 0 0 5px rgba(139,92,246,0.18);
+      animation: pulse 2.4s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 2px var(--accent), 0 0 0 5px rgba(139,92,246,0.18); }
+      50%       { box-shadow: 0 0 0 2px var(--accent), 0 0 0 9px rgba(139,92,246,0.08); }
+    }
+
+    /* Career break — dashed line section */
+    .tl-entry.career-break .tl-dot {
+      background: #CBD5E1;
+      box-shadow: 0 0 0 2px var(--border);
+    }
+
+    .tl-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 22px 24px 20px;
+      transition: box-shadow 0.18s;
+    }
+    .tl-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    }
+
+    .tl-entry.career-break .tl-card {
+      background: var(--muted);
+      border-style: dashed;
+      border-color: #CBD5E1;
+    }
+
+    /* Multi-role company wrapper */
+    .tl-company-group {
+      margin-bottom: 48px;
+    }
+    .tl-company-group > .tl-company-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      position: relative;
+      left: -32px;
+      padding-left: 32px;
+    }
+    .tl-company-dot {
+      position: absolute;
+      left: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .tl-company-name-badge {
+      font-family: var(--font-head);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--muted-fg);
+      background: var(--muted);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 12px;
+    }
+    .tl-company-total {
+      font-size: 11.5px;
+      color: var(--muted-fg);
+    }
+
+    .tl-company-group .tl-entry {
+      margin-bottom: 12px;
+    }
+
+    /* Card internals */
+    .tl-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .tl-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .tl-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--r-sm);
+      object-fit: cover;
+      border: 1.5px solid var(--border);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .tl-role-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border-radius: 20px;
+      padding: 3px 10px;
+      margin-bottom: 0;
+    }
+    /* When inside pill-row, remove margin so all pills align on the same baseline */
+    .pill-row .tl-role-pill { margin-bottom: 0; }
+    .tl-title {
+      font-family: var(--font-head);
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--fg);
+      line-height: 1.3;
+    }
+    .tl-company {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted-fg);
+      margin-top: 2px;
+    }
+    .tl-dates {
+      font-size: 12.5px;
+      color: var(--muted-fg);
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .tl-duration {
+      font-size: 11.5px;
+      color: #94A3B8;
+      margin-top: 2px;
+    }
+    .tl-location {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: #94A3B8;
+      margin-top: 4px;
+      margin-bottom: 12px;
+    }
+    .tl-location [data-lucide] { width: 12px; height: 12px; flex-shrink: 0; }
+
+    .tl-desc {
+      font-size: 13.5px;
+      color: var(--muted-fg);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .tl-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .tl-bullets li {
+      font-size: 13px;
+      color: var(--muted-fg);
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .tl-bullets li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      font-size: 11px;
+    }
+
+    .tl-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .tl-skill-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-fg);
+      background: var(--muted);
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+
+    /* ── JUJI link + store buttons ──────────────── */
+    .juji-link {
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+      border-bottom: 1.5px solid rgba(139,92,246,0.3);
+      transition: border-color 0.15s;
+    }
+    .juji-link:hover { border-color: var(--accent); }
+
+    .pill-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-head);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .store-btn:hover { opacity: 0.82; }
+    .store-btn [data-lucide] { width: 10px; height: 10px; stroke-width: 2.5px; }
+    .store-ios     { background: #1C1C1E; color: #fff; }
+    .store-android { background: #01875F; color: #fff; }
+    .store-web     { background: var(--accent); color: #fff; }
+
+    /* ── Education ───────────────────────────────── */
+    .edu-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .edu-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .edu-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--r-sm);
+      background: var(--fg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #fff;
+    }
+    .edu-icon [data-lucide] { width: 22px; height: 22px; }
+    .edu-school {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--fg);
+    }
+    .edu-degree {
+      font-size: 13.5px;
+      color: var(--muted-fg);
+      margin-top: 2px;
+    }
+    .edu-years {
+      font-size: 12px;
+      color: #94A3B8;
+      margin-top: 3px;
+    }
+
+    /* ── Back CTA ────────────────────────────────── */
+    .exp-back-strip {
+      background: var(--fg);
+      padding: 48px 24px;
+      text-align: center;
+    }
+    .exp-back-strip p {
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .exp-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 12px 28px;
+      border-radius: var(--r-md);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .exp-back-btn:hover { opacity: 0.88; }
+    .exp-back-btn [data-lucide] { width: 16px; height: 16px; }
+
+    /* ── Footer ──────────────────────────────────── */
+    footer {
+      background: var(--fg);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 28px 40px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* Company colour tokens */
+    .pill-gogolook   { background: rgba(139,92,246,0.12); color: #7C3AED; }
+    .pill-faria      { background: rgba(244,114,182,0.12); color: #DB2777; }
+    .pill-cloud      { background: rgba(251,191,36,0.12); color: #D97706; }
+    .pill-skywind    { background: rgba(16,185,129,0.12); color: #059669; }
+    .pill-production { background: rgba(249,115,22,0.12); color: #EA580C; }
+    .pill-omey       { background: rgba(6,182,212,0.12); color: #0891B2; }
+    .pill-break      { background: rgba(148,163,184,0.12); color: #64748B; }
+
+    .dot-gogolook   { background: #8B5CF6; }
+    .dot-faria      { background: #F472B6; }
+    .dot-cloud      { background: #FBBF24; }
+    .dot-skywind    { background: #10B981; }
+    .dot-production { background: #F97316; }
+    .dot-omey       { background: #06B6D4; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .exp-hero { padding: 56px 24px 48px; }
+      .timeline-wrap, .edu-wrap { padding-left: 16px; padding-right: 16px; }
+      .tl-top { flex-direction: column; gap: 4px; }
+      .tl-dates { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">K.W.</a>
+  <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+    <button class="lang-opt active" data-lang="en">EN</button>
+    <button class="lang-opt" data-lang="zh">繁中</button>
+  </div>
+  <a href="index.html#about" class="back-btn" data-i18n="back-btn"><i data-lucide="arrow-left"></i> Back to Portfolio</a>
+</nav>
+
+<!-- Hero -->
+<div class="exp-hero">
+  <div class="exp-hero-eyebrow" data-i18n="hero-eyebrow">Design Career · 2011 – Present</div>
+  <h1>Kay Wang's<br /><span>Experience</span></h1>
+  <p class="exp-hero-sub" data-i18n="hero-sub">14+ years designing digital products across FinTech, enterprise B2B, health tech, hospitality, consumer lifestyle, and education — spanning Taiwan, Hong Kong, Southeast Asia, and San Francisco.</p>
+</div>
+
+<!-- Timeline -->
+<div class="timeline-wrap">
+
+  <div class="timeline-section-label" data-i18n="section-work">Work Experience</div>
+
+  <div class="timeline">
+
+    <!-- 1 · Gogolook (current) -->
+    <div class="tl-entry current">
+      <div class="tl-dot dot-gogolook"></div>
+      <div class="tl-card">
+        <div class="tl-top">
+          <div class="tl-left">
+            <img class="tl-logo" src="Experience/gogolook_logo.jpeg" alt="Gogolook" />
+            <div>
+              <div class="pill-row">
+                <div class="tl-role-pill pill-gogolook" data-i18n="pill-current">Current Role</div>
+                <a href="https://apps.apple.com/tw/app/juji-%E6%8B%9B%E8%B2%A1%E9%BA%BB%E5%90%89-%E5%B0%8F%E9%A1%8D%E8%B2%B8%E6%AC%BE-%E6%89%8B%E6%A9%9F%E5%80%9F%E9%8C%A2-%E6%A9%9F%E8%BB%8A%E5%91%A8%E8%BD%89/id6444307991" target="_blank" rel="noopener" class="store-btn store-ios"><i data-lucide="download"></i> App Store</a>
+                <a href="https://play.google.com/store/apps/details?id=com.gogolook.rooney&hl=zh_TW" target="_blank" rel="noopener" class="store-btn store-android"><i data-lucide="download"></i> Google Play</a>
+                <a href="https://juji.tw/loan-estimation" target="_blank" rel="noopener" class="store-btn store-web"><i data-lucide="globe"></i> Apply Online</a>
+              </div>
+              <div class="tl-title">Lead Product Designer · JUJI</div>
+              <div class="tl-company" data-i18n="gogolook-company">Gogolook · Full-time</div>
+            </div>
+          </div>
+          <div class="tl-dates">
+            Jun 2022 – Present
+            <div class="tl-duration" data-i18n="gogolook-duration">~4 years</div>
+          </div>
+        </div>
+        <div class="tl-location"><i data-lucide="map-pin"></i> <span data-i18n="loc-taipei">Taipei, Taiwan</span></div>
+        <p class="tl-desc" data-i18n="gogolook-desc">Sole designer for the full <a href="https://juji.tw/" target="_blank" rel="noopener" class="juji-link">JUJI</a> product suite — mobile app, marketing website, CMS, and Webflow maintenance. Responsible for integrating business opportunity analysis, user profiling, and risk assessment into a coherent product experience across every touchpoint.</p>
+        <ul class="tl-bullets">
+          <li data-i18n="gogolook-li1">End-to-end ownership across app UI, web design, CMS interface, and Webflow site upkeep</li>
+          <li data-i18n="gogolook-li2">Cross-functional collaboration with business, engineering, and compliance teams</li>
+          <li data-i18n="gogolook-li3">User research and profiling to shape loan product flows for Southeast Asian markets</li>
+        </ul>
+        <div class="tl-skills">
+          <span class="tl-skill-tag">User Experience (UX)</span>
+          <span class="tl-skill-tag">User Interface Design</span>
+          <span class="tl-skill-tag">Design System</span>
+          <span class="tl-skill-tag">User Research</span>
+          <span class="tl-skill-tag">FinTech</span>
+          <span class="tl-skill-tag">Mobile App Design</span>
+          <span class="tl-skill-tag">Web Design</span>
+          <span class="tl-skill-tag">Webflow</span>
+          <span class="tl-skill-tag">CMS Design</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 · Faria Education Group -->
+    <div class="tl-entry">
+      <div class="tl-dot dot-faria"></div>
+      <div class="tl-card">
+        <div class="tl-top">
+          <div class="tl-left">
+            <img class="tl-logo" src="Experience/fariaedu_logo.jpeg" alt="Faria Education Group" />
+            <div>
+              <div class="tl-role-pill pill-faria" data-i18n="pill-faria">UX / UI</div>
+              <div class="tl-title">Sr. Product Designer</div>
+              <div class="tl-company" data-i18n="faria-company">Faria Education Group · Full-time</div>
+            </div>
+          </div>
+          <div class="tl-dates">
+            Jan 2022 – Feb 2022
+            <div class="tl-duration" data-i18n="faria-duration">2 months</div>
+          </div>
+        </div>
+        <div class="tl-location"><i data-lucide="map-pin"></i> <span data-i18n="loc-taipei">Taipei, Taiwan</span></div>
+        <p class="tl-desc" data-i18n="faria-desc">Designed UX and UI for OpenApply, an international school application platform. Focused on distilling key information and core functions from the existing website into a streamlined parent-facing mobile experience.</p>
+        <div class="tl-skills">
+          <span class="tl-skill-tag">User Experience (UX)</span>
+          <span class="tl-skill-tag">User Interface Design</span>
+          <span class="tl-skill-tag">EdTech</span>
+          <span class="tl-skill-tag">Information Architecture</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 · Cloud Interactive — two roles -->
+    <div class="tl-company-group">
+      <div class="tl-company-header">
+        <div class="tl-company-dot"></div>
+        <span class="tl-company-name-badge">Cloud Interactive</span>
+        <span class="tl-company-total" data-i18n="cloud-group-total">3 yrs 9 mos total</span>
+      </div>
+
+      <div class="tl-entry">
+        <div class="tl-dot dot-cloud"></div>
+        <div class="tl-card">
+          <div class="tl-top">
+            <div class="tl-left">
+              <img class="tl-logo" src="Experience/cloud_interactive_1_logo.jpeg" alt="Cloud Interactive" />
+              <div>
+                <div class="tl-role-pill pill-cloud" data-i18n="pill-cloud-lead">Design Lead</div>
+                <div class="tl-title">Design Lead</div>
+                <div class="tl-company" data-i18n="cloud-lead-company">Cloud Interactive · Full-time</div>
+              </div>
+            </div>
+            <div class="tl-dates">
+              Jul 2020 – Dec 2021
+              <div class="tl-duration" data-i18n="cloud-lead-duration">1 yr 6 mos</div>
+            </div>
+          </div>
+          <div class="tl-location"><i data-lucide="map-pin"></i> <span data-i18n="loc-taipei">Taipei, Taiwan</span></div>
+          <p class="tl-desc" data-i18n="cloud-lead-desc">Led the design practice at Cloud Interactive, managing a 12-person design team and driving design thinking culture across product teams. Shared passion for problem-solving through user-centred design and mentored junior to mid-level designers.</p>
+          <ul class="tl-bullets">
+            <li data-i18n="cloud-lead-li1">Led design direction and quality standards across multiple product lines</li>
+            <li data-i18n="cloud-lead-li2">Championed design thinking methodology within cross-functional teams</li>
+            <li data-i18n="cloud-lead-li3">Art direction for client-facing digital products</li>
+          </ul>
+          <div class="tl-skills">
+            <span class="tl-skill-tag">Art Direction</span>
+            <span class="tl-skill-tag">Design Leadership</span>
+            <span class="tl-skill-tag">User Experience (UX)</span>
+            <span class="tl-skill-tag">Design Systems</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-entry">
+        <div class="tl-dot dot-cloud"></div>
+        <div class="tl-card">
+          <div class="tl-top">
+            <div class="tl-left">
+              <img class="tl-logo" src="Experience/cloud_interactive_1_logo.jpeg" alt="Cloud Interactive" />
+              <div>
+                <div class="tl-role-pill pill-cloud" data-i18n="pill-cloud-sr">Senior UX</div>
+                <div class="tl-title">Sr. UI/UX Designer</div>
+                <div class="tl-company" data-i18n="cloud-sr-company">Cloud Interactive · Full-time</div>
+              </div>
+            </div>
+            <div class="tl-dates">
+              Apr 2018 – Jul 2020
+              <div class="tl-duration" data-i18n="cloud-sr-duration">2 yrs 4 mos</div>
+            </div>
+          </div>
+          <div class="tl-location"><i data-lucide="map-pin"></i> <span data-i18n="loc-taipei">Taipei, Taiwan</span></div>
+          <p class="tl-desc" data-i18n="cloud-sr-desc">Taipei-based Sr. UI/UX designer solving complex product problems through design thinking and user research. Conducted research studies, synthesised user insights, and translated findings into actionable design decisions.</p>
+          <ul class="tl-bullets">
+            <li data-i18n="cloud-sr-li1">Led user research — interviews, usability testing, and insight synthesis</li>
+            <li data-i18n="cloud-sr-li2">Delivered responsive web and mobile app designs for enterprise clients</li>
+            <li data-i18n="cloud-sr-li3">Established component and pattern libraries to accelerate team output</li>
+          </ul>
+          <div class="tl-skills">
+            <span class="tl-skill-tag">User Experience (UX)</span>
+            <span class="tl-skill-tag">User Research</span>
+            <span class="tl-skill-tag">Responsive Web Design</span>
+            <span class="tl-skill-tag">UI Design</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 · Skywind Inc. -->
+    <div class="tl-entry">
+      <div class="tl-dot dot-skywind"></div>
+      <div class="tl-card">
+        <div class="tl-top">
+          <div class="tl-left">
+            <img class="tl-logo" src="Experience/skywind_logo.webp" alt="Skywind Inc." />
+            <div>
+              <div class="tl-role-pill pill-skywind" data-i18n="pill-skywind">Agency</div>
+              <div class="tl-title">UI/UX Designer</div>
+              <div class="tl-company" data-i18n="skywind-company">Skywind, Inc. · Full-time</div>
+            </div>
+          </div>
+          <div class="tl-dates">
+            Dec 2016 – Jan 2018
+            <div class="tl-duration" data-i18n="skywind-duration">1 yr 2 mos</div>
+          </div>
+        </div>
+        <div class="tl-location"><i data-lucide="map-pin"></i> <span data-i18n="loc-taipei-keelung">Taipei–Keelung Metropolitan Area</span></div>
+        <p class="tl-desc" data-i18n="skywind-desc">Designed for both local and international clients across industries — including Eslite Hong Kong, RT-Mart (wine app), and Wing CRM. Covered end-to-end product design from concept through UI delivery.</p>
+        <ul class="tl-bullets">
+          <li data-i18n="skywind-li1">Designed Eslite HK social app — two complete visual styles + dark mode</li>
+          <li data-i18n="skywind-li2">Designed RT-Mart wine discovery app with brand identity from zero</li>
+          <li data-i18n="skywind-li3">Designed Wing CRM — field rep mobile app and manager web dashboard</li>
+        </ul>
+        <div class="tl-skills">
+          <span class="tl-skill-tag">UI/UX Design</span>
+          <span class="tl-skill-tag">Brand Identity</span>
+          <span class="tl-skill-tag">Responsive Web Design</span>
+          <span class="tl-skill-tag">Mobile App Design</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 · Career break (全職育兒) -->
+    <div class="tl-entry career-break">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-top">
+          <div>
+            <div class="tl-role-pill pill-break" data-i18n="pill-break">Career Break</div>
+            <div class="tl-title" data-i18n="break-title">Full-time Parenting &amp; Self-study</div>
+            <div class="tl-company" data-i18n="break-company">Career transition</div>
+          </div>
+          <div class="tl-dates">
+            Nov 2014 – Jul 2016
+            <div class="tl-duration" data-i18n="break-duration">1 yr 9 mos</div>
+          </div>
+        </div>
+        <div class="tl-location"><i data-lucide="map-pin"></i> <span data-i18n="loc-taipei">Taipei, Taiwan</span></div>
+        <p class="tl-desc" data-i18n="break-desc">Took time off as the primary caregiver for my son. Once he reached school age, I used the remaining time to study UX/UI design, build my portfolio, and transition into the digital product design field — a deliberate pivot from graphic design into UX.</p>
+      </div>
+    </div>
+
+    <!-- 6 · PROduction Co. -->
+    <div class="tl-entry">
+      <div class="tl-dot dot-production"></div>
+      <div class="tl-card">
+        <div class="tl-top">
+          <div>
+            <div class="tl-role-pill pill-production" data-i18n="pill-prod">Ad Agency</div>
+            <div class="tl-title" data-i18n="prod-title">Graphic Designer</div>
+            <div class="tl-company" data-i18n="prod-company">PROduction Co. · Full-time</div>
+          </div>
+          <div class="tl-dates">
+            Aug 2013 – Feb 2015
+            <div class="tl-duration" data-i18n="prod-duration">1 yr 9 mos</div>
+          </div>
+        </div>
+        <div class="tl-location"><i data-lucide="map-pin"></i> <span data-i18n="loc-taipei-keelung">Taipei–Keelung Metropolitan Area</span></div>
+        <p class="tl-desc" data-i18n="prod-desc">Graphic designer at an advertising agency — responsible for brand communication materials across print and digital channels.</p>
+        <ul class="tl-bullets">
+          <li data-i18n="prod-li1">CI (corporate identity) design and brand guideline systems</li>
+          <li data-i18n="prod-li2">Catalogue and print collateral design</li>
+          <li data-i18n="prod-li3">EDM (email direct marketing) design and commercial storyboards</li>
+        </ul>
+        <div class="tl-skills">
+          <span class="tl-skill-tag">Corporate Identity</span>
+          <span class="tl-skill-tag">Graphic Design</span>
+          <span class="tl-skill-tag">Print Design</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 · OMEY Group -->
+    <div class="tl-entry">
+      <div class="tl-dot dot-omey"></div>
+      <div class="tl-card">
+        <div class="tl-top">
+          <div class="tl-left">
+            <img class="tl-logo" src="Experience/omey_logo.jpeg" alt="OMEY Group" />
+            <div>
+              <div class="tl-role-pill pill-omey" data-i18n="pill-omey">Brand Design</div>
+              <div class="tl-title" data-i18n="omey-title">Visual Designer</div>
+              <div class="tl-company" data-i18n="omey-company">OMEY Group · Full-time</div>
+            </div>
+          </div>
+          <div class="tl-dates">
+            Nov 2011 – Feb 2013
+            <div class="tl-duration" data-i18n="omey-duration">1 yr 4 mos</div>
+          </div>
+        </div>
+        <div class="tl-location"><i data-lucide="map-pin"></i> <span data-i18n="loc-taipei">Taipei, Taiwan</span></div>
+        <p class="tl-desc" data-i18n="omey-desc">Visual designer responsible for product brand direction and creative execution across the full product lifecycle.</p>
+        <ul class="tl-bullets">
+          <li data-i18n="omey-li1">Product CI design and brand identity systems</li>
+          <li data-i18n="omey-li2">Product branding and naming</li>
+          <li data-i18n="omey-li3">Product creative directions and packaging design</li>
+          <li data-i18n="omey-li4">Key visual creative direction and execution</li>
+        </ul>
+        <div class="tl-skills">
+          <span class="tl-skill-tag">Corporate Identity</span>
+          <span class="tl-skill-tag">Brand Strategy</span>
+          <span class="tl-skill-tag">Packaging Design</span>
+          <span class="tl-skill-tag">Key Visual</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+</div><!-- /timeline-wrap -->
+
+<!-- Education -->
+<div class="edu-wrap">
+  <div class="timeline-section-label" style="margin-bottom:20px;" data-i18n="section-edu">Education</div>
+  <div class="edu-card">
+    <div class="edu-icon"><i data-lucide="graduation-cap"></i></div>
+    <div>
+      <div class="edu-school">Tamkang University · 私立淡江大學</div>
+      <div class="edu-degree" data-i18n="edu-degree">Bachelor's · Spanish Literature</div>
+      <div class="edu-years" data-i18n="edu-years">Graduated 2003</div>
+    </div>
+  </div>
+</div>
+
+<!-- Back CTA -->
+<div class="exp-back-strip">
+  <p data-i18n="back-strip-p">Want to see the work behind the career?</p>
+  <a href="index.html#projects" class="exp-back-btn" data-i18n="back-strip-btn">
+    <i data-lucide="layout-grid"></i> View My Projects
+  </a>
+</div>
+
+<footer>
+  <span data-i18n="footer-text">Kay Wang · Lead Product Designer · Taipei, Taiwan · © 2024</span>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script>
+var translations = {
+  en: {
+    'back-btn': '<i data-lucide="arrow-left"></i> Back to Portfolio',
+    'hero-eyebrow': 'Design Career · 2011 – Present',
+    'hero-sub': '14+ years designing digital products across FinTech, enterprise B2B, health tech, hospitality, consumer lifestyle, and education — spanning Taiwan, Hong Kong, Southeast Asia, and San Francisco.',
+    'section-work': 'Work Experience',
+    'pill-current': 'Current Role',
+    'gogolook-company': 'Gogolook · Full-time',
+    'gogolook-duration': '~4 years',
+    'loc-taipei': 'Taipei, Taiwan',
+    'loc-taipei-keelung': 'Taipei–Keelung Metropolitan Area',
+    'gogolook-desc': 'Sole designer for the full <a href="https://juji.tw/" target="_blank" rel="noopener" class="juji-link">JUJI</a> product suite — mobile app, marketing website, CMS, and Webflow maintenance. Responsible for integrating business opportunity analysis, user profiling, and risk assessment into a coherent product experience across every touchpoint.',
+    'gogolook-li1': 'End-to-end ownership across app UI, web design, CMS interface, and Webflow site upkeep',
+    'gogolook-li2': 'Cross-functional collaboration with business, engineering, and compliance teams',
+    'gogolook-li3': 'User research and profiling to shape loan product flows for Southeast Asian markets',
+    'pill-faria': 'UX / UI',
+    'faria-company': 'Faria Education Group · Full-time',
+    'faria-duration': '2 months',
+    'faria-desc': 'Designed UX and UI for OpenApply, an international school application platform. Focused on distilling key information and core functions from the existing website into a streamlined parent-facing mobile experience.',
+    'cloud-group-total': '3 yrs 9 mos total',
+    'pill-cloud-lead': 'Design Lead',
+    'cloud-lead-company': 'Cloud Interactive · Full-time',
+    'cloud-lead-duration': '1 yr 6 mos',
+    'cloud-lead-desc': 'Led the design practice at Cloud Interactive, managing a 12-person design team and driving design thinking culture across product teams. Shared passion for problem-solving through user-centred design and mentored junior to mid-level designers.',
+    'cloud-lead-li1': 'Led design direction and quality standards across multiple product lines',
+    'cloud-lead-li2': 'Championed design thinking methodology within cross-functional teams',
+    'cloud-lead-li3': 'Art direction for client-facing digital products',
+    'pill-cloud-sr': 'Senior UX',
+    'cloud-sr-company': 'Cloud Interactive · Full-time',
+    'cloud-sr-duration': '2 yrs 4 mos',
+    'cloud-sr-desc': 'Taipei-based Sr. UI/UX designer solving complex product problems through design thinking and user research. Conducted research studies, synthesised user insights, and translated findings into actionable design decisions.',
+    'cloud-sr-li1': 'Led user research — interviews, usability testing, and insight synthesis',
+    'cloud-sr-li2': 'Delivered responsive web and mobile app designs for enterprise clients',
+    'cloud-sr-li3': 'Established component and pattern libraries to accelerate team output',
+    'pill-skywind': 'Agency',
+    'skywind-company': 'Skywind, Inc. · Full-time',
+    'skywind-duration': '1 yr 2 mos',
+    'skywind-desc': 'Designed for both local and international clients across industries — including Eslite Hong Kong, RT-Mart (wine app), and Wing CRM. Covered end-to-end product design from concept through UI delivery.',
+    'skywind-li1': 'Designed Eslite HK social app — two complete visual styles + dark mode',
+    'skywind-li2': 'Designed RT-Mart wine discovery app with brand identity from zero',
+    'skywind-li3': 'Designed Wing CRM — field rep mobile app and manager web dashboard',
+    'pill-break': 'Career Break',
+    'break-title': 'Full-time Parenting &amp; Self-study',
+    'break-company': 'Career transition',
+    'break-duration': '1 yr 9 mos',
+    'break-desc': 'Took time off as the primary caregiver for my son. Once he reached school age, I used the remaining time to study UX/UI design, build my portfolio, and transition into the digital product design field — a deliberate pivot from graphic design into UX.',
+    'pill-prod': 'Ad Agency',
+    'prod-title': 'Graphic Designer',
+    'prod-company': 'PROduction Co. · Full-time',
+    'prod-duration': '1 yr 9 mos',
+    'prod-desc': 'Graphic designer at an advertising agency — responsible for brand communication materials across print and digital channels.',
+    'prod-li1': 'CI (corporate identity) design and brand guideline systems',
+    'prod-li2': 'Catalogue and print collateral design',
+    'prod-li3': 'EDM (email direct marketing) design and commercial storyboards',
+    'pill-omey': 'Brand Design',
+    'omey-title': 'Visual Designer',
+    'omey-company': 'OMEY Group · Full-time',
+    'omey-duration': '1 yr 4 mos',
+    'omey-desc': 'Visual designer responsible for product brand direction and creative execution across the full product lifecycle.',
+    'omey-li1': 'Product CI design and brand identity systems',
+    'omey-li2': 'Product branding and naming',
+    'omey-li3': 'Product creative directions and packaging design',
+    'omey-li4': 'Key visual creative direction and execution',
+    'section-edu': 'Education',
+    'edu-degree': 'Bachelor\'s · Spanish Literature',
+    'edu-years': 'Graduated 2003',
+    'back-strip-p': 'Want to see the work behind the career?',
+    'back-strip-btn': '<i data-lucide="layout-grid"></i> View My Projects',
+    'footer-text': 'Kay Wang · Lead Product Designer · Taipei, Taiwan · © 2024'
+  },
+  zh: {
+    'back-btn': '<i data-lucide="arrow-left"></i> 返回作品集',
+    'hero-eyebrow': '設計生涯 · 2011 – 至今',
+    'hero-sub': '14+ 年橫跨 FinTech、企業 B2B、醫療科技、餐旅業、消費生活與教育領域的數位產品設計經驗——足跡遍及台灣、香港、東南亞與舊金山。',
+    'section-work': '工作經歷',
+    'pill-current': '現職',
+    'gogolook-company': 'Gogolook · 全職',
+    'gogolook-duration': '約 4 年',
+    'loc-taipei': '台北，台灣',
+    'loc-taipei-keelung': '台北－基隆都會區',
+    'gogolook-desc': '獨立負責完整的 <a href="https://juji.tw/" target="_blank" rel="noopener" class="juji-link">JUJI</a> 產品線——行動 App、行銷網站、CMS 及 Webflow 維護。負責整合商業機會分析、用戶輪廓建立與風險評估，在每個接觸點打造連貫一致的產品體驗。',
+    'gogolook-li1': '跨 App UI、網站設計、CMS 介面與 Webflow 網站維護的端對端設計所有權',
+    'gogolook-li2': '跨部門協作，與業務、工程及法規遵循團隊緊密合作',
+    'gogolook-li3': '透過用戶研究與輪廓建立，型塑東南亞市場的貸款產品流程',
+    'pill-faria': 'UX / UI',
+    'faria-company': 'Faria Education Group · 全職',
+    'faria-duration': '2 個月',
+    'faria-desc': '為 OpenApply（一個國際學校招生平台）設計 UX 與 UI，專注於將現有網站的核心資訊與功能，精煉為流暢的家長端行動體驗。',
+    'cloud-group-total': '共 3 年 9 個月',
+    'pill-cloud-lead': '設計領導',
+    'cloud-lead-company': 'Cloud Interactive · 全職',
+    'cloud-lead-duration': '1 年 6 個月',
+    'cloud-lead-desc': '主導 Cloud Interactive 的設計實踐，管理 12 人設計團隊，在產品團隊中推動設計思維文化。以用戶為中心的設計解決問題，並指導初級到中級設計師成長。',
+    'cloud-lead-li1': '跨多個產品線主導設計方向與品質標準',
+    'cloud-lead-li2': '在跨職能團隊中倡導設計思維方法論',
+    'cloud-lead-li3': '面向客戶的數位產品藝術指導',
+    'pill-cloud-sr': '資深 UX',
+    'cloud-sr-company': 'Cloud Interactive · 全職',
+    'cloud-sr-duration': '2 年 4 個月',
+    'cloud-sr-desc': '台北資深 UI/UX 設計師，透過設計思維與用戶研究解決複雜的產品問題。主導研究計畫、綜合用戶洞察，並將研究成果轉化為可執行的設計決策。',
+    'cloud-sr-li1': '主導用戶研究——訪談、易用性測試與洞察綜合',
+    'cloud-sr-li2': '為企業客戶交付響應式網頁與行動 App 設計',
+    'cloud-sr-li3': '建立元件與模式庫，加速團隊產出效率',
+    'pill-skywind': '設計公司',
+    'skywind-company': 'Skywind, Inc. · 全職',
+    'skywind-duration': '1 年 2 個月',
+    'skywind-desc': '服務本地與國際客戶，橫跨多個產業——包括誠品香港、大潤發（選酒 App）及 Wing CRM。涵蓋從概念到 UI 交付的端對端產品設計。',
+    'skywind-li1': '設計誠品香港社群 App——雙套完整視覺風格 + 深色模式',
+    'skywind-li2': '設計大潤發選酒探索 App，從零打造品牌識別',
+    'skywind-li3': '設計 Wing CRM——業務員行動 App 與主管端網頁管理後台',
+    'pill-break': '職涯空檔',
+    'break-title': '全職育兒 &amp; 自學',
+    'break-company': '職涯轉型',
+    'break-duration': '1 年 9 個月',
+    'break-desc': '休息一段時間擔任兒子的主要照顧者。待他到達就學年齡後，我利用剩餘時間自學 UX/UI 設計、建立作品集，並轉型進入數位產品設計領域——從平面設計到 UX 的刻意職涯轉向。',
+    'pill-prod': '廣告代理',
+    'prod-title': '平面設計師',
+    'prod-company': 'PROduction Co. · 全職',
+    'prod-duration': '1 年 9 個月',
+    'prod-desc': '廣告代理公司的平面設計師——負責橫跨印刷與數位通路的品牌傳播物料設計。',
+    'prod-li1': 'CI（企業識別）設計與品牌規範系統',
+    'prod-li2': '型錄與印刷品設計',
+    'prod-li3': 'EDM（電子郵件直效行銷）設計與商業腳本',
+    'pill-omey': '品牌設計',
+    'omey-title': '視覺設計師',
+    'omey-company': 'OMEY Group · 全職',
+    'omey-duration': '1 年 4 個月',
+    'omey-desc': '視覺設計師，負責定義產品品牌方向，並執行整個產品生命週期的創意設計工作。',
+    'omey-li1': '產品 CI 設計與品牌識別系統',
+    'omey-li2': '產品品牌規劃與命名',
+    'omey-li3': '產品創意方向與包裝設計',
+    'omey-li4': '主視覺創意方向與執行',
+    'section-edu': '學歷',
+    'edu-degree': '學士 · 西班牙文學系',
+    'edu-years': '2003 年畢業',
+    'back-strip-p': '想看看這段職涯背後的作品？',
+    'back-strip-btn': '<i data-lucide="layout-grid"></i> 查看我的作品',
+    'footer-text': 'Kay Wang · Lead Product Designer · 台北，台灣 · © 2024'
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-opt').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+  localStorage.setItem('kw-lang-exp', lang);
+  lucide.createIcons();
+}
+
+document.getElementById('langSwitch').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-opt');
+  if (!btn) return;
+  applyLang(btn.getAttribute('data-lang'));
+});
+
+</script>
+</body>
+</html>

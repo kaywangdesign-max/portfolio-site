@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Int-Learn — Kay Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../project-page.css" />
+  <style>
+    /* ── Int-Learn specific ── */
+    .persona-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 28px;
+    }
+    .persona-card {
+      background: var(--card);
+      border: 2px solid var(--fg);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: 4px 4px 0 var(--fg);
+    }
+    .persona-card--student { border-top: 5px solid #008B8B; }
+    .persona-card--grad    { border-top: 5px solid #FAD24D; }
+    .persona-card-header {
+      padding: 16px 20px 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    .persona-card-role {
+      font-family: var(--font-head); font-weight: 800; font-size: 1rem;
+      color: var(--fg); margin-bottom: 2px;
+    }
+    .persona-card-age {
+      font-size: 0.75rem; font-weight: 600; color: var(--muted-fg);
+    }
+    .persona-card-body { padding: 16px 20px; }
+    .persona-card-goal {
+      background: var(--muted); border-radius: var(--r-sm);
+      padding: 10px 12px; font-size: 0.8125rem; font-weight: 600;
+      color: var(--fg); line-height: 1.5; margin-bottom: 14px;
+    }
+    .persona-goal-label {
+      display: block; font-size: 0.6rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.09em;
+      color: var(--muted-fg); margin-bottom: 3px;
+    }
+    .persona-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .persona-bullets li {
+      display: flex; gap: 8px; align-items: flex-start;
+      font-size: 0.8rem; color: var(--fg); line-height: 1.5;
+    }
+    .persona-card--student .persona-bullets li::before { content: '◆'; color: #008B8B; font-size: 0.45rem; flex-shrink: 0; margin-top: 6px; }
+    .persona-card--grad    .persona-bullets li::before { content: '◆'; color: #b8900a; font-size: 0.45rem; flex-shrink: 0; margin-top: 6px; }
+
+    /* Feature block — label + screenshot side-by-side on wide screens */
+    .feature-block {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 28px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+    .feature-block.reverse { direction: rtl; }
+    .feature-block.reverse > * { direction: ltr; }
+    .feature-copy {}
+    .feature-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 12px; border-radius: 9999px;
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      border: 1.5px solid; margin-bottom: 10px;
+    }
+    .feature-badge--student { background: #E0F4F4; color: #007070; border-color: #008B8B; }
+    .feature-badge--grad    { background: #FEF9E0; color: #9a6f00; border-color: #FAD24D; }
+    .feature-title {
+      font-family: var(--font-head); font-weight: 800; font-size: 1.0625rem;
+      color: var(--fg); margin-bottom: 8px; line-height: 1.3;
+    }
+    .feature-desc { font-size: 0.875rem; color: var(--muted-fg); line-height: 1.75; margin-bottom: 12px; }
+    .feature-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .feature-bullets li {
+      font-size: 0.8125rem; color: var(--fg); line-height: 1.5;
+      padding-left: 16px; position: relative;
+    }
+    .feature-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--muted-fg); }
+    .feature-screen {
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      box-shadow: 4px 4px 0 var(--border);
+    }
+    .feature-screen img { width: 100%; display: block; }
+
+    /* Strategy decision cards */
+    .strategy-trio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .strategy-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 20px;
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .strategy-icon {
+      width: 40px; height: 40px;
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--fg);
+      box-shadow: 2px 2px 0 var(--fg);
+      margin-bottom: 12px;
+    }
+    .strategy-icon [data-lucide] { width: 18px; height: 18px; stroke-width: 2.5px; }
+    .strategy-card-title {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.9rem;
+      color: var(--fg); margin-bottom: 6px;
+    }
+    .strategy-card-desc { font-size: 0.8rem; color: var(--muted-fg); line-height: 1.65; }
+
+    @media (max-width: 768px) {
+      .persona-split { grid-template-columns: 1fr; }
+      .feature-block { grid-template-columns: 1fr; }
+      .feature-block.reverse { direction: ltr; }
+      .strategy-trio { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">K.W.</a>
+  <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+    <button class="lang-opt active" data-lang="en">EN</button>
+    <button class="lang-opt" data-lang="zh">繁中</button>
+  </div>
+  <a href="../index.html#projects" class="back-btn" data-i18n="back-btn"><i data-lucide="arrow-left"></i> All Work</a>
+</nav>
+
+<div class="proj-hero">
+  <div class="proj-hero-bg">
+    <img src="../images/Int-Learn/Cover.avif" alt="Int-Learn — Student-Teacher Matching Platform" />
+  </div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-content">
+    <div class="proj-hero-cat" data-i18n="hero-cat">Education · Web Platform</div>
+    <h1 class="proj-hero-title">Int-Learn</h1>
+    <p class="proj-hero-sub" data-i18n="hero-sub">A zero-to-one student–teacher matching platform — from blank canvas to 40+ page IA, dual-user experience, on-demand testing, and full brand identity</p>
+  </div>
+</div>
+
+<div class="proj-meta-bar">
+  <div class="proj-meta-row">
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-client">Client</div>
+      <div class="meta-value">Int-Learn Startup</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-agency">Agency</div>
+      <div class="meta-value">Skywind Co.</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-role-label">My Role</div>
+      <div class="meta-value" data-i18n="meta-role-val">UX/UI + Branding Designer</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-timeline">Timeline</div>
+      <div class="meta-value">2018</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-platform-label">Platform</div>
+      <div class="meta-value">Web</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-type">Project Type</div>
+      <div class="meta-value"><span class="goal-badge new-product" data-i18n="badge-new-product">New Product</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="proj-body">
+  <div class="proj-col">
+
+    <!-- 01 · Context -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s01-eyebrow">01 · Context</div>
+      <h2 class="content-heading" data-i18n="s01-heading">A startup with a clear vision — and nothing else</h2>
+      <p class="content-text" data-i18n="s01-p1">Int-Learn had a compelling idea: match high school students preparing for SAT/ACT with college graduate tutors from elite universities. The credibility angle was clear. The product structure was not. When the project began, there was no IA, no wireframes, no brand, no copy — just a founder's vision and a blank Sketch file.</p>
+      <p class="content-text" data-i18n="s01-p2">This kind of zero-to-one challenge is where UX strategy matters most. Before a single screen could be designed, the platform's entire logic had to be invented — two user roles, two sets of goals, one coherent system that serves both without compromise.</p>
+
+      <div class="challenge-strip">
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="layers"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch-label-start">Starting Point</div>
+            <div class="challenge-value" data-i18n="ch-val-start">Zero IA, zero wireframes, zero brand</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="users"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch-label-dual">Dual Platform</div>
+            <div class="challenge-value" data-i18n="ch-val-dual">Student-facing + educator-facing, one product</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="pen-tool"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch-label-scope">Full Scope</div>
+            <div class="challenge-value" data-i18n="ch-val-scope">UX + UI + brand identity + product copy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · Two Users, Two Worlds -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s02-eyebrow">02 · Two Users, Two Worlds</div>
+      <h2 class="content-heading" data-i18n="s02-heading">One platform serving completely different motivations</h2>
+      <p class="content-text" data-i18n="s02-p1">A two-sided marketplace lives or dies by how well it serves each side. Students and educators come to Int-Learn with opposing mental models — one looking for trust and certainty, the other looking for autonomy and opportunity. Every design decision had to honour both simultaneously.</p>
+
+      <div class="persona-split">
+        <div class="persona-card persona-card--student">
+          <div class="persona-card-header">
+            <div class="persona-card-role" data-i18n="persona-role-student">High School Students</div>
+            <div class="persona-card-age" data-i18n="persona-age-student">SAT / ACT prep · Ages 15–18</div>
+          </div>
+          <div class="persona-card-body">
+            <div class="persona-card-goal" data-i18n="persona-goal-student"><span class="persona-goal-label">Core anxiety</span>"How do I know this tutor is actually good?"</div>
+            <ul class="persona-bullets">
+              <li data-i18n="persona-s-b1">Need verifiable tutor credibility before committing</li>
+              <li data-i18n="persona-s-b2">Want subject-specific matching — not just "any tutor"</li>
+              <li data-i18n="persona-s-b3">Require practice tests with real time pressure and instant results</li>
+              <li data-i18n="persona-s-b4">Parents often involved in platform decisions</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="persona-card persona-card--grad">
+          <div class="persona-card-header">
+            <div class="persona-card-role" data-i18n="persona-role-grad">Elite College Graduates</div>
+            <div class="persona-card-age" data-i18n="persona-age-grad">Supplemental income seekers · Ages 22–30</div>
+          </div>
+          <div class="persona-card-body">
+            <div class="persona-card-goal" data-i18n="persona-goal-grad"><span class="persona-goal-label">Core motivation</span>"I want flexibility and fair pay on my own terms"</div>
+            <ul class="persona-bullets">
+              <li data-i18n="persona-g-b1">Job-transitioning or repaying student loans</li>
+              <li data-i18n="persona-g-b2">Want to set their own rates and availability</li>
+              <li data-i18n="persona-g-b3">Prefer minimal admin overhead — just teach and get paid</li>
+              <li data-i18n="persona-g-b4">Value the credibility signal of their university brand</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 · UX Strategy -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s03-eyebrow">03 · UX Strategy</div>
+      <h2 class="content-heading" data-i18n="s03-heading">Three decisions that shaped the whole design</h2>
+      <p class="content-text" data-i18n="s03-p1">Before touching UI, I mapped the platform logic. The key strategic question in a tutor marketplace is always trust — how does a student believe a stranger online is worth their time and money? The answer shaped the entire information architecture.</p>
+
+      <div class="strategy-trio">
+        <div class="strategy-card">
+          <div class="strategy-icon" style="background:#E0F4F4;">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <div class="strategy-card-title" data-i18n="sc1-title">College Badges as Trust Currency</div>
+          <div class="strategy-card-desc" data-i18n="sc1-desc">Rather than star ratings or reviews (easily gamed), the core credibility signal is the tutor's university — a verifiable, legible fact that parents and students immediately understand. The college badge is the first thing visible on every tutor card.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-icon" style="background:#FEF9E0;">
+            <i data-lucide="git-branch"></i>
+          </div>
+          <div class="strategy-card-title" data-i18n="sc2-title">IA Before Wireframes</div>
+          <div class="strategy-card-desc" data-i18n="sc2-desc">With no existing structure, I spent the first phase mapping every page type across both user roles before opening a design tool. The result: 40+ page types with clear ownership, hierarchy, and state logic — preventing chaos in the build phase.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-icon" style="background:#F0F0FF;">
+            <i data-lucide="sliders-horizontal"></i>
+          </div>
+          <div class="strategy-card-title" data-i18n="sc3-title">Asymmetric Power, Symmetric Respect</div>
+          <div class="strategy-card-desc" data-i18n="sc3-desc">Students choose tutors — so students hold more power. But the design never makes educators feel second-class. Tutors own their rates, their schedule, and their subject range. The product respects both sides as equal contributors to the marketplace.</div>
+        </div>
+      </div>
+
+      <div class="callout green" style="margin-top:28px;">
+        <div class="callout-title" data-i18n="callout-title-zero">Zero-to-one design note</div>
+        <p data-i18n="callout-body-zero">Starting from nothing meant every page structure, every label, and every flow had to be invented. I also wrote the initial product copy — there was no copywriter on the team. Tone: warm but credible, approachable but not informal.</p>
+      </div>
+    </div>
+
+    <!-- 04 · Student Experience -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s04-eyebrow">04 · Student Experience</div>
+      <h2 class="content-heading" data-i18n="s04-heading">Designed to reduce anxiety at every step</h2>
+      <p class="content-text" data-i18n="s04-p1">The student journey has one overriding goal: arrive at the right tutor with enough confidence to book. Each feature is a trust-building layer — eliminating doubt before it can block a decision.</p>
+
+      <!-- Feature 1 -->
+      <div class="feature-block" style="margin-top:32px;">
+        <div class="feature-copy">
+          <span class="feature-badge feature-badge--student" data-i18n="feat1-badge"><i data-lucide="shield"></i> Trust Architecture</span>
+          <div class="feature-title" data-i18n="feat1-title">Find the Right Tutor — Credibility First</div>
+          <div class="feature-desc" data-i18n="feat1-desc">The tutor discovery page leads with the university badge — not the name, not the rating. Students (and their parents) make snap judgements on academic credibility, so it's the first signal they see. Below the badge: subject tags, hourly rate, and a hover-preview card for fast scanning without clicking away.</div>
+          <ul class="feature-bullets">
+            <li data-i18n="feat1-b1">College badge prominently displayed on every tutor card</li>
+            <li data-i18n="feat1-b2">Recommended lists reduce filter decision fatigue</li>
+            <li data-i18n="feat1-b3">Hover-card preview: availability + subjects before committing to a profile</li>
+          </ul>
+        </div>
+        <div class="feature-screen">
+          <img src="https://static.wixstatic.com/media/c8b53d_121538bfa260416588ace382af906c2d~mv2.png"
+               alt="Int-Learn — Student tutor discovery with college badges"
+               class="js-magnify" />
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-block reverse">
+        <div class="feature-copy">
+          <span class="feature-badge feature-badge--student" data-i18n="feat2-badge"><i data-lucide="filter"></i> Precision Matching</span>
+          <div class="feature-title" data-i18n="feat2-title">Browse by Subject — Filter by Major</div>
+          <div class="feature-desc" data-i18n="feat2-desc">Students preparing for specific SAT subject tests need a tutor who specialises — not just someone who "teaches math." The curriculum filtering system uses subject tags as the primary sort, with a double-major filter that surfaces tutors with multiple specialisations for complex test prep needs.</div>
+          <ul class="feature-bullets">
+            <li data-i18n="feat2-b1">Subject tag filtering as primary navigation</li>
+            <li data-i18n="feat2-b2">Double-major filter for students who need cross-subject tutoring</li>
+            <li data-i18n="feat2-b3">Alternate speciality options surface tutors who match adjacent subjects</li>
+          </ul>
+        </div>
+        <div class="feature-screen">
+          <img src="https://static.wixstatic.com/media/c8b53d_623bb731aa0d4fe9bb39684b7cf817c7~mv2.png"
+               alt="Int-Learn — Curriculum and subject filtering UI"
+               class="js-magnify" />
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-block">
+        <div class="feature-copy">
+          <span class="feature-badge feature-badge--student" data-i18n="feat3-badge"><i data-lucide="clipboard-check"></i> Measurable Progress</span>
+          <div class="feature-title" data-i18n="feat3-title">On-Demand Practice Tests — Score &amp; Compare</div>
+          <div class="feature-desc" data-i18n="feat3-desc">Practice tests are the clearest measure of whether tutoring is working. Students can launch a timed test at any point — not just during scheduled sessions — with authentic time constraints matching real SAT/ACT conditions. Instant results and historical comparison data make progress visible and motivating.</div>
+          <ul class="feature-bullets">
+            <li data-i18n="feat3-b1">On-demand access — not gated behind scheduled sessions</li>
+            <li data-i18n="feat3-b2">Authentic time pressure matching actual test conditions</li>
+            <li data-i18n="feat3-b3">Instant score results with historical comparison chart</li>
+          </ul>
+        </div>
+        <div class="feature-screen">
+          <img src="https://static.wixstatic.com/media/c8b53d_306da928f7024bc0bf83ce6709dd7cc1~mv2.png"
+               alt="Int-Learn — On-demand practice test with score results"
+               class="js-magnify" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 · Educator Experience -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s05-eyebrow">05 · Educator Experience</div>
+      <h2 class="content-heading" data-i18n="s05-heading">Autonomy as the core design value</h2>
+      <p class="content-text" data-i18n="s05-p1">College graduates join Int-Learn because it offers flexibility that traditional tutoring agencies don't. The design reinforces this at every touchpoint — educators set their own terms, own their schedule, and manage their content. The platform is a tool, not a boss.</p>
+
+      <!-- Feature 4 -->
+      <div class="feature-block" style="margin-top:32px;">
+        <div class="feature-copy">
+          <span class="feature-badge feature-badge--grad" data-i18n="feat4-badge"><i data-lucide="dollar-sign"></i> Economic Independence</span>
+          <div class="feature-title" data-i18n="feat4-title">Set Your Own Rate — Own Your Subject Range</div>
+          <div class="feature-desc" data-i18n="feat4-desc">Tutors set their own hourly rate — a non-negotiable design requirement from the earliest discovery sessions. Beyond pricing, tutors select their active subject specialisations, creating a self-managed profile that reflects exactly what they're willing and able to teach. No fixed rate cards, no mandatory curriculum.</div>
+          <ul class="feature-bullets">
+            <li data-i18n="feat4-b1">Custom hourly rate input with no platform-imposed ceiling</li>
+            <li data-i18n="feat4-b2">Multi-subject badge selection — breadth or depth, tutor's choice</li>
+            <li data-i18n="feat4-b3">Transparent earnings display per session and monthly</li>
+          </ul>
+        </div>
+        <div class="feature-screen">
+          <img src="https://static.wixstatic.com/media/c8b53d_5fb50e62316447dcbbbf597d95cd5718~mv2.png"
+               alt="Int-Learn — Educator rate setting and subject selection"
+               class="js-magnify" />
+        </div>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="feature-block reverse">
+        <div class="feature-copy">
+          <span class="feature-badge feature-badge--grad" data-i18n="feat5-badge"><i data-lucide="calendar"></i> Flexible Schedule</span>
+          <div class="feature-title" data-i18n="feat5-title">Customisable Availability — Draft Content Tools</div>
+          <div class="feature-desc" data-i18n="feat5-desc">Scheduling is the most common friction point in tutoring marketplaces. Tutors here set availability by day and time block — not a fixed weekly calendar — accommodating the irregular schedules of people who are also working full-time jobs or studying. Draft quiz creation lets tutors build test content on their own timeline.</div>
+          <ul class="feature-bullets">
+            <li data-i18n="feat5-b1">Availability set by day-of-week + time block — not fixed slots</li>
+            <li data-i18n="feat5-b2">Draft quiz creation tool with save and review states</li>
+            <li data-i18n="feat5-b3">Booking request approval flow — tutors retain final say</li>
+          </ul>
+        </div>
+        <div class="feature-screen">
+          <img src="https://static.wixstatic.com/media/c8b53d_e2f94892de7145a6954a8a31b0e6e38b~mv2.png"
+               alt="Int-Learn — Educator availability scheduling and quiz drafting"
+               class="js-magnify" />
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /proj-col -->
+</div><!-- /proj-body -->
+
+<!-- 06 · Visual Design — full platform screens -->
+<div class="layout-section">
+  <div class="layout-section-inner">
+    <div class="section-eyebrow" data-i18n="s06-eyebrow">06 · Visual Design</div>
+    <h2 class="layout-section-heading" data-i18n="s06-heading">Platform UI — student and educator views</h2>
+    <p class="layout-section-sub" data-i18n="s06-sub">The visual system uses teal as the primary credibility colour — calm, academic, trustworthy. Yellow accent breaks hierarchy and signals calls to action. Clean card-based layouts keep complex data readable on web.</p>
+  </div>
+</div>
+
+<div class="proj-body" style="padding-top:0; padding-bottom:80px;">
+  <div class="proj-col">
+    <div class="content-visual">
+      <img src="https://static.wixstatic.com/media/c8b53d_51813ce3f4c646ccb4509ca65a5a0c35~mv2.png"
+           alt="Int-Learn — Full platform UI overview, screen 1" />
+    </div>
+    <div class="content-visual">
+      <img src="https://static.wixstatic.com/media/c8b53d_60647ccdf8114648be0873f1274650ef~mv2.png"
+           alt="Int-Learn — Full platform UI overview, screen 2" />
+    </div>
+    <div class="content-visual">
+      <img src="https://static.wixstatic.com/media/c8b53d_25f896a2c3d44ee797621def89a9ccd3~mv2.png"
+           alt="Int-Learn — Full platform UI overview, screen 3" />
+    </div>
+  </div>
+</div>
+
+<!-- 07 · Design System -->
+<div class="ds-section">
+  <div class="proj-col">
+    <div class="section-eyebrow" data-i18n="s07-eyebrow">07 · Design System</div>
+    <h2 class="ds-heading" data-i18n="s07-heading">Brand identity — colour, type, and logo logic</h2>
+
+    <p class="content-text" style="margin-bottom:24px;" data-i18n="s07-p1">The brand needed to signal academic credibility without feeling institutional. Teal communicates trust and calm intelligence. Yellow provides energy and contrast — used sparingly for CTAs and highlights. Together they read as "approachable expertise" rather than cold authority.</p>
+
+    <div class="color-palette">
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#008B8B;"></div>
+        <div class="color-chip-hex">#008B8B</div>
+        <div class="color-chip-role" data-i18n="chip-primary">Primary — Trust</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#21D0C3;"></div>
+        <div class="color-chip-hex">#21D0C3</div>
+        <div class="color-chip-role" data-i18n="chip-secondary">Secondary — Hover</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#FAD24D;"></div>
+        <div class="color-chip-hex">#FAD24D</div>
+        <div class="color-chip-role" data-i18n="chip-accent">Accent — CTA</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#1A1A2E; border:none;"></div>
+        <div class="color-chip-hex">#1A1A2E</div>
+        <div class="color-chip-role" data-i18n="chip-fg">Foreground</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#F5FAFA; border:2px solid #e0e0e0;"></div>
+        <div class="color-chip-hex">#F5FAFA</div>
+        <div class="color-chip-role" data-i18n="chip-bg">Background</div>
+      </div>
+    </div>
+
+    <div class="type-system">
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-tag-body">Body / UI</div>
+        <div class="type-sample">Noto Sans CJK TC</div>
+        <div class="type-detail" data-i18n="type-detail-body">Bilingual body text (Traditional Chinese + English) — chosen for readability at small sizes and CJK support for the Taiwanese market</div>
+      </div>
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-tag-scores">Scores / Data</div>
+        <div class="type-sample" style="font-size:1.25rem;letter-spacing:-0.02em;">Alcubierre</div>
+        <div class="type-detail" data-i18n="type-detail-scores">Score display, rankings, percentile labels — a slightly geometric sans that reads as data-precise without feeling cold</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:32px;">
+      <div class="callout-title" data-i18n="callout-title-logo">Logo design rationale</div>
+      <p data-i18n="callout-body-logo">The Int-Learn wordmark uses a custom lettermark combining the "I" and "L" initials in a way that visually suggests a teacher and student facing each other — subtle, but grounded in the platform's core relationship. Teal as the logo colour reinforces academic trust without borrowing from any specific university palette.</p>
+    </div>
+  </div>
+</div>
+
+<div class="proj-tags-row">
+  <span class="proj-tag">Web</span>
+  <span class="proj-tag">EdTech</span>
+  <span class="proj-tag">IA from Scratch</span>
+  <span class="proj-tag">Two-Sided Marketplace</span>
+  <span class="proj-tag">Branding</span>
+  <span class="proj-tag">Trust Design</span>
+  <span class="proj-tag">Personas</span>
+</div>
+
+<div class="next-project-strip">
+  <div>
+    <div class="next-label" data-i18n="next-label">Next project</div>
+    <div class="next-title">Map of Chemical Knowledge</div>
+  </div>
+  <a href="chem.html" class="next-btn" data-i18n="next-btn-text">View case study <i data-lucide="arrow-right"></i></a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Kay Wang</div>
+    <div data-i18n="footer-role">Lead Product Designer at Gogolook · Taipei, Taiwan</div>
+    <div>© 2024 Kay Wang</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script src="../project-page.js"></script>
+<script>
+var translations = {
+  en: {
+    'back-btn': '<i data-lucide="arrow-left"></i> All Work',
+    'hero-cat': 'Education · Web Platform',
+    'hero-sub': 'A zero-to-one student–teacher matching platform — from blank canvas to 40+ page IA, dual-user experience, on-demand testing, and full brand identity',
+    'meta-client': 'Client',
+    'meta-agency': 'Agency',
+    'meta-role-label': 'My Role',
+    'meta-role-val': 'UX/UI + Branding Designer',
+    'meta-timeline': 'Timeline',
+    'meta-platform-label': 'Platform',
+    'meta-type': 'Project Type',
+    'badge-new-product': 'New Product',
+    's01-eyebrow': '01 · Context',
+    's01-heading': 'A startup with a clear vision — and nothing else',
+    's01-p1': 'Int-Learn had a compelling idea: match high school students preparing for SAT/ACT with college graduate tutors from elite universities. The credibility angle was clear. The product structure was not. When the project began, there was no IA, no wireframes, no brand, no copy — just a founder\'s vision and a blank Sketch file.',
+    's01-p2': 'This kind of zero-to-one challenge is where UX strategy matters most. Before a single screen could be designed, the platform\'s entire logic had to be invented — two user roles, two sets of goals, one coherent system that serves both without compromise.',
+    'ch-label-start': 'Starting Point',
+    'ch-val-start': 'Zero IA, zero wireframes, zero brand',
+    'ch-label-dual': 'Dual Platform',
+    'ch-val-dual': 'Student-facing + educator-facing, one product',
+    'ch-label-scope': 'Full Scope',
+    'ch-val-scope': 'UX + UI + brand identity + product copy',
+    's02-eyebrow': '02 · Two Users, Two Worlds',
+    's02-heading': 'One platform serving completely different motivations',
+    's02-p1': 'A two-sided marketplace lives or dies by how well it serves each side. Students and educators come to Int-Learn with opposing mental models — one looking for trust and certainty, the other looking for autonomy and opportunity. Every design decision had to honour both simultaneously.',
+    'persona-role-student': 'High School Students',
+    'persona-age-student': 'SAT / ACT prep · Ages 15–18',
+    'persona-goal-student': '<span class="persona-goal-label">Core anxiety</span>"How do I know this tutor is actually good?"',
+    'persona-s-b1': 'Need verifiable tutor credibility before committing',
+    'persona-s-b2': 'Want subject-specific matching — not just "any tutor"',
+    'persona-s-b3': 'Require practice tests with real time pressure and instant results',
+    'persona-s-b4': 'Parents often involved in platform decisions',
+    'persona-role-grad': 'Elite College Graduates',
+    'persona-age-grad': 'Supplemental income seekers · Ages 22–30',
+    'persona-goal-grad': '<span class="persona-goal-label">Core motivation</span>"I want flexibility and fair pay on my own terms"',
+    'persona-g-b1': 'Job-transitioning or repaying student loans',
+    'persona-g-b2': 'Want to set their own rates and availability',
+    'persona-g-b3': 'Prefer minimal admin overhead — just teach and get paid',
+    'persona-g-b4': 'Value the credibility signal of their university brand',
+    's03-eyebrow': '03 · UX Strategy',
+    's03-heading': 'Three decisions that shaped the whole design',
+    's03-p1': 'Before touching UI, I mapped the platform logic. The key strategic question in a tutor marketplace is always trust — how does a student believe a stranger online is worth their time and money? The answer shaped the entire information architecture.',
+    'sc1-title': 'College Badges as Trust Currency',
+    'sc1-desc': 'Rather than star ratings or reviews (easily gamed), the core credibility signal is the tutor\'s university — a verifiable, legible fact that parents and students immediately understand. The college badge is the first thing visible on every tutor card.',
+    'sc2-title': 'IA Before Wireframes',
+    'sc2-desc': 'With no existing structure, I spent the first phase mapping every page type across both user roles before opening a design tool. The result: 40+ page types with clear ownership, hierarchy, and state logic — preventing chaos in the build phase.',
+    'sc3-title': 'Asymmetric Power, Symmetric Respect',
+    'sc3-desc': 'Students choose tutors — so students hold more power. But the design never makes educators feel second-class. Tutors own their rates, their schedule, and their subject range. The product respects both sides as equal contributors to the marketplace.',
+    'callout-title-zero': 'Zero-to-one design note',
+    'callout-body-zero': 'Starting from nothing meant every page structure, every label, and every flow had to be invented. I also wrote the initial product copy — there was no copywriter on the team. Tone: warm but credible, approachable but not informal.',
+    's04-eyebrow': '04 · Student Experience',
+    's04-heading': 'Designed to reduce anxiety at every step',
+    's04-p1': 'The student journey has one overriding goal: arrive at the right tutor with enough confidence to book. Each feature is a trust-building layer — eliminating doubt before it can block a decision.',
+    'feat1-badge': '<i data-lucide="shield"></i> Trust Architecture',
+    'feat1-title': 'Find the Right Tutor — Credibility First',
+    'feat1-desc': 'The tutor discovery page leads with the university badge — not the name, not the rating. Students (and their parents) make snap judgements on academic credibility, so it\'s the first signal they see. Below the badge: subject tags, hourly rate, and a hover-preview card for fast scanning without clicking away.',
+    'feat1-b1': 'College badge prominently displayed on every tutor card',
+    'feat1-b2': 'Recommended lists reduce filter decision fatigue',
+    'feat1-b3': 'Hover-card preview: availability + subjects before committing to a profile',
+    'feat2-badge': '<i data-lucide="filter"></i> Precision Matching',
+    'feat2-title': 'Browse by Subject — Filter by Major',
+    'feat2-desc': 'Students preparing for specific SAT subject tests need a tutor who specialises — not just someone who "teaches math." The curriculum filtering system uses subject tags as the primary sort, with a double-major filter that surfaces tutors with multiple specialisations for complex test prep needs.',
+    'feat2-b1': 'Subject tag filtering as primary navigation',
+    'feat2-b2': 'Double-major filter for students who need cross-subject tutoring',
+    'feat2-b3': 'Alternate speciality options surface tutors who match adjacent subjects',
+    'feat3-badge': '<i data-lucide="clipboard-check"></i> Measurable Progress',
+    'feat3-title': 'On-Demand Practice Tests — Score &amp; Compare',
+    'feat3-desc': 'Practice tests are the clearest measure of whether tutoring is working. Students can launch a timed test at any point — not just during scheduled sessions — with authentic time constraints matching real SAT/ACT conditions. Instant results and historical comparison data make progress visible and motivating.',
+    'feat3-b1': 'On-demand access — not gated behind scheduled sessions',
+    'feat3-b2': 'Authentic time pressure matching actual test conditions',
+    'feat3-b3': 'Instant score results with historical comparison chart',
+    's05-eyebrow': '05 · Educator Experience',
+    's05-heading': 'Autonomy as the core design value',
+    's05-p1': 'College graduates join Int-Learn because it offers flexibility that traditional tutoring agencies don\'t. The design reinforces this at every touchpoint — educators set their own terms, own their schedule, and manage their content. The platform is a tool, not a boss.',
+    'feat4-badge': '<i data-lucide="dollar-sign"></i> Economic Independence',
+    'feat4-title': 'Set Your Own Rate — Own Your Subject Range',
+    'feat4-desc': 'Tutors set their own hourly rate — a non-negotiable design requirement from the earliest discovery sessions. Beyond pricing, tutors select their active subject specialisations, creating a self-managed profile that reflects exactly what they\'re willing and able to teach. No fixed rate cards, no mandatory curriculum.',
+    'feat4-b1': 'Custom hourly rate input with no platform-imposed ceiling',
+    'feat4-b2': 'Multi-subject badge selection — breadth or depth, tutor\'s choice',
+    'feat4-b3': 'Transparent earnings display per session and monthly',
+    'feat5-badge': '<i data-lucide="calendar"></i> Flexible Schedule',
+    'feat5-title': 'Customisable Availability — Draft Content Tools',
+    'feat5-desc': 'Scheduling is the most common friction point in tutoring marketplaces. Tutors here set availability by day and time block — not a fixed weekly calendar — accommodating the irregular schedules of people who are also working full-time jobs or studying. Draft quiz creation lets tutors build test content on their own timeline.',
+    'feat5-b1': 'Availability set by day-of-week + time block — not fixed slots',
+    'feat5-b2': 'Draft quiz creation tool with save and review states',
+    'feat5-b3': 'Booking request approval flow — tutors retain final say',
+    's06-eyebrow': '06 · Visual Design',
+    's06-heading': 'Platform UI — student and educator views',
+    's06-sub': 'The visual system uses teal as the primary credibility colour — calm, academic, trustworthy. Yellow accent breaks hierarchy and signals calls to action. Clean card-based layouts keep complex data readable on web.',
+    's07-eyebrow': '07 · Design System',
+    's07-heading': 'Brand identity — colour, type, and logo logic',
+    's07-p1': 'The brand needed to signal academic credibility without feeling institutional. Teal communicates trust and calm intelligence. Yellow provides energy and contrast — used sparingly for CTAs and highlights. Together they read as "approachable expertise" rather than cold authority.',
+    'chip-primary': 'Primary — Trust',
+    'chip-secondary': 'Secondary — Hover',
+    'chip-accent': 'Accent — CTA',
+    'chip-fg': 'Foreground',
+    'chip-bg': 'Background',
+    'type-tag-body': 'Body / UI',
+    'type-detail-body': 'Bilingual body text (Traditional Chinese + English) — chosen for readability at small sizes and CJK support for the Taiwanese market',
+    'type-tag-scores': 'Scores / Data',
+    'type-detail-scores': 'Score display, rankings, percentile labels — a slightly geometric sans that reads as data-precise without feeling cold',
+    'callout-title-logo': 'Logo design rationale',
+    'callout-body-logo': 'The Int-Learn wordmark uses a custom lettermark combining the "I" and "L" initials in a way that visually suggests a teacher and student facing each other — subtle, but grounded in the platform\'s core relationship. Teal as the logo colour reinforces academic trust without borrowing from any specific university palette.',
+    'next-label': 'Next project',
+    'next-btn-text': 'View case study <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Lead Product Designer at Gogolook · Taipei, Taiwan'
+  },
+  zh: {
+    'back-btn': '<i data-lucide="arrow-left"></i> 所有作品',
+    'hero-cat': '教育 · Web 平台',
+    'hero-sub': '從零開始打造的學生——教師媒合平台——從空白畫布到 40+ 頁面 IA、雙用戶體驗、隨選測驗，以及完整品牌識別',
+    'meta-client': '客戶',
+    'meta-agency': '代理商',
+    'meta-role-label': '我的角色',
+    'meta-role-val': 'UX/UI + 品牌設計師',
+    'meta-timeline': '時間',
+    'meta-platform-label': '平台',
+    'meta-type': '專案類型',
+    'badge-new-product': '全新產品',
+    's01-eyebrow': '01 · 背景脈絡',
+    's01-heading': '一間有清晰願景的新創——但僅此而已',
+    's01-p1': 'Int-Learn 有一個引人入勝的構想：將準備 SAT/ACT 的高中生，與來自頂尖大學的畢業生教師進行媒合。可信度的切入點很清晰，但產品架構卻付之闕如。專案開始時，沒有 IA、沒有線框稿、沒有品牌、沒有文案——只有創辦人的願景和一個空白的 Sketch 檔案。',
+    's01-p2': '這種從零開始的挑戰，正是 UX 策略最能發揮價值之處。在設計任何一個畫面之前，平台的完整邏輯必須從頭建立——兩種用戶角色、兩組目標，一套能同時服務兩者且不妥協的系統。',
+    'ch-label-start': '起點',
+    'ch-val-start': '零 IA、零線框稿、零品牌',
+    'ch-label-dual': '雙面平台',
+    'ch-val-dual': '學生端 + 教師端，一個產品',
+    'ch-label-scope': '完整範疇',
+    'ch-val-scope': 'UX + UI + 品牌識別 + 產品文案',
+    's02-eyebrow': '02 · 兩類用戶，兩個世界',
+    's02-heading': '一個平台，服務截然不同的動機',
+    's02-p1': '雙邊市集的成敗，取決於它能多好地服務每一方。學生與教師帶著截然相反的心智模型來到 Int-Learn——一方追求信任與確定性，另一方尋求自主性與機會。每個設計決策都必須同時兼顧兩者。',
+    'persona-role-student': '高中生',
+    'persona-age-student': 'SAT / ACT 備考 · 15–18 歲',
+    'persona-goal-student': '<span class="persona-goal-label">核心焦慮</span>「我怎麼知道這位老師真的夠好？」',
+    'persona-s-b1': '承諾前需要可驗證的教師公信力',
+    'persona-s-b2': '希望科目精準媒合——而非「隨便一位老師」',
+    'persona-s-b3': '需要具備真實時間壓力與即時結果的模擬測驗',
+    'persona-s-b4': '家長通常也參與平台決策',
+    'persona-role-grad': '頂尖大學畢業生',
+    'persona-age-grad': '尋求額外收入者 · 22–30 歲',
+    'persona-goal-grad': '<span class="persona-goal-label">核心動機</span>「我希望按自己的條件靈活教學並獲得合理報酬」',
+    'persona-g-b1': '正在轉職或償還學貸',
+    'persona-g-b2': '希望自行設定費率與可用時間',
+    'persona-g-b3': '偏好最少的行政負擔——只想教學並獲得報酬',
+    'persona-g-b4': '重視自身大學品牌帶來的公信力加持',
+    's03-eyebrow': '03 · UX 策略',
+    's03-heading': '形塑整個設計的三個決策',
+    's03-p1': '在觸碰 UI 之前，我先梳理了平台邏輯。教師媒合市集的核心策略問題始終是信任——學生憑什麼相信網路上的陌生人值得花費時間與金錢？這個答案形塑了整個資訊架構。',
+    'sc1-title': '大學院校徽章作為信任貨幣',
+    'sc1-desc': '相較於容易被操弄的星級評分或評論，核心公信力訊號是教師的就讀大學——一個家長與學生能立即理解的可驗證事實。大學徽章是每張教師卡片上最先看見的元素。',
+    'sc2-title': '先建 IA，再畫線框稿',
+    'sc2-desc': '在沒有任何既有架構的情況下，我在第一階段花時間梳理了兩種用戶角色的所有頁面類型，才開啟任何設計工具。成果：40+ 種頁面類型，具備清晰的歸屬關係、層級結構與狀態邏輯——有效避免開發階段的混亂。',
+    'sc3-title': '不對稱的權力，對稱的尊重',
+    'sc3-desc': '學生選擇教師——因此學生掌握較多主動權。但設計絕不讓教師感到次等。教師擁有自己的費率、時間表與科目範圍的自主權。產品將雙方視為市集中同等重要的貢獻者。',
+    'callout-title-zero': '從零開始的設計備忘',
+    'callout-body-zero': '從零出發意味著每個頁面結構、每個標籤與每個流程都必須從頭發明。我也撰寫了初始產品文案——團隊當時沒有文案人員。語調：溫暖但可信、平易近人但不過於隨性。',
+    's04-eyebrow': '04 · 學生體驗',
+    's04-heading': '在每個步驟都為減少焦慮而設計',
+    's04-p1': '學生旅程有一個首要目標：以足夠的信心找到合適的教師並完成預訂。每個功能都是一層信任建立機制——在疑慮形成阻礙之前將其消除。',
+    'feat1-badge': '<i data-lucide="shield"></i> 信任架構',
+    'feat1-title': '找到對的老師——公信力優先',
+    'feat1-desc': '教師探索頁面以大學徽章開頭——而非姓名或評分。學生（及其家長）對學術公信力有即時判斷，因此這是他們看到的第一個訊號。徽章下方：科目標籤、時薪，以及可快速掃描而無需跳頁的懸停預覽卡。',
+    'feat1-b1': '每張教師卡片上醒目顯示大學院校徽章',
+    'feat1-b2': '推薦清單減少篩選決策疲勞',
+    'feat1-b3': '懸停卡預覽：承諾點進個人頁面前先查看可用時間 + 科目',
+    'feat2-badge': '<i data-lucide="filter"></i> 精準媒合',
+    'feat2-title': '依科目瀏覽——依主修篩選',
+    'feat2-desc': '準備 SAT 特定科目考試的學生需要專精的教師——而非只是「會教數學的人」。課程篩選系統以科目標籤作為主要排序依據，雙主修篩選器則能為有複雜備考需求的學生找出具備多項專長的教師。',
+    'feat2-b1': '科目標籤篩選作為主要導航方式',
+    'feat2-b2': '雙主修篩選器，適合需要跨科補習的學生',
+    'feat2-b3': '備選專長選項可找出符合相鄰科目的教師',
+    'feat3-badge': '<i data-lucide="clipboard-check"></i> 可量化進步',
+    'feat3-title': '隨選模擬測驗——成績記錄與比較',
+    'feat3-desc': '模擬測驗是衡量補習成效最直接的方式。學生可在任何時候啟動計時測驗——不限於預約課堂期間——並以符合真實 SAT/ACT 的時間限制進行。即時成績與歷史比較數據讓進步變得可見且具激勵效果。',
+    'feat3-b1': '隨選存取——不限定在預約課堂內才能使用',
+    'feat3-b2': '符合真實考試條件的時間壓力',
+    'feat3-b3': '即時成績結果與歷史比較圖表',
+    's05-eyebrow': '05 · 教師體驗',
+    's05-heading': '自主性作為核心設計價值',
+    's05-p1': '大學畢業生加入 Int-Learn，是因為它提供傳統補習機構無法給予的彈性。設計在每個接觸點強化這一點——教師自訂條件、掌管時間表並管理自己的內容。平台是工具，不是老闆。',
+    'feat4-badge': '<i data-lucide="dollar-sign"></i> 經濟自主',
+    'feat4-title': '自訂費率——掌控科目範疇',
+    'feat4-desc': '教師自行設定時薪——這是從最早的探索訪談就確立的不可讓步設計要求。除定價之外，教師可選擇自己的主動授課科目，打造完全自主管理的個人檔案，精確反映他們願意且有能力教授的內容。無固定費率表、無強制課綱。',
+    'feat4-b1': '自訂時薪輸入，平台不設上限',
+    'feat4-b2': '多科目徽章選擇——廣度或深度，由教師決定',
+    'feat4-b3': '透明的每堂課與每月收益顯示',
+    'feat5-badge': '<i data-lucide="calendar"></i> 彈性時間',
+    'feat5-title': '可自訂可用時段——草稿內容工具',
+    'feat5-desc': '排程是補習媒合市集中最常見的摩擦點。教師以星期幾 + 時段的方式設定可用時間——而非固定的每週行事曆——以適應同時全職工作或進修者的不規律作息。測驗草稿創建工具讓教師可按自己的節奏建立題目內容。',
+    'feat5-b1': '以星期幾 + 時段設定可用時間——非固定時槽',
+    'feat5-b2': '測驗草稿創建工具，含儲存與審閱狀態',
+    'feat5-b3': '預約申請核准流程——教師保有最終決定權',
+    's06-eyebrow': '06 · 視覺設計',
+    's06-heading': '平台 UI——學生與教師視角',
+    's06-sub': '視覺系統以青綠色作為主要公信力色彩——沉穩、學術、值得信賴。黃色強調色打破層級並標示行動呼籲。簡潔的卡片式版面讓複雜資料在網頁上清晰易讀。',
+    's07-eyebrow': '07 · 設計系統',
+    's07-heading': '品牌識別——色彩、字型與 Logo 邏輯',
+    's07-p1': '品牌需要傳遞學術公信力，同時不顯得過於機構化。青綠色傳達信任與沉穩的智性感。黃色提供活力與對比——克制地用於行動呼籲與強調。兩者合在一起呈現出「平易近人的專業」，而非冷漠的權威感。',
+    'chip-primary': '主色——信任',
+    'chip-secondary': '輔色——懸停',
+    'chip-accent': '強調色——CTA',
+    'chip-fg': '前景色',
+    'chip-bg': '背景色',
+    'type-tag-body': '內文 / UI',
+    'type-detail-body': '雙語內文（繁體中文 + 英文）——以小字號可讀性與台灣市場的 CJK 字元支援為選字依據',
+    'type-tag-scores': '分數 / 數據',
+    'type-detail-scores': '分數顯示、排名、百分位標籤——略帶幾何感的無襯線字，讀來精準卻不冷漠',
+    'callout-title-logo': 'Logo 設計理念',
+    'callout-body-logo': 'Int-Learn 的字標使用結合「I」與「L」首字母的自訂字母標誌，視覺上暗示教師與學生面對面的意象——含蓄，但紮根於平台的核心關係。以青綠色作為 Logo 色彩，在不借用任何特定大學色彩的前提下，強化學術信任感。',
+    'next-label': '下一個專案',
+    'next-btn-text': '查看案例 <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Lead Product Designer at Gogolook · 台北，台灣'
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-opt').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+  localStorage.setItem('kw-lang-intlearn', lang);
+  lucide.createIcons();
+}
+
+document.getElementById('langSwitch').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-opt');
+  if (!btn) return;
+  applyLang(btn.getAttribute('data-lang'));
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fubon Family Finance App — Kay Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../project-page.css" />
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">K.W.</a>
+  <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+    <button class="lang-opt active" data-lang="en">EN</button>
+    <button class="lang-opt" data-lang="zh">繁中</button>
+  </div>
+  <a href="../index.html#projects" class="back-btn" data-i18n="back-btn"><i data-lucide="arrow-left"></i> All Work</a>
+</nav>
+
+<!-- HERO BANNER -->
+<div class="proj-hero">
+  <div class="proj-hero-bg">
+    <img src="../images/fanoli.png" alt="Fubon Family Finance App" />
+  </div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-content">
+    <div class="proj-hero-cat" data-i18n="hero-cat">FinTech · Mobile App · Family</div>
+    <h1 class="proj-hero-title">Fubon Family Finance App</h1>
+    <p class="proj-hero-sub" data-i18n="hero-sub">A dual-audience gamified finance app — teaching kids to save through missions and wish lists, while giving parents full oversight and control</p>
+  </div>
+</div>
+
+<!-- META BAR -->
+<div class="proj-meta-bar">
+  <div class="proj-meta-row">
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-client">Client</div>
+      <div class="meta-value">Fubon Finance</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-agency">Agency</div>
+      <div class="meta-value">Skywind Inc.</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-role">My Role</div>
+      <div class="meta-value" data-i18n="role-value">UX/UI Designer</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-timeline">Timeline</div>
+      <div class="meta-value">2018</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-platform">Platform</div>
+      <div class="meta-value">iOS / Android</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-projtype">Project Type</div>
+      <div class="meta-value"><span class="goal-badge new-product" data-i18n="badge-new">New Product</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="proj-body">
+  <div class="proj-col">
+
+    <!-- 01 · Project Overview -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s1-eyebrow">01 · Project Overview</div>
+      <h2 class="content-heading" data-i18n="s1-heading">Teaching children about money — through play</h2>
+      <p class="content-text" data-i18n="s1-text1">Fubon Finance commissioned a financial education app for children aged 4–12 — a category that barely existed in Taiwan at the time. The challenge wasn't just building something "for kids." It was building a product that <strong>served two completely different audiences simultaneously</strong>: children who needed delight, game mechanics, and age-appropriate complexity; and parents who needed confidence, control, and transparency.</p>
+      <p class="content-text" data-i18n="s1-text2">A purely child-facing app would fail parents. A purely parent-facing one would bore children instantly. The design had to hold both — feeling like a game to a 7-year-old and a financial dashboard to their parent, all within the same product.</p>
+
+      <div class="challenge-strip">
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="layers"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="c1-label">Product Type</div>
+            <div class="challenge-value" data-i18n="c1-value">Dual-audience gamified finance app</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="users"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="c2-label">Target Audiences</div>
+            <div class="challenge-value" data-i18n="c2-value">Parents + Children ages 4–12</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="zap"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="c3-label">Core Challenge</div>
+            <div class="challenge-value" data-i18n="c3-value">Age-segmented UX within one coherent system</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="age-segments">
+        <div class="age-segment-label" data-i18n="age-seg-label">Age group segmentation</div>
+        <div class="age-segment-row">
+          <div class="age-segment" style="--seg-color:#7C3AED;">
+            <div class="age-segment-range">4 – 6 yrs</div>
+            <div class="age-segment-desc" data-i18n="age-seg-1">Picture-based tasks · Immediate visual rewards · Simple coin animations</div>
+          </div>
+          <div class="age-segment" style="--seg-color:#EA580C;">
+            <div class="age-segment-range">7 – 9 yrs</div>
+            <div class="age-segment-desc" data-i18n="age-seg-2">Mixed task types · Short-term savings goals · Game mission unlocks</div>
+          </div>
+          <div class="age-segment" style="--seg-color:#059669;">
+            <div class="age-segment-range">10 – 12 yrs</div>
+            <div class="age-segment-desc" data-i18n="age-seg-3">Text-based tasks · Longer-term goals · Charity &amp; allowance management</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · Who Are the Users? -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s2-eyebrow">02 · Who Are the Users?</div>
+      <h2 class="content-heading" data-i18n="s2-heading">Two audiences. One seamless ecosystem.</h2>
+      <p class="content-text" data-i18n="s2-text">The app operates as a shared ecosystem where both users are active but playing entirely different roles. Understanding what each user type actually wanted — not just what the client assumed they wanted — was foundational to every design decision.</p>
+
+      <div class="user-split">
+        <div class="user-split-card user-split-card--parents">
+          <div class="user-split-header">
+            <img class="user-split-photo" src="https://static.wixstatic.com/media/c8b53d_39f4495315874bf6ab87f826ce8bc79c~mv2.jpg" alt="Parent user" />
+            <div>
+              <div class="user-split-type" data-i18n="parent-type">Parents</div>
+              <div class="user-split-role-tag" data-i18n="parent-tag">Admin &amp; Educator</div>
+            </div>
+          </div>
+          <div class="user-split-goal" data-i18n="parent-goal">
+            <span class="user-split-goal-label">Primary goal</span>
+            Educate and accumulate savings for the family
+          </div>
+          <ul class="user-split-actions">
+            <li data-i18n="parent-act1"><i data-lucide="check-circle"></i> Create &amp; assign tasks to children</li>
+            <li data-i18n="parent-act2"><i data-lucide="check-circle"></i> Monitor consumption and savings history</li>
+            <li data-i18n="parent-act3"><i data-lucide="check-circle"></i> Approve high-value reward redemptions</li>
+            <li data-i18n="parent-act4"><i data-lucide="check-circle"></i> Share strategies via social platform</li>
+          </ul>
+        </div>
+
+        <div class="user-split-card user-split-card--kids">
+          <div class="user-split-header">
+            <img class="user-split-photo" src="https://static.wixstatic.com/media/c8b53d_3c1dd4ea7065441bbdb2c65699df7770~mv2.jpg" alt="Kids user" />
+            <div>
+              <div class="user-split-type" data-i18n="kids-type">Kids</div>
+              <div class="user-split-role-tag" data-i18n="kids-tag">Player &amp; Learner</div>
+            </div>
+          </div>
+          <div class="user-split-goal" data-i18n="kids-goal">
+            <span class="user-split-goal-label">Primary goal</span>
+            Earn points, complete missions, reach wishes
+          </div>
+          <ul class="user-split-actions">
+            <li data-i18n="kids-act1"><i data-lucide="check-circle"></i> Finish parent-assigned tasks</li>
+            <li data-i18n="kids-act2"><i data-lucide="check-circle"></i> Unlock &amp; complete game missions</li>
+            <li data-i18n="kids-act3"><i data-lucide="check-circle"></i> Manage a personal wish list &amp; allowance</li>
+            <li data-i18n="kids-act4"><i data-lucide="check-circle"></i> Redeem points for gifts or charitable giving</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 · User Motivations -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s3-eyebrow">03 · User Motivations</div>
+      <h2 class="content-heading" data-i18n="s3-heading">What drives each user to open the app?</h2>
+      <p class="content-text" data-i18n="s3-text">Understanding motivations — not just tasks — is what separates a product people use from one people enjoy. Both audiences needed a reason to return daily, but those reasons are fundamentally different.</p>
+
+      <div class="analysis-steps">
+        <div class="analysis-step">
+          <div class="analysis-step-header">
+            <span class="analysis-step-tag" style="background:#7C3AED;" data-i18n="mot-parent-tag">Parents</span>
+            <span class="analysis-step-title" data-i18n="mot-parent-title">Educate children &amp; accumulate family savings</span>
+          </div>
+          <p class="analysis-step-body" data-i18n="mot-parent-body">Parents are motivated by long-term outcome — they open the app to see progress, assign new challenges, and feel confident that their child is developing healthy financial habits. The social sharing element also lets them connect with other parents navigating the same journey.</p>
+        </div>
+
+        <div class="analysis-step" style="border-left-color: var(--tertiary);">
+          <div class="analysis-step-header">
+            <span class="analysis-step-tag" style="background:var(--tertiary); color:var(--fg);" data-i18n="mot-kids-tag">Kids</span>
+            <span class="analysis-step-title" data-i18n="mot-kids-title">Play, earn, and make their wishes come true</span>
+          </div>
+          <p class="analysis-step-body" data-i18n="mot-kids-body">Children are motivated by immediate feedback and visible progress toward something they care about. Five distinct motivation levers were identified:</p>
+          <ul class="process-step-bullets" style="margin-top:12px;">
+            <li data-i18n="mot-l1">Accomplish game missions and unlock new challenges</li>
+            <li data-i18n="mot-l2">Cultivate their own financial knowledge through play</li>
+            <li data-i18n="mot-l3">Earn and manage a personal allowance (Yoyo Pay)</li>
+            <li data-i18n="mot-l4">Turn good habits into consistent, rewarded behaviour</li>
+            <li data-i18n="mot-l5">Exchange knowledge and discoveries via the social platform</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 · Product Architecture -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s4-eyebrow">04 · Product Architecture</div>
+      <h2 class="content-heading" data-i18n="s4-heading">Three interconnected feature pillars</h2>
+      <p class="content-text" data-i18n="s4-text">The product logic is organised around three core value streams — each addressing a different layer of the family finance experience. They are designed to reinforce each other: completing tasks earns points, points build savings, and savings connect to real goals on the wish list.</p>
+
+      <div class="feature-pillars">
+
+        <div class="feature-pillar-card">
+          <div class="feature-pillar-icon" style="background:#EDE9FE;"><i data-lucide="gamepad-2" style="color:#7C3AED;"></i></div>
+          <div class="feature-pillar-title" data-i18n="fp1-title">Task &amp; Habit Cultivation</div>
+          <p class="feature-pillar-desc" data-i18n="fp1-desc">Turns everyday responsibilities into a reward loop — linking behaviour to learning outcomes.</p>
+          <div class="feature-tags">
+            <span class="feature-tag" data-i18n="ft-behav">Behaviour Cultivation</span>
+            <span class="feature-tag" data-i18n="ft-finance-learn">Finance Learning</span>
+            <span class="feature-tag" data-i18n="ft-assign-tasks">Parents Assign Tasks</span>
+            <span class="feature-tag" data-i18n="ft-game-missions">Game Missions</span>
+            <span class="feature-tag" data-i18n="ft-earn-points">Earn Points</span>
+            <span class="feature-tag" data-i18n="ft-prize-redeem">Prize Redemption</span>
+            <span class="feature-tag" data-i18n="ft-wish-list">Wish List</span>
+            <span class="feature-tag" data-i18n="ft-charity-fund">Charity Fund</span>
+          </div>
+        </div>
+
+        <div class="feature-pillar-card">
+          <div class="feature-pillar-icon" style="background:#FEF3C7;"><i data-lucide="piggy-bank" style="color:#d97706;"></i></div>
+          <div class="feature-pillar-title" data-i18n="fp2-title">Family Savings &amp; Fund Management</div>
+          <p class="feature-pillar-desc" data-i18n="fp2-desc">Connects parent and child accounts into one transparent savings ecosystem.</p>
+          <div class="feature-tags">
+            <span class="feature-tag" data-i18n="ft-parent-acct">Parents Accounts</span>
+            <span class="feature-tag" data-i18n="ft-kids-acct">Kids Accounts</span>
+            <span class="feature-tag" data-i18n="ft-gift-redeem">Gift Redemption</span>
+            <span class="feature-tag" data-i18n="ft-allowance">Allowance (Yoyo Pay)</span>
+            <span class="feature-tag" data-i18n="ft-allowance-exp">Allowance Expense</span>
+            <span class="feature-tag" data-i18n="ft-exp-history">Expense History</span>
+          </div>
+        </div>
+
+        <div class="feature-pillar-card">
+          <div class="feature-pillar-icon" style="background:#D1FAE5;"><i data-lucide="message-circle" style="color:#059669;"></i></div>
+          <div class="feature-pillar-title" data-i18n="fp3-title">Social Platform for Parents</div>
+          <p class="feature-pillar-desc" data-i18n="fp3-desc">A community layer that keeps parents engaged and learning alongside their children.</p>
+          <div class="feature-tags">
+            <span class="feature-tag" data-i18n="ft-social-platform">Parents Social Platform</span>
+            <span class="feature-tag" data-i18n="ft-finance-news">Finance News</span>
+            <span class="feature-tag" data-i18n="ft-subject-cat">Subject Categories</span>
+            <span class="feature-tag" data-i18n="ft-edu-articles">Educational Articles</span>
+            <span class="feature-tag" data-i18n="ft-book-promo">Book Promotions</span>
+            <span class="feature-tag" data-i18n="ft-data-research">Data Research</span>
+            <span class="feature-tag" data-i18n="ft-edu-fund">Education Fund</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout yellow" style="margin-top:32px;">
+        <div class="callout-title" data-i18n="callout-title">Behavioural design principle</div>
+        <p data-i18n="callout-body">The reward loop is intentionally short for younger children (visual, instant) and progressively longer for older children (goal-oriented, delayed). This mirrors how different age groups build habits — instant gratification at 5, deferred reward at 11.</p>
+      </div>
+    </div>
+
+    <!-- 05 · Key Screen Highlights -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s5-eyebrow">05 · Key Screen Highlights</div>
+      <h2 class="content-heading" data-i18n="s5-heading">Three screens that carry the whole experience</h2>
+      <p class="content-text" data-i18n="s5-text">Every design decision in these three screens was traced back to the motivations and mental models of each user group — not feature completeness.</p>
+
+      <div class="phone-screens-row">
+
+        <div class="phone-screen-col">
+          <div class="phone-screen-meta">
+            <span class="phone-screen-section-tag" data-i18n="screen1-tag">Child View</span>
+            <div class="phone-screen-label" data-i18n="screen1-label">Today's Tasks</div>
+          </div>
+          <img class="phone-screen-img" src="https://static.wixstatic.com/media/c8b53d_e345fa8580a64e648ffba0061682d336~mv2.png" alt="Home — Today's Tasks screen" />
+          <div class="phone-screen-caption" data-i18n="screen1-caption">Tasks split into <strong>Game Missions</strong> and <strong>Assigned Tasks</strong>. Games surface first — play is the entry point to learning. Completing either earns points redeemable in the wish list.</div>
+        </div>
+
+        <div class="phone-screen-col">
+          <div class="phone-screen-meta">
+            <span class="phone-screen-section-tag" data-i18n="screen2-tag">Child View</span>
+            <div class="phone-screen-label" data-i18n="screen2-label">Wish List</div>
+          </div>
+          <img class="phone-screen-img" src="https://static.wixstatic.com/media/c8b53d_f33768890d3c418297f8a2711eb02ed0~mv2.png" alt="Wish List screen" />
+          <div class="phone-screen-caption" data-i18n="screen2-caption">Categorised into <strong>Points Gifts</strong>, <strong>Wishes</strong>, <strong>Charity</strong>, and <strong>Events</strong>. The charity option intentionally introduces giving as an equal outcome alongside reward.</div>
+        </div>
+
+        <div class="phone-screen-col">
+          <div class="phone-screen-meta">
+            <span class="phone-screen-section-tag" data-i18n="screen3-tag">Parent View</span>
+            <div class="phone-screen-label" data-i18n="screen3-label">Account &amp; Dashboard</div>
+          </div>
+          <img class="phone-screen-img" src="https://static.wixstatic.com/media/c8b53d_278ff774c053460c98240e17e86fc8cb~mv2.png" alt="Account dashboard screen" />
+          <div class="phone-screen-caption" data-i18n="screen3-caption">The app shifts register completely for parents — from playful to professional. Savings history, task logs, completed wishes, and social blog access all in one view.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /proj-col -->
+</div><!-- /proj-body -->
+
+<!-- 06 · Two Visual Styles -->
+<div class="style-variants-section">
+  <div class="proj-col">
+    <div class="section-eyebrow" data-i18n="s6-eyebrow">06 · Two Visual Styles</div>
+    <h2 class="ds-heading" data-i18n="s6-heading">Purple Shade &amp; Orange Bloom</h2>
+    <p class="content-text" style="margin-bottom:32px;" data-i18n="s6-text">Two complete visual identities were developed — same UX structure, different emotional register. Parents could choose the theme that matched their child's personality, increasing ownership and daily engagement.</p>
+
+    <div class="style-variants-grid">
+
+      <div class="style-variant-card" style="--style-accent:#7C3AED; --style-light:#EDE9FE;">
+        <div class="style-variant-header">
+          <div class="style-variant-swatch-row">
+            <div class="style-variant-swatch" style="background:#7C3AED;"></div>
+            <div class="style-variant-swatch" style="background:#DDD6FE;"></div>
+            <div class="style-variant-swatch" style="background:#F59E0B;"></div>
+          </div>
+          <div class="style-variant-name" data-i18n="styleA-name">Style A — Purple Shade</div>
+        </div>
+        <p class="style-variant-desc" data-i18n="styleA-desc">"The overall style and colour conveys a vibrant, positive energy. The goal is to let both kids and parents feel hopeful and energised when using the app." Purple communicates imagination and creativity — ideal for children who lean toward fantasy and adventure themes.</p>
+        <div class="color-palette" style="margin-top:20px;">
+          <div class="color-chip">
+            <div class="color-chip-block" style="background:#7C3AED;"></div>
+            <div class="color-chip-hex">#7C3AED</div>
+            <div class="color-chip-role" data-i18n="color-primary">Primary</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip-block" style="background:#DDD6FE;"></div>
+            <div class="color-chip-hex">#DDD6FE</div>
+            <div class="color-chip-role" data-i18n="color-light">Light</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip-block" style="background:#F59E0B;"></div>
+            <div class="color-chip-hex">#F59E0B</div>
+            <div class="color-chip-role" data-i18n="color-accent">Accent</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="style-variant-card" style="--style-accent:#EA580C; --style-light:#FEF3C7;">
+        <div class="style-variant-header">
+          <div class="style-variant-swatch-row">
+            <div class="style-variant-swatch" style="background:#EA580C;"></div>
+            <div class="style-variant-swatch" style="background:#FED7AA;"></div>
+            <div class="style-variant-swatch" style="background:#34D399;"></div>
+          </div>
+          <div class="style-variant-name" data-i18n="styleB-name">Style B — Orange Bloom</div>
+        </div>
+        <p class="style-variant-desc" data-i18n="styleB-desc">"Statistics show kids are drawn to colours as bright as sunlight or sunset rays. Orange carries warmth and positive energy, and paired with green, together they send out a natural, grounded vibe." Orange Bloom is designed for children who respond to warmth, energy, and the outdoors.</p>
+        <div class="color-palette" style="margin-top:20px;">
+          <div class="color-chip">
+            <div class="color-chip-block" style="background:#EA580C;"></div>
+            <div class="color-chip-hex">#EA580C</div>
+            <div class="color-chip-role" data-i18n="color-primary">Primary</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip-block" style="background:#FED7AA;"></div>
+            <div class="color-chip-hex">#FED7AA</div>
+            <div class="color-chip-role" data-i18n="color-light">Light</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip-block" style="background:#34D399;"></div>
+            <div class="color-chip-hex">#34D399</div>
+            <div class="color-chip-role" data-i18n="color-accent">Accent</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-visual-label" style="margin-top:36px;" data-i18n="style-compare-label">Style comparison — Purple Shade vs Orange Bloom</div>
+      <div class="content-visual">
+        <img src="https://static.wixstatic.com/media/c8b53d_dbd1e12c384b405da99e32ae448f7dc7~mv2.png" alt="Purple Shade vs Orange Bloom style comparison" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 · Visual Design -->
+<div class="layout-section">
+  <div class="layout-section-inner">
+    <div class="section-eyebrow" data-i18n="s7-eyebrow">07 · Visual Design</div>
+    <h2 class="layout-section-heading" data-i18n="s7-heading">Full UI specification</h2>
+    <p class="layout-section-sub" data-i18n="s7-sub">Complete interface design across child-facing and parent-facing screens — Purple Shade style</p>
+  </div>
+</div>
+<div class="proj-body" style="padding-top:0; padding-bottom:80px;">
+  <div class="proj-col">
+    <div class="content-visual" style="margin-top:0;">
+      <img src="https://static.wixstatic.com/media/c8b53d_507f2cd4900d4c7bab33e2d7e0bd1e0c~mv2.png" alt="Fubon Family Finance App — full UI specification" />
+    </div>
+  </div>
+</div>
+
+<!-- TAGS -->
+<div class="proj-tags-row">
+  <span class="proj-tag">Gamification</span>
+  <span class="proj-tag">iOS / Android</span>
+  <span class="proj-tag">FinTech</span>
+  <span class="proj-tag">Dual-Audience UX</span>
+  <span class="proj-tag">Behavioural Design</span>
+  <span class="proj-tag">Family App</span>
+  <span class="proj-tag">Age-Segmented UX</span>
+</div>
+
+<!-- NEXT PROJECT -->
+<div class="next-project-strip">
+  <div>
+    <div class="next-label" data-i18n="next-label">Next project</div>
+    <div class="next-title">Salon Walker / Maker</div>
+  </div>
+  <a href="salon.html" class="next-btn" data-i18n="next-btn-text">View case study <i data-lucide="arrow-right"></i></a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Kay Wang</div>
+    <div data-i18n="footer-role">Lead Product Designer at Gogolook · Taipei, Taiwan</div>
+    <div>© 2024 Kay Wang</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script src="../project-page.js"></script>
+
+<script>
+// ── i18n ──────────────────────────────────────────────
+var translations = {
+  en: {
+    'back-btn':          '<i data-lucide="arrow-left"></i> All Work',
+    'hero-cat':          'FinTech · Mobile App · Family',
+    'hero-sub':          'A dual-audience gamified finance app — teaching kids to save through missions and wish lists, while giving parents full oversight and control',
+    'meta-client':       'Client',
+    'meta-agency':       'Agency',
+    'meta-role':         'My Role',
+    'meta-timeline':     'Timeline',
+    'meta-platform':     'Platform',
+    'meta-projtype':     'Project Type',
+    'role-value':        'UX/UI Designer',
+    'badge-new':         'New Product',
+    's1-eyebrow':        '01 · Project Overview',
+    's1-heading':        'Teaching children about money — through play',
+    's1-text1':          'Fubon Finance commissioned a financial education app for children aged 4–12 — a category that barely existed in Taiwan at the time. The challenge wasn\'t just building something "for kids." It was building a product that <strong>served two completely different audiences simultaneously</strong>: children who needed delight, game mechanics, and age-appropriate complexity; and parents who needed confidence, control, and transparency.',
+    's1-text2':          'A purely child-facing app would fail parents. A purely parent-facing one would bore children instantly. The design had to hold both — feeling like a game to a 7-year-old and a financial dashboard to their parent, all within the same product.',
+    'c1-label':          'Product Type',
+    'c1-value':          'Dual-audience gamified finance app',
+    'c2-label':          'Target Audiences',
+    'c2-value':          'Parents + Children ages 4–12',
+    'c3-label':          'Core Challenge',
+    'c3-value':          'Age-segmented UX within one coherent system',
+    'age-seg-label':     'Age group segmentation',
+    'age-seg-1':         'Picture-based tasks · Immediate visual rewards · Simple coin animations',
+    'age-seg-2':         'Mixed task types · Short-term savings goals · Game mission unlocks',
+    'age-seg-3':         'Text-based tasks · Longer-term goals · Charity &amp; allowance management',
+    's2-eyebrow':        '02 · Who Are the Users?',
+    's2-heading':        'Two audiences. One seamless ecosystem.',
+    's2-text':           'The app operates as a shared ecosystem where both users are active but playing entirely different roles. Understanding what each user type actually wanted — not just what the client assumed they wanted — was foundational to every design decision.',
+    'parent-type':       'Parents',
+    'parent-tag':        'Admin &amp; Educator',
+    'parent-goal':       '<span class="user-split-goal-label">Primary goal</span> Educate and accumulate savings for the family',
+    'parent-act1':       '<i data-lucide="check-circle"></i> Create &amp; assign tasks to children',
+    'parent-act2':       '<i data-lucide="check-circle"></i> Monitor consumption and savings history',
+    'parent-act3':       '<i data-lucide="check-circle"></i> Approve high-value reward redemptions',
+    'parent-act4':       '<i data-lucide="check-circle"></i> Share strategies via social platform',
+    'kids-type':         'Kids',
+    'kids-tag':          'Player &amp; Learner',
+    'kids-goal':         '<span class="user-split-goal-label">Primary goal</span> Earn points, complete missions, reach wishes',
+    'kids-act1':         '<i data-lucide="check-circle"></i> Finish parent-assigned tasks',
+    'kids-act2':         '<i data-lucide="check-circle"></i> Unlock &amp; complete game missions',
+    'kids-act3':         '<i data-lucide="check-circle"></i> Manage a personal wish list &amp; allowance',
+    'kids-act4':         '<i data-lucide="check-circle"></i> Redeem points for gifts or charitable giving',
+    's3-eyebrow':        '03 · User Motivations',
+    's3-heading':        'What drives each user to open the app?',
+    's3-text':           'Understanding motivations — not just tasks — is what separates a product people use from one people enjoy. Both audiences needed a reason to return daily, but those reasons are fundamentally different.',
+    'mot-parent-tag':    'Parents',
+    'mot-parent-title':  'Educate children &amp; accumulate family savings',
+    'mot-parent-body':   'Parents are motivated by long-term outcome — they open the app to see progress, assign new challenges, and feel confident that their child is developing healthy financial habits. The social sharing element also lets them connect with other parents navigating the same journey.',
+    'mot-kids-tag':      'Kids',
+    'mot-kids-title':    'Play, earn, and make their wishes come true',
+    'mot-kids-body':     'Children are motivated by immediate feedback and visible progress toward something they care about. Five distinct motivation levers were identified:',
+    'mot-l1':            'Accomplish game missions and unlock new challenges',
+    'mot-l2':            'Cultivate their own financial knowledge through play',
+    'mot-l3':            'Earn and manage a personal allowance (Yoyo Pay)',
+    'mot-l4':            'Turn good habits into consistent, rewarded behaviour',
+    'mot-l5':            'Exchange knowledge and discoveries via the social platform',
+    's4-eyebrow':        '04 · Product Architecture',
+    's4-heading':        'Three interconnected feature pillars',
+    's4-text':           'The product logic is organised around three core value streams — each addressing a different layer of the family finance experience. They are designed to reinforce each other: completing tasks earns points, points build savings, and savings connect to real goals on the wish list.',
+    'fp1-title':         'Task &amp; Habit Cultivation',
+    'fp1-desc':          'Turns everyday responsibilities into a reward loop — linking behaviour to learning outcomes.',
+    'fp2-title':         'Family Savings &amp; Fund Management',
+    'fp2-desc':          'Connects parent and child accounts into one transparent savings ecosystem.',
+    'fp3-title':         'Social Platform for Parents',
+    'fp3-desc':          'A community layer that keeps parents engaged and learning alongside their children.',
+    'callout-title':     'Behavioural design principle',
+    'callout-body':      'The reward loop is intentionally short for younger children (visual, instant) and progressively longer for older children (goal-oriented, delayed). This mirrors how different age groups build habits — instant gratification at 5, deferred reward at 11.',
+    's5-eyebrow':        '05 · Key Screen Highlights',
+    's5-heading':        'Three screens that carry the whole experience',
+    's5-text':           'Every design decision in these three screens was traced back to the motivations and mental models of each user group — not feature completeness.',
+    'screen1-tag':       'Child View',
+    'screen1-label':     'Today\'s Tasks',
+    'screen1-caption':   'Tasks split into <strong>Game Missions</strong> and <strong>Assigned Tasks</strong>. Games surface first — play is the entry point to learning. Completing either earns points redeemable in the wish list.',
+    'screen2-tag':       'Child View',
+    'screen2-label':     'Wish List',
+    'screen2-caption':   'Categorised into <strong>Points Gifts</strong>, <strong>Wishes</strong>, <strong>Charity</strong>, and <strong>Events</strong>. The charity option intentionally introduces giving as an equal outcome alongside reward.',
+    'screen3-tag':       'Parent View',
+    'screen3-label':     'Account &amp; Dashboard',
+    'screen3-caption':   'The app shifts register completely for parents — from playful to professional. Savings history, task logs, completed wishes, and social blog access all in one view.',
+    's6-eyebrow':        '06 · Two Visual Styles',
+    's6-heading':        'Purple Shade &amp; Orange Bloom',
+    's6-text':           'Two complete visual identities were developed — same UX structure, different emotional register. Parents could choose the theme that matched their child\'s personality, increasing ownership and daily engagement.',
+    'styleA-name':       'Style A — Purple Shade',
+    'styleA-desc':       '"The overall style and colour conveys a vibrant, positive energy. The goal is to let both kids and parents feel hopeful and energised when using the app." Purple communicates imagination and creativity — ideal for children who lean toward fantasy and adventure themes.',
+    'styleB-name':       'Style B — Orange Bloom',
+    'styleB-desc':       '"Statistics show kids are drawn to colours as bright as sunlight or sunset rays. Orange carries warmth and positive energy, and paired with green, together they send out a natural, grounded vibe." Orange Bloom is designed for children who respond to warmth, energy, and the outdoors.',
+    'color-primary':     'Primary',
+    'color-light':       'Light',
+    'color-accent':      'Accent',
+    'style-compare-label':'Style comparison — Purple Shade vs Orange Bloom',
+    's7-eyebrow':        '07 · Visual Design',
+    's7-heading':        'Full UI specification',
+    's7-sub':            'Complete interface design across child-facing and parent-facing screens — Purple Shade style',
+    'ft-behav':          'Behaviour Cultivation',
+    'ft-finance-learn':  'Finance Learning',
+    'ft-assign-tasks':   'Parents Assign Tasks',
+    'ft-game-missions':  'Game Missions',
+    'ft-earn-points':    'Earn Points',
+    'ft-prize-redeem':   'Prize Redemption',
+    'ft-wish-list':      'Wish List',
+    'ft-charity-fund':   'Charity Fund',
+    'ft-parent-acct':    'Parents Accounts',
+    'ft-kids-acct':      'Kids Accounts',
+    'ft-gift-redeem':    'Gift Redemption',
+    'ft-allowance':      'Allowance (Yoyo Pay)',
+    'ft-allowance-exp':  'Allowance Expense',
+    'ft-exp-history':    'Expense History',
+    'ft-social-platform':'Parents Social Platform',
+    'ft-finance-news':   'Finance News',
+    'ft-subject-cat':    'Subject Categories',
+    'ft-edu-articles':   'Educational Articles',
+    'ft-book-promo':     'Book Promotions',
+    'ft-data-research':  'Data Research',
+    'ft-edu-fund':       'Education Fund',
+    'next-label':        'Next project',
+    'next-btn-text':     'View case study <i data-lucide="arrow-right"></i>',
+    'footer-role':       'Lead Product Designer at Gogolook · Taipei, Taiwan',
+  },
+  zh: {
+    'back-btn':          '<i data-lucide="arrow-left"></i> 返回作品集',
+    'hero-cat':          '金融科技 · 行動應用 · 家庭',
+    'hero-sub':          '雙受眾遊戲化理財 App——透過任務與願望清單教導孩子儲蓄，同時給予家長全面的監控與管理',
+    'meta-client':       '客戶',
+    'meta-agency':       '代理商',
+    'meta-role':         '我的角色',
+    'meta-timeline':     '時間',
+    'meta-platform':     '平台',
+    'meta-projtype':     '專案類型',
+    'role-value':        'UX/UI 設計師',
+    'badge-new':         '全新產品',
+    's1-eyebrow':        '01 · 專案概覽',
+    's1-heading':        '透過遊戲，教導孩子理財',
+    's1-text1':          '富邦金融委託設計一款針對 4–12 歲兒童的理財教育 App——這在當時的台灣幾乎是空白市場。挑戰不只是做出一款「給孩子的」產品，而是要打造一個<strong>同時服務兩種截然不同受眾</strong>的產品：孩子需要樂趣、遊戲機制與適齡的複雜度；家長則需要信心、掌控感與透明度。',
+    's1-text2':          '純粹面向孩子的 App 會讓家長失望，純粹面向家長的又會讓孩子立刻感到無聊。設計必須同時承載兩者——對 7 歲孩子來說像一款遊戲，對他們的父母來說像一個財務儀表板，全都在同一個產品內實現。',
+    'c1-label':          '產品類型',
+    'c1-value':          '雙受眾遊戲化理財 App',
+    'c2-label':          '目標受眾',
+    'c2-value':          '家長 + 4–12 歲兒童',
+    'c3-label':          '核心挑戰',
+    'c3-value':          '在一個統一系統內實現年齡分層的 UX',
+    'age-seg-label':     '年齡群組分層',
+    'age-seg-1':         '圖片任務 · 即時視覺獎勵 · 簡單硬幣動畫',
+    'age-seg-2':         '混合任務類型 · 短期儲蓄目標 · 遊戲關卡解鎖',
+    'age-seg-3':         '文字任務 · 長期目標 · 慈善 &amp; 零用錢管理',
+    's2-eyebrow':        '02 · 使用者是誰？',
+    's2-heading':        '兩種受眾。一套無縫生態系。',
+    's2-text':           '這款 App 作為共享生態系運作，兩種使用者都是主動參與者，但扮演著截然不同的角色。理解每種用戶真正想要什麼——而非客戶假設他們想要的——是每一個設計決策的基礎。',
+    'parent-type':       '家長',
+    'parent-tag':        '管理者 &amp; 教育者',
+    'parent-goal':       '<span class="user-split-goal-label">主要目標</span> 為家庭培養理財觀念並累積儲蓄',
+    'parent-act1':       '<i data-lucide="check-circle"></i> 建立並指派任務給孩子',
+    'parent-act2':       '<i data-lucide="check-circle"></i> 監控消費與儲蓄紀錄',
+    'parent-act3':       '<i data-lucide="check-circle"></i> 審核高價值獎勵兌換',
+    'parent-act4':       '<i data-lucide="check-circle"></i> 透過社群平台分享策略',
+    'kids-type':         '孩子',
+    'kids-tag':          '玩家 &amp; 學習者',
+    'kids-goal':         '<span class="user-split-goal-label">主要目標</span> 賺取點數、完成任務、實現願望',
+    'kids-act1':         '<i data-lucide="check-circle"></i> 完成家長指派的任務',
+    'kids-act2':         '<i data-lucide="check-circle"></i> 解鎖並完成遊戲關卡',
+    'kids-act3':         '<i data-lucide="check-circle"></i> 管理個人願望清單 &amp; 零用錢',
+    'kids-act4':         '<i data-lucide="check-circle"></i> 兌換點數換取禮品或捐款',
+    's3-eyebrow':        '03 · 使用者動機',
+    's3-heading':        '是什麼驅動用戶每天開啟 App？',
+    's3-text':           '理解動機——而不只是任務——才是區分「人們使用的產品」與「人們喜愛的產品」的關鍵。兩種受眾都需要每天回來的理由，但那些理由本質上截然不同。',
+    'mot-parent-tag':    '家長',
+    'mot-parent-title':  '培育孩子理財觀念並累積家庭儲蓄',
+    'mot-parent-body':   '家長的動機來自長期成果——他們開啟 App 是為了查看進度、指派新挑戰，並對孩子正在培養健康理財習慣感到放心。社群分享功能也讓他們能與同樣在這條路上摸索的其他家長建立連結。',
+    'mot-kids-tag':      '孩子',
+    'mot-kids-title':    '遊玩、賺取，讓願望成真',
+    'mot-kids-body':     '孩子的動機來自即時回饋與朝著在乎的事物前進的可見進度。研究歸納出五種不同的動機驅力：',
+    'mot-l1':            '完成遊戲關卡並解鎖新挑戰',
+    'mot-l2':            '透過遊玩培養自身的理財知識',
+    'mot-l3':            '賺取並管理個人零用錢（Yoyo Pay）',
+    'mot-l4':            '將好習慣轉化為持續且有獎勵的行為',
+    'mot-l5':            '透過社群平台交流知識與心得',
+    's4-eyebrow':        '04 · 產品架構',
+    's4-heading':        '三個相互連結的功能支柱',
+    's4-text':           '產品邏輯圍繞三個核心價值流建構——各自解決家庭理財體驗的不同層次。它們被設計成相互強化：完成任務賺取點數，點數累積儲蓄，儲蓄連結願望清單上的真實目標。',
+    'fp1-title':         '任務與習慣培養',
+    'fp1-desc':          '將日常責任轉化為獎勵循環——把行為與學習成果連結起來。',
+    'fp2-title':         '家庭儲蓄與資金管理',
+    'fp2-desc':          '將家長與孩子的帳戶整合進一個透明的儲蓄生態系。',
+    'fp3-title':         '家長社群平台',
+    'fp3-desc':          '一個社群層，讓家長保持參與並與孩子一同學習成長。',
+    'callout-title':     '行為設計原則',
+    'callout-body':      '獎勵循環對年幼孩子刻意設計得短（視覺化、即時），對年長孩子則逐漸拉長（目標導向、延遲滿足）。這反映了不同年齡層建立習慣的方式——5 歲需要即時滿足，11 歲則能接受延遲獎勵。',
+    's5-eyebrow':        '05 · 重點畫面說明',
+    's5-heading':        '承載整體體驗的三個核心畫面',
+    's5-text':           '這三個畫面中的每一個設計決策，都追溯自各用戶群的動機與心智模型——而非功能完整性。',
+    'screen1-tag':       '兒童介面',
+    'screen1-label':     '今日任務',
+    'screen1-caption':   '任務分為<strong>遊戲關卡</strong>與<strong>指派任務</strong>。遊戲優先顯示——遊玩是進入學習的入口。完成任何一種都可賺取可在願望清單兌換的點數。',
+    'screen2-tag':       '兒童介面',
+    'screen2-label':     '願望清單',
+    'screen2-caption':   '分類為<strong>點數禮品</strong>、<strong>願望</strong>、<strong>慈善</strong>和<strong>活動</strong>。慈善選項刻意將「給予」作為與「獎勵」同等的結果加入其中。',
+    'screen3-tag':       '家長介面',
+    'screen3-label':     '帳戶 &amp; 儀表板',
+    'screen3-caption':   '對家長而言，App 的基調完全切換——從活潑轉為專業。儲蓄歷史、任務紀錄、已完成願望和社群部落格存取，全部集中在一個視圖中。',
+    's6-eyebrow':        '06 · 兩種視覺風格',
+    's6-heading':        '紫色典雅 &amp; 橘色活力',
+    's6-text':           '開發了兩套完整的視覺識別——UX 結構相同，情感基調不同。家長可以選擇符合孩子個性的主題，提升產品歸屬感與每日使用意願。',
+    'styleA-name':       '風格 A — 紫色典雅',
+    'styleA-desc':       '「整體風格與色彩傳遞出充滿活力的正向能量，目標是讓孩子和家長在使用時都感到充滿希望與幹勁。」紫色傳達想像力與創造力——最適合偏好奇幻與冒險主題的孩子。',
+    'styleB-name':       '風格 B — 橘色活力',
+    'styleB-desc':       '「數據顯示孩子喜愛像陽光或夕陽般明亮的色彩。橘色帶來溫暖與正向能量，搭配綠色，共同散發出自然、接地氣的感覺。」橘色活力專為對溫暖、活力和戶外有共鳴的孩子設計。',
+    'color-primary':     '主色',
+    'color-light':       '淺色',
+    'color-accent':      '強調色',
+    'style-compare-label':'風格比較——紫色典雅 vs 橘色活力',
+    's7-eyebrow':        '07 · 視覺設計',
+    's7-heading':        '完整 UI 規格',
+    's7-sub':            '涵蓋兒童端與家長端的完整介面設計——紫色典雅風格',
+    'ft-behav':          '行為培養',
+    'ft-finance-learn':  '理財學習',
+    'ft-assign-tasks':   '家長指派任務',
+    'ft-game-missions':  '遊戲關卡',
+    'ft-earn-points':    '賺取點數',
+    'ft-prize-redeem':   '獎品兌換',
+    'ft-wish-list':      '願望清單',
+    'ft-charity-fund':   '慈善基金',
+    'ft-parent-acct':    '家長帳戶',
+    'ft-kids-acct':      '孩子帳戶',
+    'ft-gift-redeem':    '禮品兌換',
+    'ft-allowance':      '零用錢（Yoyo Pay）',
+    'ft-allowance-exp':  '零用錢支出',
+    'ft-exp-history':    '消費紀錄',
+    'ft-social-platform':'家長社群平台',
+    'ft-finance-news':   '理財資訊',
+    'ft-subject-cat':    '主題分類',
+    'ft-edu-articles':   '教育文章',
+    'ft-book-promo':     '書籍推薦',
+    'ft-data-research':  '數據研究',
+    'ft-edu-fund':       '教育基金',
+    'next-label':        '下一個專案',
+    'next-btn-text':     '查看作品 <i data-lucide="arrow-right"></i>',
+    'footer-role':       'Gogolook 首席產品設計師 · 台灣台北',
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-opt').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+  localStorage.setItem('kw-lang-fanoli', lang);
+  lucide.createIcons();
+}
+
+document.getElementById('langSwitch').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-opt');
+  if (!btn) return;
+  applyLang(btn.getAttribute('data-lang'));
+});
+
+</script>
+
+</body>
+</html>

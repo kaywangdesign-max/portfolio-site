@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fitbit Connect — Kay Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../project-page.css" />
+  <style>
+    /* ── Fitbit-specific additions ── */
+
+    /* Three-column user type grid */
+    .user-trio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .user-trio-card {
+      background: var(--card);
+      border: 2px solid var(--fg);
+      border-radius: var(--r-lg);
+      padding: 24px;
+      box-shadow: 4px 4px 0 var(--fg);
+    }
+    .user-trio-card--kids    { border-top: 5px solid #FBBF24; }
+    .user-trio-card--seniors { border-top: 5px solid #34D399; }
+    .user-trio-card--parents { border-top: 5px solid #8B5CF6; }
+    .user-trio-device {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 9999px;
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      border: 1.5px solid var(--border);
+      background: var(--muted); color: var(--muted-fg);
+      margin-bottom: 14px;
+    }
+    .user-trio-device [data-lucide] { width: 10px; height: 10px; stroke-width: 2.5px; }
+    .user-trio-icon {
+      width: 48px; height: 48px;
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+      border: 2px solid var(--fg);
+      box-shadow: 2px 2px 0 var(--fg);
+    }
+    .user-trio-card--kids    .user-trio-icon { background: #FBBF24; }
+    .user-trio-card--seniors .user-trio-icon { background: #34D399; }
+    .user-trio-card--parents .user-trio-icon { background: #8B5CF6; }
+    .user-trio-icon [data-lucide] { width: 22px; height: 22px; stroke-width: 2.5px; color: var(--fg); }
+    .user-trio-card--parents .user-trio-icon [data-lucide] { color: #fff; }
+    .user-trio-type {
+      font-family: var(--font-head); font-weight: 800; font-size: 1.0625rem;
+      color: var(--fg); margin-bottom: 2px;
+    }
+    .user-trio-age {
+      font-size: 0.75rem; font-weight: 600; color: var(--muted-fg); margin-bottom: 12px;
+    }
+    .user-trio-goal {
+      background: var(--muted); border-radius: var(--r-sm);
+      padding: 10px 12px; font-size: 0.8125rem; font-weight: 600;
+      color: var(--fg); line-height: 1.5; margin-bottom: 14px;
+    }
+    .user-trio-goal-label {
+      display: block; font-size: 0.6rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.09em;
+      color: var(--muted-fg); margin-bottom: 3px;
+    }
+    .user-trio-bullets { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .user-trio-bullets li {
+      display: flex; gap: 8px; align-items: flex-start;
+      font-size: 0.8rem; color: var(--fg); line-height: 1.5;
+    }
+    .user-trio-card--kids    .user-trio-bullets li::before { content: '✦'; color: #d97706; font-size: 0.5rem; flex-shrink: 0; margin-top: 5px; }
+    .user-trio-card--seniors .user-trio-bullets li::before { content: '✦'; color: #059669; font-size: 0.5rem; flex-shrink: 0; margin-top: 5px; }
+    .user-trio-card--parents .user-trio-bullets li::before { content: '✦'; color: var(--accent); font-size: 0.5rem; flex-shrink: 0; margin-top: 5px; }
+
+    /* Design principle grid (2-col) */
+    .principle-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-top: 20px;
+    }
+    .principle-card {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--r-md); padding: 20px;
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .principle-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 2px 10px; border-radius: 9999px;
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      border: 1.5px solid; margin-bottom: 10px;
+    }
+    .principle-title {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.9375rem;
+      color: var(--fg); margin-bottom: 6px;
+    }
+    .principle-desc { font-size: 0.875rem; color: var(--muted-fg); line-height: 1.7; }
+
+    /* App ecosystem grid */
+    .app-ecosystem {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-top: 32px;
+    }
+    .app-tile {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--r-md); padding: 18px 14px;
+      text-align: center; box-shadow: 3px 3px 0 var(--border);
+      transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .app-tile:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--border); }
+    .app-tile-circle {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      border: 2px solid var(--fg); box-shadow: 2px 2px 0 var(--fg);
+    }
+    .app-tile-circle [data-lucide] { width: 24px; height: 24px; stroke-width: 2.5px; }
+    .app-tile-name {
+      font-family: var(--font-head); font-weight: 800;
+      font-size: 0.875rem; color: var(--fg); margin-bottom: 5px;
+    }
+    .app-tile-desc { font-size: 0.7rem; color: var(--muted-fg); line-height: 1.55; }
+    .app-tile-audience {
+      display: inline-block; margin-top: 8px;
+      padding: 2px 8px; border-radius: 9999px;
+      font-size: 0.6rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      background: var(--muted); color: var(--muted-fg);
+      border: 1.5px solid var(--border);
+    }
+
+    /* Watch flow strip */
+    .watch-flow-strip {
+      display: flex; align-items: flex-start;
+      gap: 10px; margin: 28px 0; flex-wrap: wrap;
+    }
+    .watch-flow-step {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      flex: 1; min-width: 90px;
+    }
+    .watch-flow-screen {
+      width: 100%; aspect-ratio: 1;
+      border-radius: var(--r-md); border: 2px solid var(--fg);
+      box-shadow: 3px 3px 0 var(--fg); overflow: hidden;
+      background: #0A0A0A;
+    }
+    .watch-flow-screen img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .watch-flow-caption {
+      font-size: 0.6875rem; font-weight: 600; color: var(--muted-fg);
+      text-align: center; line-height: 1.4;
+    }
+    .watch-flow-arrow {
+      color: var(--muted-fg); flex-shrink: 0;
+      display: flex; align-items: center; margin-top: 40px;
+    }
+    .watch-flow-arrow [data-lucide] { width: 16px; height: 16px; stroke-width: 2.5px; }
+
+    /* Watch compare */
+    .watch-compare {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 28px; margin-top: 32px;
+    }
+    .watch-compare-card {
+      background: var(--card); border: 2px solid var(--fg);
+      border-radius: var(--r-lg); overflow: hidden;
+      box-shadow: 5px 5px 0 var(--fg);
+    }
+    .watch-compare-label {
+      padding: 14px 20px;
+      font-family: var(--font-head); font-weight: 800; font-size: 0.9375rem;
+      border-bottom: 2px solid var(--fg);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .watch-compare-badge {
+      padding: 2px 10px; border-radius: 9999px;
+      font-size: 0.65rem; font-weight: 700; border: 1.5px solid;
+    }
+    .watch-compare-visual {
+      height: 200px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .watch-compare-visual img {
+      height: 180px; width: auto; object-fit: contain; display: block;
+    }
+    .watch-compare-body { padding: 16px 20px; }
+    .watch-compare-detail { font-size: 0.8125rem; color: var(--muted-fg); line-height: 1.65; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .user-trio { grid-template-columns: 1fr; }
+      .app-ecosystem { grid-template-columns: repeat(2, 1fr); }
+      .principle-grid { grid-template-columns: 1fr; }
+      .watch-compare { grid-template-columns: 1fr; }
+      .watch-flow-strip { flex-wrap: wrap; }
+      .watch-flow-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">K.W.</a>
+  <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+    <button class="lang-opt active" data-lang="en">EN</button>
+    <button class="lang-opt" data-lang="zh">繁中</button>
+  </div>
+  <a href="../index.html#projects" class="back-btn" data-i18n="back-btn"><i data-lucide="arrow-left"></i> All Work</a>
+</nav>
+
+<!-- HERO BANNER -->
+<div class="proj-hero">
+  <div class="proj-hero-bg">
+    <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-8.png" alt="Fitbit Connect — Kids Watch and Seniors Watch" />
+  </div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-content">
+    <div class="proj-hero-cat" data-i18n="hero-cat">Health · Family · Wearable</div>
+    <h1 class="proj-hero-title">Fitbit Connect APP / Watch</h1>
+    <p class="proj-hero-sub" data-i18n="hero-sub">A family-safety wearable ecosystem redesigned for three generations — kids (8–11), seniors (65–85), and their parents — connecting loved ones through health, communication, and peace of mind</p>
+  </div>
+</div>
+
+<!-- META BAR -->
+<div class="proj-meta-bar">
+  <div class="proj-meta-row">
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-client">Client</div>
+      <div class="meta-value">Fitbit</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-codename">Codename</div>
+      <div class="meta-value">Night Fury</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-launch">Expected Launch</div>
+      <div class="meta-value">2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-team-label">Team</div>
+      <div class="meta-value" data-i18n="meta-team-val">5 Designers (Cross-region)</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-role-label">My Role</div>
+      <div class="meta-value" data-i18n="meta-role-val">UX/UI — Kids Watch + App</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-timeline">Timeline</div>
+      <div class="meta-value">Dec 2019 – Feb 2021</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-platform-label">Platform</div>
+      <div class="meta-value" data-i18n="meta-platform-val">Smartwatch + iOS / Android</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-type">Project Type</div>
+      <div class="meta-value"><span class="goal-badge new-product" data-i18n="badge-new-product">New Product</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="proj-body">
+  <div class="proj-col">
+
+    <!-- 01 · Project Overview -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s01-eyebrow">01 · Project Overview</div>
+      <h2 class="content-heading" data-i18n="s01-heading">Fitbit, reimagined for the whole family</h2>
+      <p class="content-text" data-i18n="s01-p1">Fitbit's existing product line is built for the individual — one user, one device, one fitness journey. This concept project challenges that model. <strong>Fitbit Connect</strong> reframes the wearable as a family safety and connection layer: a way for parents to stay close to their children, for adult children to care for aging parents, and for seniors and kids to feel secure and reachable — without needing to navigate a smartphone.</p>
+      <p class="content-text" data-i18n="s01-p2">The project tackled an unusual design brief: three fundamentally different user groups, two distinct hardware form factors, and one coherent product ecosystem — all designed remotely between Taipei and San Francisco over 14 months.</p>
+
+      <div class="challenge-strip">
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="users"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch-label-users">Users</div>
+            <div class="challenge-value" data-i18n="ch-val-users">3 generations, 3 distinct mental models</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="watch"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch-label-platforms">Platforms</div>
+            <div class="challenge-value" data-i18n="ch-val-platforms">Smartwatch (2 variants) + companion app</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="globe"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch-label-collab">Collaboration</div>
+            <div class="challenge-value" data-i18n="ch-val-collab">Remote — Taipei × San Francisco</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:32px;">
+        <div class="callout-title" data-i18n="callout-title-contrib">Kay's contribution</div>
+        <p data-i18n="callout-body-contrib">5-designer team: 2 UX designers from Hong Kong handling the companion app; 1 designer on the seniors watch UX; 1 designer on seniors watch UI. I owned <strong>UX/UI design for the kids watch</strong> and <strong>UI design for the parent companion app</strong>. Fitbit's principal designer served as the key stakeholder across all iterations, with responsibilities covering user testing, user analysis, wireframes, user flows, and UI mockups.</p>
+      </div>
+    </div>
+
+    <!-- 02 · Research & Insights -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s02-eyebrow">02 · Research &amp; Insights</div>
+      <h2 class="content-heading" data-i18n="s02-heading">Before a single screen was drawn</h2>
+      <p class="content-text" data-i18n="s02-p1">The design process was grounded in evidence, not assumptions. User testing and analysis ran before any concept direction was set — informing not just features, but fundamental product positioning. The question wasn't "what can a smartwatch do?" but "what do these families actually need from a connected device?"</p>
+
+      <div class="research-flow-wrap">
+        <div class="research-flow-label" data-i18n="flow-label">Design process</div>
+        <div class="research-flow">
+          <div class="flow-node highlight" data-i18n="fn-testing">User Testing</div>
+          <div class="flow-arrow"><i data-lucide="arrow-right"></i></div>
+          <div class="flow-node" data-i18n="fn-analysis">User Analysis</div>
+          <div class="flow-arrow"><i data-lucide="arrow-right"></i></div>
+          <div class="flow-node" data-i18n="fn-strategy">UX Strategy</div>
+          <div class="flow-arrow"><i data-lucide="arrow-right"></i></div>
+          <div class="flow-node highlight" data-i18n="fn-concept">Concept Design</div>
+        </div>
+      </div>
+
+      <div class="content-visual">
+        <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-3.png" alt="Research insights — Family Connection, Safety, Health, Desirable Motive" />
+      </div>
+
+      <div class="insights-grid">
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="heart-handshake"></i></div>
+          <div class="insight-title" data-i18n="ins1-title">Family Connection</div>
+          <div class="insight-desc" data-i18n="ins1-desc">Most users across all groups wanted more active, tech-mediated ways to stay connected to family — not just passive visibility.</div>
+          <ul class="insight-bullets">
+            <li data-i18n="ins1-b1">79% / 74% / 45% across groups wanted more active-based family connections</li>
+            <li data-i18n="ins1-b2">Passive check-ins were not enough — people wanted to feel present</li>
+          </ul>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="shield-check"></i></div>
+          <div class="insight-title" data-i18n="ins2-title">Safety as Core Value</div>
+          <div class="insight-desc" data-i18n="ins2-desc">Location tracking and Emergency SOS were identified as the highest-priority functions across all family roles — non-negotiable features, not nice-to-haves.</div>
+          <ul class="insight-bullets">
+            <li data-i18n="ins2-b1">Location tracking — peace of mind for parents &amp; adult children</li>
+            <li data-i18n="ins2-b2">Emergency SOS — critical for kids and seniors in unfamiliar situations</li>
+          </ul>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="activity"></i></div>
+          <div class="insight-title" data-i18n="ins3-title">Health Motivation</div>
+          <div class="insight-desc" data-i18n="ins3-desc">Health means something different to each generation — but it's universally present as a motivation for using a wearable.</div>
+          <ul class="insight-bullets">
+            <li data-i18n="ins3-b1">68% of parents want their children to develop healthy habits early</li>
+            <li data-i18n="ins3-b2">62% of older adults want technology to help them understand and improve their health</li>
+          </ul>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="gamepad-2"></i></div>
+          <div class="insight-title" data-i18n="ins4-title">Emotional Needs, Not Just Features</div>
+          <div class="insight-desc" data-i18n="ins4-desc">Both kids and seniors had clear emotional needs beyond utility — designing only for function would miss the real drivers of adoption.</div>
+          <ul class="insight-bullets">
+            <li data-i18n="ins4-b1">Kids: interactive games (88%), messaging features (87%), challenges (85%)</li>
+            <li data-i18n="ins4-b2">Seniors: "We want a more fashionable device" — not a medical tool</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 · Three Target Users -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s03-eyebrow">03 · Three Target Users</div>
+      <h2 class="content-heading" data-i18n="s03-heading">One ecosystem. Three distinct experiences.</h2>
+      <p class="content-text" data-i18n="s03-p1">Each user group has a different relationship with technology, a different emotional need, and a completely different interaction model. The product had to serve all three simultaneously — without one group's experience compromising another's.</p>
+
+      <div class="user-trio">
+        <div class="user-trio-card user-trio-card--kids">
+          <div class="user-trio-device" data-i18n="trio-device-kids"><i data-lucide="watch"></i> Watch</div>
+          <div class="user-trio-icon"><i data-lucide="smile"></i></div>
+          <div class="user-trio-type" data-i18n="trio-type-kids">Kids</div>
+          <div class="user-trio-age" data-i18n="trio-age-kids">Ages 8–11 · Watch user</div>
+          <div class="user-trio-goal" data-i18n="trio-goal-kids"><span class="user-trio-goal-label">Primary need</span>Stay connected to family in a fun, safe way</div>
+          <ul class="user-trio-bullets">
+            <li data-i18n="trio-k-b1">Video call &amp; message family contacts</li>
+            <li data-i18n="trio-k-b2">Explore app carousel: call, message, to-do, alarms, timer, location</li>
+            <li data-i18n="trio-k-b3">Playful clock face with mascot character &amp; step count</li>
+            <li data-i18n="trio-k-b4">All contacts pre-approved by parents — no unknown callers</li>
+          </ul>
+        </div>
+
+        <div class="user-trio-card user-trio-card--seniors">
+          <div class="user-trio-device" data-i18n="trio-device-seniors"><i data-lucide="watch"></i> Watch</div>
+          <div class="user-trio-icon"><i data-lucide="user"></i></div>
+          <div class="user-trio-type" data-i18n="trio-type-seniors">Seniors</div>
+          <div class="user-trio-age" data-i18n="trio-age-seniors">Ages 65–85 · Watch user</div>
+          <div class="user-trio-goal" data-i18n="trio-goal-seniors"><span class="user-trio-goal-label">Primary need</span>Stay independent, healthy, and reachable</div>
+          <ul class="user-trio-bullets">
+            <li data-i18n="trio-s-b1">Clear, high-contrast clock face &amp; prominent contact display</li>
+            <li data-i18n="trio-s-b2">Health stats at a glance: steps, sleep time, heart rate</li>
+            <li data-i18n="trio-s-b3">Emergency SOS accessible from any screen via physical button</li>
+            <li data-i18n="trio-s-b4">Conventional icons — no abstract metaphors or learning curve</li>
+          </ul>
+        </div>
+
+        <div class="user-trio-card user-trio-card--parents">
+          <div class="user-trio-device" data-i18n="trio-device-parents"><i data-lucide="smartphone"></i> App</div>
+          <div class="user-trio-icon"><i data-lucide="shield"></i></div>
+          <div class="user-trio-type" data-i18n="trio-type-parents">Parents</div>
+          <div class="user-trio-age" data-i18n="trio-age-parents">Adults · Companion app user</div>
+          <div class="user-trio-goal" data-i18n="trio-goal-parents"><span class="user-trio-goal-label">Primary need</span>Monitor, protect, and stay in touch with family</div>
+          <ul class="user-trio-bullets">
+            <li data-i18n="trio-p-b1">View real-time location of kids &amp; seniors on map</li>
+            <li data-i18n="trio-p-b2">Receive alerts: safe-zone exits, Emergency SOS triggers</li>
+            <li data-i18n="trio-p-b3">Initiate calls &amp; messages to watch wearers from the app</li>
+            <li data-i18n="trio-p-b4">Manage approved contacts &amp; family settings for each watch</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 · Design Principles -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s04-eyebrow">04 · Design Principles</div>
+      <h2 class="content-heading" data-i18n="s04-heading">Tailored interaction models for each generation</h2>
+      <p class="content-text" data-i18n="s04-p1">The same UI conventions that make a design clear to an adult can make it inaccessible to a child — or alienating to a senior. Each user group required its own design grammar, derived directly from how that group perceives and interacts with digital interfaces.</p>
+
+      <div class="sub-head" data-i18n="sub-head-kids">For Kids — Ages 8–11</div>
+      <div class="principle-grid">
+        <div class="principle-card">
+          <div class="principle-label" style="background:#FEF3C7; color:#d97706; border-color:#d97706;" data-i18n="pk-label1">Storytelling</div>
+          <div class="principle-title" data-i18n="pk-title1">Characters &amp; Narrative</div>
+          <div class="principle-desc" data-i18n="pk-desc1">A mascot character on the clock face gives kids something to identify with — making the watch feel personal, not functional. Characters respond to interactions with animation, rewarding every use.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-label" style="background:#FEF3C7; color:#d97706; border-color:#d97706;" data-i18n="pk-label2">Instant Effects</div>
+          <div class="principle-title" data-i18n="pk-title2">Immediate Visual Feedback</div>
+          <div class="principle-desc" data-i18n="pk-desc2">Children cannot tolerate delay between action and response. Every tap triggers an immediate visual or sound reaction. Loading states are animated — there is never an empty, unresponsive moment.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-label" style="background:#FEF3C7; color:#d97706; border-color:#d97706;" data-i18n="pk-label3">Colors &amp; Patterns</div>
+          <div class="principle-title" data-i18n="pk-title3">Icons as Primary Language</div>
+          <div class="principle-desc" data-i18n="pk-desc3">Children identify objects by color and shape before text. Each app in the carousel is a distinct color + icon — text labels are supplementary. The icon IS the affordance. No ambiguity about which app is which.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-label" style="background:#FEF3C7; color:#d97706; border-color:#d97706;" data-i18n="pk-label4">Safety</div>
+          <div class="principle-title" data-i18n="pk-title4">Curated, Gated Feature Set</div>
+          <div class="principle-desc" data-i18n="pk-desc4">The kids watch exposes only what children need. Every communication feature — calls, messages — is locked to parent-approved contacts. No open internet, no unknown senders, no accidental exposure.</div>
+        </div>
+      </div>
+
+      <div class="sub-head" style="margin-top:40px;" data-i18n="sub-head-seniors">For Seniors — Ages 65–85</div>
+      <div class="principle-grid">
+        <div class="principle-card">
+          <div class="principle-label" style="background:#D1FAE5; color:#059669; border-color:#059669;" data-i18n="ps-label1">Familiarity</div>
+          <div class="principle-title" data-i18n="ps-title1">Conventional Interaction Elements</div>
+          <div class="principle-desc" data-i18n="ps-desc1">Seniors find it difficult to decode abstract or novel icon styles. Every icon uses widely recognized symbols — avoiding metaphor-dependent visuals that require prior digital literacy to interpret.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-label" style="background:#D1FAE5; color:#059669; border-color:#059669;" data-i18n="ps-label2">Accessibility</div>
+          <div class="principle-title" data-i18n="ps-title2">Easy-to-Target Buttons</div>
+          <div class="principle-desc" data-i18n="ps-desc2">Larger type, high-contrast color blocks as buttons, and generous tap targets. The interface communicates at a glance what is interactive and what is static — reducing hesitation and accidental inputs.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-label" style="background:#D1FAE5; color:#059669; border-color:#059669;" data-i18n="ps-label3">Clarity</div>
+          <div class="principle-title" data-i18n="ps-title3">Clear Feedback on Every Action</div>
+          <div class="principle-desc" data-i18n="ps-desc3">After every interaction, a visible state change confirms what happened. Seniors need to feel in control — uncertain or ambiguous states create anxiety and avoidance of the device entirely.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-label" style="background:#D1FAE5; color:#059669; border-color:#059669;" data-i18n="ps-label4">Safety</div>
+          <div class="principle-title" data-i18n="ps-title4">Emergency Always Within Reach</div>
+          <div class="principle-desc" data-i18n="ps-desc4">Quick Settings — accessible by holding the physical side button for 2 seconds from any screen — means Emergency SOS is never more than one action away, regardless of where the senior is in the interface.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 · UX Architecture -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s05-eyebrow">05 · UX Architecture</div>
+      <h2 class="content-heading" data-i18n="s05-heading">A navigation model built around the wrist</h2>
+      <p class="content-text" data-i18n="s05-p1">The watch's spatial navigation was designed to feel physical and predictable — matching how people intuitively expect a wrist device to respond. The clock face is always the anchor. Every surface is reachable within one to two gestures, and every gesture maps to a consistent spatial direction.</p>
+
+      <div class="content-visual">
+        <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-7.png" alt="Watch layout structure — swipe navigation model" />
+      </div>
+
+      <div class="insights-grid" style="margin-top:8px;">
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="arrow-up"></i></div>
+          <div class="insight-title" data-i18n="nav1-title">Swipe Up → Quick Settings</div>
+          <div class="insight-desc" data-i18n="nav1-desc">The most critical functions — brightness, DND, Emergency SOS — are always one swipe from home. Also triggerable by holding the physical button for 2 seconds, from any screen.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="bell"></i></div>
+          <div class="insight-title" data-i18n="nav2-title">Swipe Down → Notifications</div>
+          <div class="insight-desc" data-i18n="nav2-desc">Reminders, messages, missed calls, and safe-zone alerts. Tapping a notification opens the source app directly — no hunting through menus.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="arrow-left"></i></div>
+          <div class="insight-title" data-i18n="nav3-title">Swipe Left → App Carousel</div>
+          <div class="insight-desc" data-i18n="nav3-desc">The full app menu accessed as a horizontal swipe carousel — each app a distinct color circle. Swipe to browse, tap to enter. The last app (Tips) serves as a built-in wayfinding anchor.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="heart-pulse"></i></div>
+          <div class="insight-title" data-i18n="nav4-title">Swipe Down (Home) → Stats</div>
+          <div class="insight-desc" data-i18n="nav4-desc">Steps, sleep time, and heart rate — available immediately without entering an app. Health at a glance, particularly important for the seniors watch experience.</div>
+        </div>
+      </div>
+
+      <div class="callout green" style="margin-top:28px;">
+        <div class="callout-title" data-i18n="callout-title-safety">Physical button = universal safety net</div>
+        <p data-i18n="callout-body-safety">Pressing the physical side button always navigates back to the clock face — a predictable, muscle-memory exit that works even if a user gets disoriented inside an app. For seniors especially, this single interaction provides a consistent "home" regardless of how lost they might feel on screen.</p>
+      </div>
+    </div>
+
+    <!-- 06 · Feature Demo: Kids Video Call -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s06-eyebrow">06 · Feature Demo — Kids Watch</div>
+      <h2 class="content-heading" data-i18n="s06-heading">How a child makes a video call</h2>
+      <p class="content-text" data-i18n="s06-p1">The video call flow is the primary connectivity feature of the kids watch. The design challenge: make it simple enough for an 8-year-old to use independently — while keeping the contact list locked to family-approved people only. No searching, no typing, no risk of calling a stranger.</p>
+      <p class="content-text" data-i18n="s06-p2">The complete flow from clock face to connected call takes just 4 taps. Every step uses large, color-coded affordances. There is no ambiguity about what to press next.</p>
+
+      <div class="content-visual-label" data-i18n="vl-flow">Full flow — clock face to connected video call</div>
+      <div class="watch-flow-strip">
+        <div class="watch-flow-step">
+          <div class="watch-flow-screen">
+            <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-9.png" alt="Clock face with mascot and step count" class="js-magnify" />
+          </div>
+          <div class="watch-flow-caption" data-i18n="wf-cap1">1. Clock face<br />Swipe left</div>
+        </div>
+        <div class="watch-flow-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="watch-flow-step">
+          <div class="watch-flow-screen">
+            <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-10.png" alt="Call app in carousel" class="js-magnify" />
+          </div>
+          <div class="watch-flow-caption" data-i18n="wf-cap2">2. Call app<br />Tap to open</div>
+        </div>
+        <div class="watch-flow-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="watch-flow-step">
+          <div class="watch-flow-screen">
+            <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-16.png" alt="Contacts list showing Aunty Ava, Dad, Mom" class="js-magnify" />
+          </div>
+          <div class="watch-flow-caption" data-i18n="wf-cap3">3. Contacts<br />Family only</div>
+        </div>
+        <div class="watch-flow-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="watch-flow-step">
+          <div class="watch-flow-screen">
+            <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-19.png" alt="Contact detail — video and call buttons" class="js-magnify" />
+          </div>
+          <div class="watch-flow-caption" data-i18n="wf-cap4">4. Choose<br />Video or call</div>
+        </div>
+        <div class="watch-flow-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="watch-flow-step">
+          <div class="watch-flow-screen">
+            <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-22.png" alt="Connecting state — video calling Mom" class="js-magnify" />
+          </div>
+          <div class="watch-flow-caption" data-i18n="wf-cap5">5. Connecting<br />to Mom</div>
+        </div>
+        <div class="watch-flow-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="watch-flow-step">
+          <div class="watch-flow-screen">
+            <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-30.png" alt="Connected video call — Hello Mom" class="js-magnify" />
+          </div>
+          <div class="watch-flow-caption" data-i18n="wf-cap6">6. Hello! Mom</div>
+        </div>
+      </div>
+
+      <ul class="solution-list">
+        <li data-i18n="sol-b1">Contacts list is locked to parent-approved family members — no unknown callers possible, ever</li>
+        <li data-i18n="sol-b2">Each contact shows which device they're reachable on (phone icon = App), so kids know before calling</li>
+        <li data-i18n="sol-b3">Video and voice call are equal-weight options — neither is buried or treated as secondary</li>
+        <li data-i18n="sol-b4">Live call screen: caller's face full-screen, child's selfie in corner, mic &amp; speaker icons at top, large red hang-up as the only persistent action</li>
+      </ul>
+    </div>
+
+    <!-- 07 · App Ecosystem -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s07-eyebrow">07 · App Ecosystem</div>
+      <h2 class="content-heading" data-i18n="s07-heading">Eight apps. Eight colors. Zero confusion.</h2>
+      <p class="content-text" data-i18n="s07-p1">The kids watch app carousel is a deliberately curated set — not a minimal set, but a carefully scoped one. Every app has a unique color and icon combination navigable by swiping left from the clock face. The color system is the navigation system: children learn to recognize "the green one" as Call before they can reliably read a label.</p>
+
+      <div class="app-ecosystem">
+        <div class="app-tile">
+          <div class="app-tile-circle" style="background:#22C55E;">
+            <i data-lucide="phone" style="color:#fff;"></i>
+          </div>
+          <div class="app-tile-name" data-i18n="app-call-name">Call</div>
+          <div class="app-tile-desc" data-i18n="app-call-desc">Video &amp; voice calls to approved family contacts</div>
+          <span class="app-tile-audience" data-i18n="aud-kids-seniors">Kids + Seniors</span>
+        </div>
+        <div class="app-tile">
+          <div class="app-tile-circle" style="background:#FBBF24;">
+            <i data-lucide="message-circle" style="color:var(--fg);"></i>
+          </div>
+          <div class="app-tile-name" data-i18n="app-msg-name">Message</div>
+          <div class="app-tile-desc" data-i18n="app-msg-desc">Quick messages to family members on the companion app</div>
+          <span class="app-tile-audience" data-i18n="aud-kids">Kids</span>
+        </div>
+        <div class="app-tile">
+          <div class="app-tile-circle" style="background:#3B82F6;">
+            <i data-lucide="check-square" style="color:#fff;"></i>
+          </div>
+          <div class="app-tile-name" data-i18n="app-todo-name">To Do</div>
+          <div class="app-tile-desc" data-i18n="app-todo-desc">Task list — parents assign, kids complete to build daily habits</div>
+          <span class="app-tile-audience" data-i18n="aud-kids">Kids</span>
+        </div>
+        <div class="app-tile">
+          <div class="app-tile-circle" style="background:#F97316;">
+            <i data-lucide="alarm-clock" style="color:#fff;"></i>
+          </div>
+          <div class="app-tile-name" data-i18n="app-alarm-name">Alarms</div>
+          <div class="app-tile-desc" data-i18n="app-alarm-desc">Set reminders for school, meals, and daily activities</div>
+          <span class="app-tile-audience" data-i18n="aud-kids-seniors">Kids + Seniors</span>
+        </div>
+        <div class="app-tile">
+          <div class="app-tile-circle" style="background:#A855F7;">
+            <i data-lucide="timer" style="color:#fff;"></i>
+          </div>
+          <div class="app-tile-name" data-i18n="app-timer-name">Timer</div>
+          <div class="app-tile-desc" data-i18n="app-timer-desc">Countdown timer for homework, playtime, and chores</div>
+          <span class="app-tile-audience" data-i18n="aud-kids">Kids</span>
+        </div>
+        <div class="app-tile">
+          <div class="app-tile-circle" style="background:#F43F5E;">
+            <i data-lucide="map-pin" style="color:#fff;"></i>
+          </div>
+          <div class="app-tile-name" data-i18n="app-loc-name">Location</div>
+          <div class="app-tile-desc" data-i18n="app-loc-desc">Share live location with parents — always-on safety layer</div>
+          <span class="app-tile-audience" data-i18n="aud-kids-seniors">Kids + Seniors</span>
+        </div>
+        <div class="app-tile">
+          <div class="app-tile-circle" style="background:#F1F5F9;">
+            <i data-lucide="settings" style="color:var(--fg);"></i>
+          </div>
+          <div class="app-tile-name" data-i18n="app-settings-name">Settings</div>
+          <div class="app-tile-desc" data-i18n="app-settings-desc">Display brightness, sound, and connection preferences</div>
+          <span class="app-tile-audience" data-i18n="aud-kids-seniors">Kids + Seniors</span>
+        </div>
+        <div class="app-tile">
+          <div class="app-tile-circle" style="background:#0BBBA0;">
+            <i data-lucide="life-buoy" style="color:#fff;"></i>
+          </div>
+          <div class="app-tile-name" data-i18n="app-tips-name">Tips</div>
+          <div class="app-tile-desc" data-i18n="app-tips-desc">Watch usage guidance — always the last app in the carousel</div>
+          <span class="app-tile-audience" data-i18n="aud-kids">Kids</span>
+        </div>
+      </div>
+
+      <div class="callout pink" style="margin-top:28px;">
+        <div class="callout-title" data-i18n="callout-title-tips">Why Tips is last — a deliberate navigation decision</div>
+        <p data-i18n="callout-body-tips">Tips is intentionally placed as the final app in the swipe carousel. It acts as a built-in wayfinding anchor: if a child swipes all the way through without finding what they need, Tips is there as a fallback. It also signals a clear end to the carousel — preventing the anxiety of infinite scrolling without a sense of completion.</p>
+      </div>
+    </div>
+
+  </div><!-- /proj-col -->
+</div><!-- /proj-body -->
+
+<!-- 08 · Watch Visual Design — full-bleed section -->
+<div class="layout-section">
+  <div class="layout-section-inner">
+    <div class="section-eyebrow" data-i18n="s08-eyebrow">08 · Watch Visual Design</div>
+    <h2 class="layout-section-heading" data-i18n="s08-heading">Two watches. Two design languages.</h2>
+    <p class="layout-section-sub" data-i18n="s08-sub">Same hardware platform. Completely different visual register — one built for delight, one built for clarity and trust.</p>
+  </div>
+</div>
+
+<div class="proj-body" style="padding-top:0; padding-bottom:80px;">
+  <div class="proj-col">
+    <div class="watch-compare">
+
+      <div class="watch-compare-card">
+        <div class="watch-compare-label" style="background:#FBBF24; color:var(--fg);">
+          Watch_Kids
+          <span class="watch-compare-badge" style="background:var(--fg); color:#fff; border-color:var(--fg);" data-i18n="wc-kids-age">Ages 8–11</span>
+        </div>
+        <div class="watch-compare-visual" style="background:#071A19;">
+          <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-9.png" alt="Kids watch — clock face with mascot character" class="js-magnify" />
+        </div>
+        <div class="watch-compare-body">
+          <div class="watch-compare-detail" data-i18n="wc-kids-detail">Light teal hardware with colorful accent band (green, red, white). Dark AMOLED display — oversized bold clock numerals in yellow/white, animated mascot character (a yellow bird-like creature), step count with shoe icon at base. High visual energy. Designed to delight and feel like a toy that also tells the time.</div>
+        </div>
+      </div>
+
+      <div class="watch-compare-card">
+        <div class="watch-compare-label" style="background:#1C1C1E; color:#fff;">
+          Watch_Seniors
+          <span class="watch-compare-badge" style="background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.3);" data-i18n="wc-seniors-age">Ages 65–85</span>
+        </div>
+        <div class="watch-compare-visual" style="background:#0D0D0D;">
+          <img src="../Fitbit-Figma%20Prototype%20Export/3_Projects-8.png" alt="Seniors watch — clean, high contrast dark display" class="js-magnify" />
+        </div>
+        <div class="watch-compare-body">
+          <div class="watch-compare-detail" data-i18n="wc-seniors-detail">Dark gray hardware with refined strap. Clean dark display — the most important information (time, contact name) is given generous scale. Minimal chrome, no decorative elements. Health stats are one swipe down from home. The interface communicates calm competence — not a toy, not a medical device.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 09 · Design System -->
+<div class="ds-section">
+  <div class="proj-col">
+    <div class="section-eyebrow" data-i18n="s09-eyebrow">09 · Design System</div>
+    <h2 class="ds-heading" data-i18n="s09-heading">Color &amp; type — Watch UI</h2>
+
+    <div class="sub-head" data-i18n="sub-head-ds">Kids Watch — App icon color palette</div>
+    <p class="content-text" style="margin-bottom:20px;" data-i18n="ds-p1">Each app's color is its identity. The palette was chosen to be maximally distinct from each other — no two adjacent apps in the carousel share a similar hue. Children develop spatial + color memory: "swipe until I see green" replaces "find the app called Call."</p>
+
+    <div class="color-palette">
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#22C55E;"></div>
+        <div class="color-chip-hex">#22C55E</div>
+        <div class="color-chip-role" data-i18n="chip-call">Call</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#FBBF24;"></div>
+        <div class="color-chip-hex">#FBBF24</div>
+        <div class="color-chip-role" data-i18n="chip-msg">Message</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#3B82F6;"></div>
+        <div class="color-chip-hex">#3B82F6</div>
+        <div class="color-chip-role" data-i18n="chip-todo">To Do</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#F97316;"></div>
+        <div class="color-chip-hex">#F97316</div>
+        <div class="color-chip-role" data-i18n="chip-alarm">Alarms</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#A855F7;"></div>
+        <div class="color-chip-hex">#A855F7</div>
+        <div class="color-chip-role" data-i18n="chip-timer">Timer</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#F43F5E;"></div>
+        <div class="color-chip-hex">#F43F5E</div>
+        <div class="color-chip-role" data-i18n="chip-loc">Location</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#0BBBA0;"></div>
+        <div class="color-chip-hex">#0BBBA0</div>
+        <div class="color-chip-role" data-i18n="chip-tips">Tips</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#0A0A0A; border:2px solid #E2E8F0;"></div>
+        <div class="color-chip-hex">#0A0A0A</div>
+        <div class="color-chip-role" data-i18n="chip-bg">Watch BG</div>
+      </div>
+    </div>
+
+    <div class="type-system">
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-tag-kids">Kids Watch</div>
+        <div class="type-sample" style="font-family:system-ui,sans-serif; font-weight:900; letter-spacing:-0.02em;">Bold Display</div>
+        <div class="type-detail" data-i18n="type-detail-kids">Extra-bold, oversized numerals — legible at a glance, even during movement or play</div>
+      </div>
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-tag-seniors">Seniors Watch</div>
+        <div class="type-sample" style="font-family:system-ui,sans-serif; font-weight:700; letter-spacing:0.01em;">High Contrast</div>
+        <div class="type-detail" data-i18n="type-detail-seniors">Generous scale, high contrast ratio, minimal decoration — legibility above all else</div>
+      </div>
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-tag-app">Companion App</div>
+        <div class="type-sample" style="font-family:'Plus Jakarta Sans',sans-serif;">Plus Jakarta Sans</div>
+        <div class="type-detail" data-i18n="type-detail-app">Consistent with the broader product design language — clean, modern, professional</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAGS -->
+<div class="proj-tags-row">
+  <span class="proj-tag">Wearable UX</span>
+  <span class="proj-tag">Multi-Platform</span>
+  <span class="proj-tag">3-Generation Design</span>
+  <span class="proj-tag">User Research</span>
+  <span class="proj-tag">Health Tech</span>
+  <span class="proj-tag">Family Safety</span>
+  <span class="proj-tag">Kids UX</span>
+  <span class="proj-tag">Senior Accessibility</span>
+  <span class="proj-tag">Cross-region Collaboration</span>
+</div>
+
+<!-- NEXT PROJECT -->
+<div class="next-project-strip">
+  <div>
+    <div class="next-label" data-i18n="next-label">Next project</div>
+    <div class="next-title">Global MyB2B</div>
+  </div>
+  <a href="cathay.html" class="next-btn" data-i18n="next-btn-text">View case study <i data-lucide="arrow-right"></i></a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Kay Wang</div>
+    <div data-i18n="footer-role">Lead Product Designer at Gogolook · Taipei, Taiwan</div>
+    <div>© 2024 Kay Wang. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script src="../project-page.js"></script>
+<script>
+var translations = {
+  en: {
+    'back-btn': '<i data-lucide="arrow-left"></i> All Work',
+    'hero-cat': 'Health · Family · Wearable',
+    'hero-sub': 'A family-safety wearable ecosystem redesigned for three generations — kids (8–11), seniors (65–85), and their parents — connecting loved ones through health, communication, and peace of mind',
+    'meta-client': 'Client',
+    'meta-codename': 'Codename',
+    'meta-launch': 'Expected Launch',
+    'meta-team-label': 'Team',
+    'meta-team-val': '5 Designers (Cross-region)',
+    'meta-role-label': 'My Role',
+    'meta-role-val': 'UX/UI — Kids Watch + App',
+    'meta-timeline': 'Timeline',
+    'meta-platform-label': 'Platform',
+    'meta-platform-val': 'Smartwatch + iOS / Android',
+    'meta-type': 'Project Type',
+    'badge-new-product': 'New Product',
+    's01-eyebrow': '01 · Project Overview',
+    's01-heading': 'Fitbit, reimagined for the whole family',
+    's01-p1': 'Fitbit\'s existing product line is built for the individual — one user, one device, one fitness journey. This concept project challenges that model. <strong>Fitbit Connect</strong> reframes the wearable as a family safety and connection layer: a way for parents to stay close to their children, for adult children to care for aging parents, and for seniors and kids to feel secure and reachable — without needing to navigate a smartphone.',
+    's01-p2': 'The project tackled an unusual design brief: three fundamentally different user groups, two distinct hardware form factors, and one coherent product ecosystem — all designed remotely between Taipei and San Francisco over 14 months.',
+    'ch-label-users': 'Users',
+    'ch-val-users': '3 generations, 3 distinct mental models',
+    'ch-label-platforms': 'Platforms',
+    'ch-val-platforms': 'Smartwatch (2 variants) + companion app',
+    'ch-label-collab': 'Collaboration',
+    'ch-val-collab': 'Remote — Taipei × San Francisco',
+    'callout-title-contrib': 'Kay\'s contribution',
+    'callout-body-contrib': '5-designer team: 2 UX designers from Hong Kong handling the companion app; 1 designer on the seniors watch UX; 1 designer on seniors watch UI. I owned <strong>UX/UI design for the kids watch</strong> and <strong>UI design for the parent companion app</strong>. Fitbit\'s principal designer served as the key stakeholder across all iterations, with responsibilities covering user testing, user analysis, wireframes, user flows, and UI mockups.',
+    's02-eyebrow': '02 · Research &amp; Insights',
+    's02-heading': 'Before a single screen was drawn',
+    's02-p1': 'The design process was grounded in evidence, not assumptions. User testing and analysis ran before any concept direction was set — informing not just features, but fundamental product positioning. The question wasn\'t "what can a smartwatch do?" but "what do these families actually need from a connected device?"',
+    'flow-label': 'Design process',
+    'fn-testing': 'User Testing',
+    'fn-analysis': 'User Analysis',
+    'fn-strategy': 'UX Strategy',
+    'fn-concept': 'Concept Design',
+    'ins1-title': 'Family Connection',
+    'ins1-desc': 'Most users across all groups wanted more active, tech-mediated ways to stay connected to family — not just passive visibility.',
+    'ins1-b1': '79% / 74% / 45% across groups wanted more active-based family connections',
+    'ins1-b2': 'Passive check-ins were not enough — people wanted to feel present',
+    'ins2-title': 'Safety as Core Value',
+    'ins2-desc': 'Location tracking and Emergency SOS were identified as the highest-priority functions across all family roles — non-negotiable features, not nice-to-haves.',
+    'ins2-b1': 'Location tracking — peace of mind for parents &amp; adult children',
+    'ins2-b2': 'Emergency SOS — critical for kids and seniors in unfamiliar situations',
+    'ins3-title': 'Health Motivation',
+    'ins3-desc': 'Health means something different to each generation — but it\'s universally present as a motivation for using a wearable.',
+    'ins3-b1': '68% of parents want their children to develop healthy habits early',
+    'ins3-b2': '62% of older adults want technology to help them understand and improve their health',
+    'ins4-title': 'Emotional Needs, Not Just Features',
+    'ins4-desc': 'Both kids and seniors had clear emotional needs beyond utility — designing only for function would miss the real drivers of adoption.',
+    'ins4-b1': 'Kids: interactive games (88%), messaging features (87%), challenges (85%)',
+    'ins4-b2': 'Seniors: "We want a more fashionable device" — not a medical tool',
+    's03-eyebrow': '03 · Three Target Users',
+    's03-heading': 'One ecosystem. Three distinct experiences.',
+    's03-p1': 'Each user group has a different relationship with technology, a different emotional need, and a completely different interaction model. The product had to serve all three simultaneously — without one group\'s experience compromising another\'s.',
+    'trio-device-kids': '<i data-lucide="watch"></i> Watch',
+    'trio-type-kids': 'Kids',
+    'trio-age-kids': 'Ages 8–11 · Watch user',
+    'trio-goal-kids': '<span class="user-trio-goal-label">Primary need</span>Stay connected to family in a fun, safe way',
+    'trio-k-b1': 'Video call &amp; message family contacts',
+    'trio-k-b2': 'Explore app carousel: call, message, to-do, alarms, timer, location',
+    'trio-k-b3': 'Playful clock face with mascot character &amp; step count',
+    'trio-k-b4': 'All contacts pre-approved by parents — no unknown callers',
+    'trio-device-seniors': '<i data-lucide="watch"></i> Watch',
+    'trio-type-seniors': 'Seniors',
+    'trio-age-seniors': 'Ages 65–85 · Watch user',
+    'trio-goal-seniors': '<span class="user-trio-goal-label">Primary need</span>Stay independent, healthy, and reachable',
+    'trio-s-b1': 'Clear, high-contrast clock face &amp; prominent contact display',
+    'trio-s-b2': 'Health stats at a glance: steps, sleep time, heart rate',
+    'trio-s-b3': 'Emergency SOS accessible from any screen via physical button',
+    'trio-s-b4': 'Conventional icons — no abstract metaphors or learning curve',
+    'trio-device-parents': '<i data-lucide="smartphone"></i> App',
+    'trio-type-parents': 'Parents',
+    'trio-age-parents': 'Adults · Companion app user',
+    'trio-goal-parents': '<span class="user-trio-goal-label">Primary need</span>Monitor, protect, and stay in touch with family',
+    'trio-p-b1': 'View real-time location of kids &amp; seniors on map',
+    'trio-p-b2': 'Receive alerts: safe-zone exits, Emergency SOS triggers',
+    'trio-p-b3': 'Initiate calls &amp; messages to watch wearers from the app',
+    'trio-p-b4': 'Manage approved contacts &amp; family settings for each watch',
+    's04-eyebrow': '04 · Design Principles',
+    's04-heading': 'Tailored interaction models for each generation',
+    's04-p1': 'The same UI conventions that make a design clear to an adult can make it inaccessible to a child — or alienating to a senior. Each user group required its own design grammar, derived directly from how that group perceives and interacts with digital interfaces.',
+    'sub-head-kids': 'For Kids — Ages 8–11',
+    'pk-label1': 'Storytelling',
+    'pk-title1': 'Characters &amp; Narrative',
+    'pk-desc1': 'A mascot character on the clock face gives kids something to identify with — making the watch feel personal, not functional. Characters respond to interactions with animation, rewarding every use.',
+    'pk-label2': 'Instant Effects',
+    'pk-title2': 'Immediate Visual Feedback',
+    'pk-desc2': 'Children cannot tolerate delay between action and response. Every tap triggers an immediate visual or sound reaction. Loading states are animated — there is never an empty, unresponsive moment.',
+    'pk-label3': 'Colors &amp; Patterns',
+    'pk-title3': 'Icons as Primary Language',
+    'pk-desc3': 'Children identify objects by color and shape before text. Each app in the carousel is a distinct color + icon — text labels are supplementary. The icon IS the affordance. No ambiguity about which app is which.',
+    'pk-label4': 'Safety',
+    'pk-title4': 'Curated, Gated Feature Set',
+    'pk-desc4': 'The kids watch exposes only what children need. Every communication feature — calls, messages — is locked to parent-approved contacts. No open internet, no unknown senders, no accidental exposure.',
+    'sub-head-seniors': 'For Seniors — Ages 65–85',
+    'ps-label1': 'Familiarity',
+    'ps-title1': 'Conventional Interaction Elements',
+    'ps-desc1': 'Seniors find it difficult to decode abstract or novel icon styles. Every icon uses widely recognized symbols — avoiding metaphor-dependent visuals that require prior digital literacy to interpret.',
+    'ps-label2': 'Accessibility',
+    'ps-title2': 'Easy-to-Target Buttons',
+    'ps-desc2': 'Larger type, high-contrast color blocks as buttons, and generous tap targets. The interface communicates at a glance what is interactive and what is static — reducing hesitation and accidental inputs.',
+    'ps-label3': 'Clarity',
+    'ps-title3': 'Clear Feedback on Every Action',
+    'ps-desc3': 'After every interaction, a visible state change confirms what happened. Seniors need to feel in control — uncertain or ambiguous states create anxiety and avoidance of the device entirely.',
+    'ps-label4': 'Safety',
+    'ps-title4': 'Emergency Always Within Reach',
+    'ps-desc4': 'Quick Settings — accessible by holding the physical side button for 2 seconds from any screen — means Emergency SOS is never more than one action away, regardless of where the senior is in the interface.',
+    's05-eyebrow': '05 · UX Architecture',
+    's05-heading': 'A navigation model built around the wrist',
+    's05-p1': 'The watch\'s spatial navigation was designed to feel physical and predictable — matching how people intuitively expect a wrist device to respond. The clock face is always the anchor. Every surface is reachable within one to two gestures, and every gesture maps to a consistent spatial direction.',
+    'nav1-title': 'Swipe Up → Quick Settings',
+    'nav1-desc': 'The most critical functions — brightness, DND, Emergency SOS — are always one swipe from home. Also triggerable by holding the physical button for 2 seconds, from any screen.',
+    'nav2-title': 'Swipe Down → Notifications',
+    'nav2-desc': 'Reminders, messages, missed calls, and safe-zone alerts. Tapping a notification opens the source app directly — no hunting through menus.',
+    'nav3-title': 'Swipe Left → App Carousel',
+    'nav3-desc': 'The full app menu accessed as a horizontal swipe carousel — each app a distinct color circle. Swipe to browse, tap to enter. The last app (Tips) serves as a built-in wayfinding anchor.',
+    'nav4-title': 'Swipe Down (Home) → Stats',
+    'nav4-desc': 'Steps, sleep time, and heart rate — available immediately without entering an app. Health at a glance, particularly important for the seniors watch experience.',
+    'callout-title-safety': 'Physical button = universal safety net',
+    'callout-body-safety': 'Pressing the physical side button always navigates back to the clock face — a predictable, muscle-memory exit that works even if a user gets disoriented inside an app. For seniors especially, this single interaction provides a consistent "home" regardless of how lost they might feel on screen.',
+    's06-eyebrow': '06 · Feature Demo — Kids Watch',
+    's06-heading': 'How a child makes a video call',
+    's06-p1': 'The video call flow is the primary connectivity feature of the kids watch. The design challenge: make it simple enough for an 8-year-old to use independently — while keeping the contact list locked to family-approved people only. No searching, no typing, no risk of calling a stranger.',
+    's06-p2': 'The complete flow from clock face to connected call takes just 4 taps. Every step uses large, color-coded affordances. There is no ambiguity about what to press next.',
+    'vl-flow': 'Full flow — clock face to connected video call',
+    'wf-cap1': '1. Clock face<br />Swipe left',
+    'wf-cap2': '2. Call app<br />Tap to open',
+    'wf-cap3': '3. Contacts<br />Family only',
+    'wf-cap4': '4. Choose<br />Video or call',
+    'wf-cap5': '5. Connecting<br />to Mom',
+    'wf-cap6': '6. Hello! Mom',
+    'sol-b1': 'Contacts list is locked to parent-approved family members — no unknown callers possible, ever',
+    'sol-b2': 'Each contact shows which device they\'re reachable on (phone icon = App), so kids know before calling',
+    'sol-b3': 'Video and voice call are equal-weight options — neither is buried or treated as secondary',
+    'sol-b4': 'Live call screen: caller\'s face full-screen, child\'s selfie in corner, mic &amp; speaker icons at top, large red hang-up as the only persistent action',
+    's07-eyebrow': '07 · App Ecosystem',
+    's07-heading': 'Eight apps. Eight colors. Zero confusion.',
+    's07-p1': 'The kids watch app carousel is a deliberately curated set — not a minimal set, but a carefully scoped one. Every app has a unique color and icon combination navigable by swiping left from the clock face. The color system is the navigation system: children learn to recognize "the green one" as Call before they can reliably read a label.',
+    'app-call-name': 'Call',
+    'app-call-desc': 'Video &amp; voice calls to approved family contacts',
+    'aud-kids-seniors': 'Kids + Seniors',
+    'app-msg-name': 'Message',
+    'app-msg-desc': 'Quick messages to family members on the companion app',
+    'aud-kids': 'Kids',
+    'app-todo-name': 'To Do',
+    'app-todo-desc': 'Task list — parents assign, kids complete to build daily habits',
+    'app-alarm-name': 'Alarms',
+    'app-alarm-desc': 'Set reminders for school, meals, and daily activities',
+    'app-timer-name': 'Timer',
+    'app-timer-desc': 'Countdown timer for homework, playtime, and chores',
+    'app-loc-name': 'Location',
+    'app-loc-desc': 'Share live location with parents — always-on safety layer',
+    'app-settings-name': 'Settings',
+    'app-settings-desc': 'Display brightness, sound, and connection preferences',
+    'app-tips-name': 'Tips',
+    'app-tips-desc': 'Watch usage guidance — always the last app in the carousel',
+    'callout-title-tips': 'Why Tips is last — a deliberate navigation decision',
+    'callout-body-tips': 'Tips is intentionally placed as the final app in the swipe carousel. It acts as a built-in wayfinding anchor: if a child swipes all the way through without finding what they need, Tips is there as a fallback. It also signals a clear end to the carousel — preventing the anxiety of infinite scrolling without a sense of completion.',
+    's08-eyebrow': '08 · Watch Visual Design',
+    's08-heading': 'Two watches. Two design languages.',
+    's08-sub': 'Same hardware platform. Completely different visual register — one built for delight, one built for clarity and trust.',
+    'wc-kids-age': 'Ages 8–11',
+    'wc-kids-detail': 'Light teal hardware with colorful accent band (green, red, white). Dark AMOLED display — oversized bold clock numerals in yellow/white, animated mascot character (a yellow bird-like creature), step count with shoe icon at base. High visual energy. Designed to delight and feel like a toy that also tells the time.',
+    'wc-seniors-age': 'Ages 65–85',
+    'wc-seniors-detail': 'Dark gray hardware with refined strap. Clean dark display — the most important information (time, contact name) is given generous scale. Minimal chrome, no decorative elements. Health stats are one swipe down from home. The interface communicates calm competence — not a toy, not a medical device.',
+    's09-eyebrow': '09 · Design System',
+    's09-heading': 'Color &amp; type — Watch UI',
+    'sub-head-ds': 'Kids Watch — App icon color palette',
+    'ds-p1': 'Each app\'s color is its identity. The palette was chosen to be maximally distinct from each other — no two adjacent apps in the carousel share a similar hue. Children develop spatial + color memory: "swipe until I see green" replaces "find the app called Call."',
+    'chip-call': 'Call',
+    'chip-msg': 'Message',
+    'chip-todo': 'To Do',
+    'chip-alarm': 'Alarms',
+    'chip-timer': 'Timer',
+    'chip-loc': 'Location',
+    'chip-tips': 'Tips',
+    'chip-bg': 'Watch BG',
+    'type-tag-kids': 'Kids Watch',
+    'type-detail-kids': 'Extra-bold, oversized numerals — legible at a glance, even during movement or play',
+    'type-tag-seniors': 'Seniors Watch',
+    'type-detail-seniors': 'Generous scale, high contrast ratio, minimal decoration — legibility above all else',
+    'type-tag-app': 'Companion App',
+    'type-detail-app': 'Consistent with the broader product design language — clean, modern, professional',
+    'next-label': 'Next project',
+    'next-btn-text': 'View case study <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Lead Product Designer at Gogolook · Taipei, Taiwan'
+  },
+  zh: {
+    'back-btn': '<i data-lucide="arrow-left"></i> 所有作品',
+    'hero-cat': '健康 · 家庭 · 穿戴裝置',
+    'hero-sub': '為三個世代重新設計的家庭安全穿戴生態系——兒童（8–11 歲）、長者（65–85 歲）與家長——透過健康、通訊與安心感連結家人',
+    'meta-client': '客戶',
+    'meta-codename': '專案代號',
+    'meta-launch': '預計上市',
+    'meta-team-label': '團隊',
+    'meta-team-val': '5 位設計師（跨區域）',
+    'meta-role-label': '我的角色',
+    'meta-role-val': 'UX/UI——兒童手錶 + App',
+    'meta-timeline': '時間',
+    'meta-platform-label': '平台',
+    'meta-platform-val': '智慧手錶 + iOS / Android',
+    'meta-type': '專案類型',
+    'badge-new-product': '全新產品',
+    's01-eyebrow': '01 · 專案概述',
+    's01-heading': 'Fitbit，為全家重新想像',
+    's01-p1': 'Fitbit 現有產品線是為個人打造的——一位用戶、一台裝置、一段健身旅程。這個概念專案挑戰了這個模式。<strong>Fitbit Connect</strong> 將穿戴裝置重新定義為家庭安全與連結的橋樑：讓父母與孩子保持緊密聯繫、讓成年子女照顧年邁父母，以及讓長者和孩子感到安心且隨時可被聯繫——無需操作智慧型手機。',
+    's01-p2': '這個專案面對一份不尋常的設計簡報：三個本質迥異的用戶群體、兩種截然不同的硬體形式，以及一個完整一致的產品生態系——全部在台北與舊金山之間以遠端協作方式，歷時 14 個月完成。',
+    'ch-label-users': '使用者',
+    'ch-val-users': '三個世代，三種迥異的心智模型',
+    'ch-label-platforms': '平台',
+    'ch-val-platforms': '智慧手錶（2 款）+ 隨行 App',
+    'ch-label-collab': '協作方式',
+    'ch-val-collab': '遠端協作——台北 × 舊金山',
+    'callout-title-contrib': 'Kay 的貢獻',
+    'callout-body-contrib': '設計團隊共 5 人：2 位來自香港的 UX 設計師負責隨行 App；1 位設計師負責長者手錶 UX；1 位設計師負責長者手錶 UI。我負責<strong>兒童手錶的 UX/UI 設計</strong>與<strong>家長隨行 App 的 UI 設計</strong>。Fitbit 的首席設計師擔任跨所有迭代的核心利益相關者，職責涵蓋使用者測試、使用者分析、線框稿、使用者流程與 UI 模型。',
+    's02-eyebrow': '02 · 研究與洞察',
+    's02-heading': '在第一個畫面誕生之前',
+    's02-p1': '設計流程以證據為基礎，而非假設。使用者測試與分析在任何概念方向確立之前即已展開——不只影響功能，更形塑了根本的產品定位。我們問的不是「智慧手錶能做什麼？」而是「這些家庭真正需要從連網裝置中獲得什麼？」',
+    'flow-label': '設計流程',
+    'fn-testing': '使用者測試',
+    'fn-analysis': '使用者分析',
+    'fn-strategy': 'UX 策略',
+    'fn-concept': '概念設計',
+    'ins1-title': '家庭連結',
+    'ins1-desc': '所有群體中的多數用戶，希望以更主動、透過科技介入的方式與家人保持聯繫——而不只是被動的可見性。',
+    'ins1-b1': '各群體中分別有 79% / 74% / 45% 的人希望建立更主動的家庭連結',
+    'ins1-b2': '被動的查看動態已不夠——人們想要真正的臨場感',
+    'ins2-title': '安全是核心價值',
+    'ins2-desc': '在所有家庭角色中，定位追蹤與緊急 SOS 被列為最高優先功能——是不可或缺的必備項，而非錦上添花。',
+    'ins2-b1': '定位追蹤——讓家長與成年子女安心',
+    'ins2-b2': '緊急 SOS——對身處陌生環境的孩子與長者至關重要',
+    'ins3-title': '健康動機',
+    'ins3-desc': '健康對每個世代的意義不同——但作為使用穿戴裝置的動機，它在每個群體中普遍存在。',
+    'ins3-b1': '68% 的家長希望孩子從小培養健康習慣',
+    'ins3-b2': '62% 的年長者希望科技能幫助他們了解並改善自身健康',
+    'ins4-title': '情感需求，不只是功能',
+    'ins4-desc': '孩子與長者都有超越實用功能的明確情感需求——僅針對功能設計，將錯失真正驅動採用的關鍵因素。',
+    'ins4-b1': '孩子：互動遊戲（88%）、訊息功能（87%）、挑戰任務（85%）',
+    'ins4-b2': '長者：「我們想要更時尚的裝置」——而非醫療器材',
+    's03-eyebrow': '03 · 三類目標用戶',
+    's03-heading': '一個生態系，三種截然不同的體驗。',
+    's03-p1': '每個用戶群體與科技的關係不同、情感需求不同，互動模型也完全不同。產品必須同時服務三者——且不能讓任一群體的體驗損害其他人的體驗。',
+    'trio-device-kids': '<i data-lucide="watch"></i> 手錶',
+    'trio-type-kids': '兒童',
+    'trio-age-kids': '8–11 歲 · 手錶用戶',
+    'trio-goal-kids': '<span class="user-trio-goal-label">主要需求</span>以有趣、安全的方式與家人保持聯繫',
+    'trio-k-b1': '視訊通話 &amp; 傳訊給家庭聯絡人',
+    'trio-k-b2': '探索 App 轉盤：通話、訊息、待辦、鬧鐘、計時器、位置',
+    'trio-k-b3': '帶有吉祥物角色 &amp; 步數的趣味錶面',
+    'trio-k-b4': '所有聯絡人須經家長預先核准——不會有陌生來電',
+    'trio-device-seniors': '<i data-lucide="watch"></i> 手錶',
+    'trio-type-seniors': '長者',
+    'trio-age-seniors': '65–85 歲 · 手錶用戶',
+    'trio-goal-seniors': '<span class="user-trio-goal-label">主要需求</span>保持獨立、健康且隨時可被聯繫',
+    'trio-s-b1': '清晰高對比的錶面 &amp; 醒目的聯絡人顯示',
+    'trio-s-b2': '一目了然的健康數據：步數、睡眠時間、心率',
+    'trio-s-b3': '可從任何畫面透過實體按鍵啟動緊急 SOS',
+    'trio-s-b4': '使用慣用圖示——無抽象隱喻，無學習曲線',
+    'trio-device-parents': '<i data-lucide="smartphone"></i> App',
+    'trio-type-parents': '家長',
+    'trio-age-parents': '成人 · 隨行 App 用戶',
+    'trio-goal-parents': '<span class="user-trio-goal-label">主要需求</span>監控、保護並與家人保持聯繫',
+    'trio-p-b1': '在地圖上查看孩子 &amp; 長者的即時位置',
+    'trio-p-b2': '接收警示：安全區域離開通知、緊急 SOS 觸發',
+    'trio-p-b3': '從 App 主動撥打電話 &amp; 傳訊給手錶佩戴者',
+    'trio-p-b4': '管理每支手錶的核准聯絡人 &amp; 家庭設定',
+    's04-eyebrow': '04 · 設計原則',
+    's04-heading': '為每個世代量身打造的互動模型',
+    's04-p1': '對成人而言清晰的 UI 慣例，對孩子來說可能難以理解，對長者來說可能令人疏離。每個用戶群體需要各自的設計語法，直接源自該群體感知數位介面與互動的方式。',
+    'sub-head-kids': '兒童設計原則——8–11 歲',
+    'pk-label1': '故事性',
+    'pk-title1': '角色與敘事',
+    'pk-desc1': '錶面上的吉祥物角色讓孩子有所認同——使手錶感覺個人化，而非功能性。角色會以動畫回應互動，為每次使用帶來獎勵感。',
+    'pk-label2': '即時效果',
+    'pk-title2': '即時視覺反饋',
+    'pk-desc2': '孩子無法忍受操作與回應之間的延遲。每次點擊都會立即觸發視覺或聲音反應。載入狀態以動畫呈現——絕不出現空白或無回應的時刻。',
+    'pk-label3': '色彩與圖形',
+    'pk-title3': '圖示作為主要語言',
+    'pk-desc3': '孩子在閱讀文字之前，先透過顏色和形狀辨識物體。轉盤中每個 App 都有獨特的顏色 + 圖示——文字標籤僅作輔助。圖示本身即是功能提示。每個 App 的識別毫無歧義。',
+    'pk-label4': '安全性',
+    'pk-title4': '精心策劃的封閉功能集',
+    'pk-desc4': '兒童手錶只開放孩子需要的功能。所有通訊功能——通話、訊息——僅限家長核准的聯絡人。無開放網路、無陌生寄件者、無意外接觸風險。',
+    'sub-head-seniors': '長者設計原則——65–85 歲',
+    'ps-label1': '熟悉感',
+    'ps-title1': '慣用互動元素',
+    'ps-desc1': '長者難以解讀抽象或新穎的圖示風格。所有圖示均採用廣泛認知的符號——避免依賴隱喻的視覺，那需要數位素養才能理解。',
+    'ps-label2': '無障礙設計',
+    'ps-title2': '易於點擊的按鍵',
+    'ps-desc2': '更大的字體、高對比色塊作為按鍵，以及充裕的點擊目標。介面讓人一眼即知哪些元素可互動、哪些是靜態的——減少猶豫與誤觸。',
+    'ps-label3': '清晰度',
+    'ps-title3': '每次操作均有清晰反饋',
+    'ps-desc3': '每次互動後，明顯的狀態變化確認操作結果。長者需要有掌控感——不確定或模糊的狀態會引發焦慮，讓他們完全迴避使用裝置。',
+    'ps-label4': '安全性',
+    'ps-title4': '緊急功能隨時觸手可及',
+    'ps-desc4': '快速設定——在任何畫面長按實體側鍵 2 秒即可開啟——意味著緊急 SOS 永遠不超過一個動作，無論長者在介面的哪個位置。',
+    's05-eyebrow': '05 · UX 架構',
+    's05-heading': '為手腕設計的導航模型',
+    's05-p1': '手錶的空間導航設計力求物理感與可預期性——符合人們對腕戴裝置直覺反應的期待。錶面始終是錨點。每個功能介面都在一到兩個手勢內可達，每個手勢都對應一致的空間方向。',
+    'nav1-title': '上滑 → 快速設定',
+    'nav1-desc': '最關鍵的功能——亮度、勿擾模式、緊急 SOS——始終在首頁上滑一下即可取得。也可在任何畫面長按實體按鍵 2 秒觸發。',
+    'nav2-title': '下滑 → 通知中心',
+    'nav2-desc': '提醒、訊息、未接來電與安全區域警示。點擊通知直接開啟對應 App——無需在選單中搜尋。',
+    'nav3-title': '左滑 → App 轉盤',
+    'nav3-desc': '以水平滑動轉盤方式呈現完整 App 選單——每個 App 以獨特顏色圓圈表示。滑動瀏覽，點擊進入。最後一個 App（使用提示）作為內建的導航錨點。',
+    'nav4-title': '首頁下滑 → 健康數據',
+    'nav4-desc': '步數、睡眠時間與心率——無需進入 App 即可立即查閱。健康一覽無遺，對長者手錶體驗尤為重要。',
+    'callout-title-safety': '實體按鍵＝通用安全網',
+    'callout-body-safety': '按下實體側鍵始終返回錶面——一個可預期的肌肉記憶出口，即使用戶在 App 中迷失方向也能發揮作用。尤其對長者而言，這個單一互動提供了一致的「回家」方式，無論他們在畫面上感到多麼迷茫。',
+    's06-eyebrow': '06 · 功能展示——兒童手錶',
+    's06-heading': '孩子如何撥打視訊電話',
+    's06-p1': '視訊通話流程是兒童手錶的主要連結功能。設計挑戰：讓 8 歲孩子能夠獨立使用——同時將聯絡人名單鎖定在家庭核准的人員範圍內。無需搜尋、無需輸入文字，零誤撥陌生人風險。',
+    's06-p2': '從錶面到接通視訊的完整流程僅需 4 次點擊。每個步驟使用大型、色彩編碼的互動提示。下一步要按什麼，毫無歧義。',
+    'vl-flow': '完整流程——從錶面到接通視訊通話',
+    'wf-cap1': '1. 錶面<br />向左滑動',
+    'wf-cap2': '2. 通話 App<br />點擊開啟',
+    'wf-cap3': '3. 聯絡人<br />僅限家人',
+    'wf-cap4': '4. 選擇<br />視訊或語音',
+    'wf-cap5': '5. 連線中<br />撥給媽媽',
+    'wf-cap6': '6. 媽媽你好！',
+    'sol-b1': '聯絡人名單僅限家長核准的家庭成員——永遠不會有陌生來電',
+    'sol-b2': '每位聯絡人顯示可透過哪個裝置聯繫（電話圖示＝App），讓孩子通話前即知道',
+    'sol-b3': '視訊通話與語音通話並列同等地位——都不被埋藏或視為次要選項',
+    'sol-b4': '通話中畫面：對方臉部全螢幕、孩子自拍畫面在角落、頂部顯示麥克風與喇叭圖示、大型紅色掛斷按鈕作為唯一持久動作',
+    's07-eyebrow': '07 · App 生態系',
+    's07-heading': '八個 App，八種顏色，零混淆。',
+    's07-p1': '兒童手錶 App 轉盤是刻意策劃的集合——不是最精簡的，而是精心界定範疇的。每個 App 都有獨特的顏色與圖示組合，從錶面向左滑動即可瀏覽。顏色系統即是導航系統：孩子在能可靠閱讀標籤之前，就已學會認出「綠色那個」是通話。',
+    'app-call-name': '通話',
+    'app-call-desc': '向核准的家庭聯絡人撥打視訊 &amp; 語音電話',
+    'aud-kids-seniors': '兒童 + 長者',
+    'app-msg-name': '訊息',
+    'app-msg-desc': '向隨行 App 上的家庭成員傳送快速訊息',
+    'aud-kids': '兒童',
+    'app-todo-name': '待辦事項',
+    'app-todo-desc': '任務清單——家長指派，孩子完成，培養每日好習慣',
+    'app-alarm-name': '鬧鐘',
+    'app-alarm-desc': '為上學、用餐與日常活動設定提醒',
+    'app-timer-name': '計時器',
+    'app-timer-desc': '作業、玩耍時間與家務的倒數計時器',
+    'app-loc-name': '位置',
+    'app-loc-desc': '與家長分享即時位置——全時段安全保障',
+    'app-settings-name': '設定',
+    'app-settings-desc': '螢幕亮度、音量與連線偏好設定',
+    'app-tips-name': '使用提示',
+    'app-tips-desc': '手錶使用說明——始終排在轉盤最後',
+    'callout-title-tips': '為何提示放最後——刻意的導航決策',
+    'callout-body-tips': '使用提示刻意放置在滑動轉盤的最後一個位置。它作為內建的導航錨點：如果孩子一路滑過卻沒找到需要的 App，提示就在那裡作為備援。它同時也標示出轉盤的明確終點——避免無盡滾動帶來的焦慮感。',
+    's08-eyebrow': '08 · 手錶視覺設計',
+    's08-heading': '兩款手錶，兩種設計語言。',
+    's08-sub': '相同的硬體平台，截然不同的視覺語境——一款為歡樂而生，一款為清晰與信任而造。',
+    'wc-kids-age': '8–11 歲',
+    'wc-kids-detail': '淺青色機身搭配彩色錶帶（綠、紅、白）。暗色 AMOLED 螢幕——黃/白超大粗體時鐘數字、動態吉祥物角色（黃色鳥形生物），底部有鞋子圖示步數顯示。高度視覺活力。設計目標是讓人喜悅，感覺像一個同時也能看時間的玩具。',
+    'wc-seniors-age': '65–85 歲',
+    'wc-seniors-detail': '深灰色機身搭配精緻錶帶。簡潔暗色螢幕——最重要的資訊（時間、聯絡人名稱）擁有充裕的顯示空間。極簡裝飾，無裝飾性元素。健康數據在首頁下滑一格即可取得。介面傳達沉穩的能力感——不是玩具，也不是醫療器材。',
+    's09-eyebrow': '09 · 設計系統',
+    's09-heading': '色彩與字型——手錶 UI',
+    'sub-head-ds': '兒童手錶——App 圖示色彩系統',
+    'ds-p1': '每個 App 的顏色就是其識別。色板選擇以最大化差異性為原則——轉盤中相鄰的 App 不共用相近色調。孩子會建立空間 + 色彩記憶：「滑到看見綠色」取代了「找名為通話的 App」。',
+    'chip-call': '通話',
+    'chip-msg': '訊息',
+    'chip-todo': '待辦',
+    'chip-alarm': '鬧鐘',
+    'chip-timer': '計時器',
+    'chip-loc': '位置',
+    'chip-tips': '提示',
+    'chip-bg': '手錶背景',
+    'type-tag-kids': '兒童手錶',
+    'type-detail-kids': '超粗體超大數字——即使在移動或玩耍中也能一眼辨識',
+    'type-tag-seniors': '長者手錶',
+    'type-detail-seniors': '充裕字級、高對比色彩比例、極簡裝飾——可讀性優先於一切',
+    'type-tag-app': '隨行 App',
+    'type-detail-app': '與更廣泛的產品設計語言一致——簡潔、現代、專業',
+    'next-label': '下一個專案',
+    'next-btn-text': '查看案例 <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Lead Product Designer at Gogolook · 台北，台灣'
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-opt').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+  localStorage.setItem('kw-lang-fitbit', lang);
+  lucide.createIcons();
+}
+
+document.getElementById('langSwitch').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-opt');
+  if (!btn) return;
+  applyLang(btn.getAttribute('data-lang'));
+});
+
+</script>
+</body>
+</html>
