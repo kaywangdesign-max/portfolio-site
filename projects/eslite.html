@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eslite Social App — Kay Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../project-page.css" />
+<style>
+/* ── Eslite-specific components ─────────────────────────────────── */
+
+.strategy-trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 28px;
+}
+.strategy-block {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px 20px;
+}
+.strategy-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.strategy-block h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg);
+  margin: 0 0 8px;
+}
+.strategy-block p {
+  font-size: 13.5px;
+  color: var(--muted-fg);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Feature blocks */
+.feature-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1.5px solid var(--border);
+}
+.feature-block:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+.feature-block.reverse {
+  direction: rtl;
+}
+.feature-block.reverse > * {
+  direction: ltr;
+}
+.feature-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.feature-copy h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--fg);
+  margin: 0 0 12px;
+  line-height: 1.3;
+}
+.feature-copy p {
+  font-size: 14px;
+  color: var(--muted-fg);
+  line-height: 1.7;
+  margin: 0 0 16px;
+}
+.feature-detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.feature-detail-list li {
+  font-size: 13.5px;
+  color: var(--muted-fg);
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.55;
+}
+.feature-detail-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+/* Design system swatches */
+.ds-palette-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  margin-bottom: 8px;
+}
+.ds-swatch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 8px 14px;
+  font-size: 12.5px;
+}
+.swatch-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.swatch-name { font-weight: 600; color: var(--fg); }
+.swatch-hex { color: var(--muted-fg); margin-left: 4px; }
+
+@media (max-width: 768px) {
+  .strategy-trio { grid-template-columns: 1fr; }
+  .feature-block { grid-template-columns: 1fr; gap: 24px; }
+  .feature-block.reverse { direction: ltr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">K.W.</a>
+  <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+    <button class="lang-opt active" data-lang="en">EN</button>
+    <button class="lang-opt" data-lang="zh">繁中</button>
+  </div>
+  <a href="../index.html#projects" class="back-btn" data-i18n="back-btn"><i data-lucide="arrow-left"></i> All Work</a>
+</nav>
+
+<div class="proj-hero">
+  <div class="proj-hero-bg">
+    <img src="../images/eslite.png" alt="Eslite Bookeys" />
+  </div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-content">
+    <div class="proj-hero-cat" data-i18n="hero-cat">Consumer Lifestyle · Mobile App · Hong Kong</div>
+    <h1 class="proj-hero-title">Eslite Social App</h1>
+    <p class="proj-hero-sub" data-i18n="hero-sub">Social book discovery app for Eslite HK — community reviews, two complete visual styles, and a dark mode built for readers</p>
+  </div>
+</div>
+
+<div class="proj-meta-bar">
+  <div class="proj-meta-row">
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-client">Client</div>
+      <div class="meta-value" data-i18n="meta-client-val">Eslite Hong Kong</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-agency">Agency</div>
+      <div class="meta-value">Skywind Inc.</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-role-label">My Role</div>
+      <div class="meta-value" data-i18n="meta-role-val">UX/UI Designer</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-timeline">Timeline</div>
+      <div class="meta-value">2018</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-platform-label">Platform</div>
+      <div class="meta-value">iOS</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-type">Project Type</div>
+      <div class="meta-value"><span class="goal-badge new-product" data-i18n="badge-new-product">New Product</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="proj-body">
+  <div class="proj-col">
+
+    <!-- 01 Context -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s01-eyebrow">01 · Context</div>
+      <h2 class="content-heading" data-i18n="s01-heading">A cultural institution going digital</h2>
+      <p class="content-text" data-i18n="s01-p1">Eslite is one of Asia's most beloved bookstore brands — a cultural institution that expanded beyond books into stationery, fashion, food, and crafts. For its Hong Kong presence, Eslite needed a mobile app that could serve as a community platform for book lovers, while also reflecting the brand's evolution into a broader lifestyle destination.</p>
+      <p class="content-text" data-i18n="s01-p2">The core tension: how do you honour the tactile, nostalgic experience of browsing a physical bookstore — the smell of ink, the weight of a new spine, the quietness of the stacks — in a digital product? And how do you extend that to Eslite's newer lifestyle identity without alienating the core literary audience?</p>
+    </div>
+
+    <!-- 02 UX Strategy -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s02-eyebrow">02 · UX Strategy</div>
+      <h2 class="content-heading" data-i18n="s02-heading">Three decisions that shaped the design</h2>
+
+      <div class="strategy-trio">
+        <div class="strategy-block">
+          <div class="strategy-num" data-i18n="strat1-num">01 · Community First</div>
+          <h4 data-i18n="strat1-title">Social before commerce</h4>
+          <p data-i18n="strat1-desc">Book lovers are intrinsically social — they recommend, argue, annotate. I led with a community review layer rather than a product catalogue, so the app feels like a reading club, not a retail channel.</p>
+        </div>
+        <div class="strategy-block">
+          <div class="strategy-num" data-i18n="strat2-num">02 · Dual Style Direction</div>
+          <h4 data-i18n="strat2-title">Two complete aesthetics for client validation</h4>
+          <p data-i18n="strat2-desc">Rather than committing to one aesthetic before stakeholder alignment, I designed two production-ready visual styles — Modern Cultural and Paper Nostalgia — each targeting a distinct facet of Eslite's brand identity.</p>
+        </div>
+        <div class="strategy-block">
+          <div class="strategy-num" data-i18n="strat3-num">03 · Reading Context</div>
+          <h4 data-i18n="strat3-title">Dark mode as a first-class feature</h4>
+          <p data-i18n="strat3-desc">Book readers read at night. I treated dark mode not as a toggle afterthought, but as a dedicated reading-optimised experience with its own contrast ratios, type sizing, and ambient colour palette.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 Style A: Modern Cultural -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s03-eyebrow">03 · Visual Style A</div>
+      <h2 class="content-heading" data-i18n="s03-heading">Modern Cultural — cosmopolitan energy</h2>
+      <p class="content-text" data-i18n="s03-p1">When we think of Eslite today, it's not just a bookstore — you can find modern stationery, local fashion brands, mini craft stores. It combines merchandise with modern culture, where diverse groups of people gather around quality living. This direction visualises that evolution.</p>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-copy">
+        <div class="feature-badge" data-i18n="styleA-badge">Style A · Modern Cultural</div>
+        <h3 data-i18n="styleA-h3">Geometric, editorial, open</h3>
+        <p data-i18n="styleA-p">Linear shapes and geometric patterns communicate the cosmopolitan breadth of modern Eslite — a space for readers, designers, travellers, and tastemakers alike. The visual language is intentionally non-literary: it signals that this app is for your whole lifestyle, not just your bookshelf.</p>
+        <ul class="feature-detail-list">
+          <li data-i18n="styleA-li1">Clean geometric grid with high-contrast typographic hierarchy</li>
+          <li data-i18n="styleA-li2">Modular card system supporting books, events, and lifestyle picks</li>
+          <li data-i18n="styleA-li3">Bright, airy palette appropriate for Eslite HK's urban shopper</li>
+          <li data-i18n="styleA-li4">Bold cover art presentation as the primary visual anchor</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="content-visual">
+          <img src="https://static.wixstatic.com/media/c8b53d_0c6fb0fde0ea4c8a92a80108ad45be0d~mv2.png"
+               alt="Eslite Modern Cultural — home, discovery, and community screens" />
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-block reverse">
+      <div class="feature-copy">
+        <div class="feature-badge" data-i18n="community-badge">Community Layer</div>
+        <h3 data-i18n="community-h3">Reviews, discovery, and social sharing</h3>
+        <p data-i18n="community-p">The community section lets readers write structured reviews, follow other readers' shelves, and receive personalised recommendations. New arrivals and curated lists are surfaced through a feed model — familiar to social app users, but anchored in literary intent.</p>
+        <ul class="feature-detail-list">
+          <li data-i18n="community-li1">Structured review format with multi-dimension rating (plot, writing, pacing)</li>
+          <li data-i18n="community-li2">Follow and shelf system for social discovery between readers</li>
+          <li data-i18n="community-li3">Push notification design for new arrivals and special member offers</li>
+          <li data-i18n="community-li4">Staff picks and editorial curation integrated into the social feed</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="content-visual">
+          <img src="https://static.wixstatic.com/media/c8b53d_ae5d0c13bca5415b94cffdc67f1a5678~mv2.png"
+               alt="Eslite Modern Cultural — community review and social discovery screens" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 Style B: Paper Nostalgia -->
+    <div class="content-section" style="margin-top:64px;">
+      <div class="section-eyebrow" data-i18n="s04-eyebrow">04 · Visual Style B</div>
+      <h2 class="content-heading" data-i18n="s04-heading">Paper Nostalgia — the original bookstore soul</h2>
+      <p class="content-text" data-i18n="s04-p1">People who love reading often love the physical book itself — the ink-paper smell, the texture of a magazine cover, the quiet footsteps inside a library. This direction doesn't try to replicate those sensations digitally; it constructs a visual atmosphere that resonates with them.</p>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-copy">
+        <div class="feature-badge" data-i18n="styleB-badge">Style B · Paper Nostalgia</div>
+        <h3 data-i18n="styleB-h3">Tactile, warm, and unhurried</h3>
+        <p data-i18n="styleB-p">Where Modern Cultural accelerates, Paper Nostalgia slows down. The visual system uses warm earthy tones, texture-evocative background treatments, and serif-inflected typography — giving every screen the quality of a well-worn reading journal.</p>
+        <ul class="feature-detail-list">
+          <li data-i18n="styleB-li1">Warm sepia-adjacent palette evoking aged paper and leather bookmarks</li>
+          <li data-i18n="styleB-li2">Texture-inspired background layers adding analogue depth</li>
+          <li data-i18n="styleB-li3">Serif-inflected typography lending literary credibility</li>
+          <li data-i18n="styleB-li4">Quieter visual hierarchy that lets book covers breathe without competing</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="content-visual">
+          <img src="https://static.wixstatic.com/media/c8b53d_4e91950855a24c8ca5bf228be1b69024~mv2.png"
+               alt="Eslite Paper Nostalgia — brand layout and UI screens" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 Dark Mode -->
+    <div class="content-section" style="margin-top:64px;">
+      <div class="section-eyebrow" data-i18n="s05-eyebrow">05 · Dark Mode</div>
+      <h2 class="content-heading" data-i18n="s05-heading">A reading experience designed for night</h2>
+      <p class="content-text" data-i18n="s05-p1">Dark mode was a brief requirement, but I treated it as a product feature in its own right. A reader finishing a chapter at midnight has very different needs from a shopper browsing new arrivals at lunch — the interface should know the difference.</p>
+    </div>
+
+    <div class="feature-block reverse">
+      <div class="feature-copy">
+        <div class="feature-badge" data-i18n="dark-badge">Dark Mode · Reading-Optimised</div>
+        <h3 data-i18n="dark-h3">Not inverted — redesigned</h3>
+        <p data-i18n="dark-p">Rather than inverting colours with a system toggle, I designed dark mode with its own visual logic: reduced blue-light emission, generous line spacing, warm dark backgrounds (not pure black) to soften contrast, and type sizing recalibrated for sustained nocturnal reading.</p>
+        <ul class="feature-detail-list">
+          <li data-i18n="dark-li1">Warm dark surface (#1C1C24) rather than pure black — reduces retinal strain</li>
+          <li data-i18n="dark-li2">WCAG AA+ contrast ratios maintained across all text sizes in dark palette</li>
+          <li data-i18n="dark-li3">Cover imagery desaturated slightly so it doesn't break reading immersion</li>
+          <li data-i18n="dark-li4">Full feature parity with light mode — nothing hidden or degraded</li>
+          <li data-i18n="dark-li5">Consistent with both Modern Cultural and Paper Nostalgia style directions</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="content-visual">
+          <img src="https://static.wixstatic.com/media/c8b53d_2bb308d68e354436ab95a9fb6500bfbd~mv2.png"
+               alt="Eslite — Dark mode iPhone and iPad reading view" />
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /proj-col -->
+</div><!-- /proj-body -->
+
+<div style="height:48px;"></div>
+
+<!-- 06 Full Visual Showcase (full-width) -->
+<div class="layout-section">
+  <div class="layout-section-inner">
+    <div class="section-eyebrow" data-i18n="s06-eyebrow">06 · Visual Design</div>
+    <h2 class="layout-section-heading" data-i18n="s06-heading">Full app overview</h2>
+    <p class="layout-section-sub" data-i18n="s06-sub">Both style directions at scale — one shared UX architecture, two distinct identities</p>
+    <div class="content-visual" style="margin-top:28px;">
+      <img src="https://static.wixstatic.com/media/c8b53d_656dd915e03043aaaf6e8635b9e087ac~mv2.png"
+           alt="Eslite — Isometric full-product view across both visual styles" />
+    </div>
+  </div>
+</div>
+
+<!-- 07 Design System -->
+<div class="proj-body">
+  <div class="proj-col">
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s07-eyebrow">07 · Design System</div>
+      <h2 class="content-heading" data-i18n="s07-heading">Two palettes, one shared system</h2>
+      <p class="content-text" data-i18n="s07-p1">Both visual styles were built on the same component library and spacing grid, with only colour tokens and typeface weights swapped between them. This meant presenting two fully production-ready directions to the client — without doubling the design effort.</p>
+
+      <div class="sub-head" style="margin-top:28px;" data-i18n="sub-modern-palette">Modern Cultural Palette</div>
+      <div class="ds-palette-row">
+        <div class="ds-swatch"><div class="swatch-dot" style="background:#1A1A2E;"></div><span class="swatch-name">Deep Navy</span><span class="swatch-hex">#1A1A2E</span></div>
+        <div class="ds-swatch"><div class="swatch-dot" style="background:#E8C547;"></div><span class="swatch-name">Cultural Gold</span><span class="swatch-hex">#E8C547</span></div>
+        <div class="ds-swatch"><div class="swatch-dot" style="background:#F5F0E8;"></div><span class="swatch-name">Warm White</span><span class="swatch-hex">#F5F0E8</span></div>
+        <div class="ds-swatch"><div class="swatch-dot" style="background:#2C5F8A;"></div><span class="swatch-name">Urban Blue</span><span class="swatch-hex">#2C5F8A</span></div>
+      </div>
+
+      <div class="sub-head" style="margin-top:24px;" data-i18n="sub-nostalgia-palette">Paper Nostalgia Palette</div>
+      <div class="ds-palette-row">
+        <div class="ds-swatch"><div class="swatch-dot" style="background:#3D2B1F;"></div><span class="swatch-name">Dark Ink</span><span class="swatch-hex">#3D2B1F</span></div>
+        <div class="ds-swatch"><div class="swatch-dot" style="background:#C9A87C;"></div><span class="swatch-name">Aged Paper</span><span class="swatch-hex">#C9A87C</span></div>
+        <div class="ds-swatch"><div class="swatch-dot" style="background:#F2EAD3;"></div><span class="swatch-name">Cream</span><span class="swatch-hex">#F2EAD3</span></div>
+        <div class="ds-swatch"><div class="swatch-dot" style="background:#7A5C44;"></div><span class="swatch-name">Leather</span><span class="swatch-hex">#7A5C44</span></div>
+      </div>
+
+      <div class="sub-head" style="margin-top:24px;" data-i18n="sub-typography">Typography</div>
+      <ul class="content-list">
+        <li data-i18n="typo-li1"><strong>Modern Cultural:</strong> Outfit (headings) · Plus Jakarta Sans (body) — contemporary, geometric, open</li>
+        <li data-i18n="typo-li2"><strong>Paper Nostalgia:</strong> Playfair Display (headings) · Source Serif (body) — literary warmth and weight</li>
+        <li data-i18n="typo-li3">Both systems use a 4pt baseline grid with 16px body minimum for comfortable reading sessions</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="proj-tags-row">
+  <span class="proj-tag">iOS</span>
+  <span class="proj-tag">Dark Mode</span>
+  <span class="proj-tag">Community UX</span>
+  <span class="proj-tag">Dual Style Direction</span>
+  <span class="proj-tag">Retail</span>
+  <span class="proj-tag">Brand Identity</span>
+  <span class="proj-tag">Hong Kong</span>
+</div>
+
+<div class="next-project-strip">
+  <div>
+    <div class="next-label" data-i18n="next-label">Next project</div>
+    <div class="next-title">Wing CRM</div>
+  </div>
+  <a href="wingcrm.html" class="next-btn" data-i18n="next-btn-text">View case study <i data-lucide="arrow-right"></i></a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Kay Wang</div>
+    <div data-i18n="footer-role">Senior UI/UX Designer · Taipei, Taiwan</div>
+    <div>© 2024 Kay Wang</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script src="../project-page.js"></script>
+<script>
+var translations = {
+  en: {
+    'back-btn': '<i data-lucide="arrow-left"></i> All Work',
+    'hero-cat': 'Consumer Lifestyle · Mobile App · Hong Kong',
+    'hero-sub': 'Social book discovery app for Eslite HK — community reviews, two complete visual styles, and a dark mode built for readers',
+    'meta-client': 'Client',
+    'meta-client-val': 'Eslite Hong Kong',
+    'meta-agency': 'Agency',
+    'meta-role-label': 'My Role',
+    'meta-role-val': 'UX/UI Designer',
+    'meta-timeline': 'Timeline',
+    'meta-platform-label': 'Platform',
+    'meta-type': 'Project Type',
+    'badge-new-product': 'New Product',
+    's01-eyebrow': '01 · Context',
+    's01-heading': 'A cultural institution going digital',
+    's01-p1': 'Eslite is one of Asia\'s most beloved bookstore brands — a cultural institution that expanded beyond books into stationery, fashion, food, and crafts. For its Hong Kong presence, Eslite needed a mobile app that could serve as a community platform for book lovers, while also reflecting the brand\'s evolution into a broader lifestyle destination.',
+    's01-p2': 'The core tension: how do you honour the tactile, nostalgic experience of browsing a physical bookstore — the smell of ink, the weight of a new spine, the quietness of the stacks — in a digital product? And how do you extend that to Eslite\'s newer lifestyle identity without alienating the core literary audience?',
+    's02-eyebrow': '02 · UX Strategy',
+    's02-heading': 'Three decisions that shaped the design',
+    'strat1-num': '01 · Community First',
+    'strat1-title': 'Social before commerce',
+    'strat1-desc': 'Book lovers are intrinsically social — they recommend, argue, annotate. I led with a community review layer rather than a product catalogue, so the app feels like a reading club, not a retail channel.',
+    'strat2-num': '02 · Dual Style Direction',
+    'strat2-title': 'Two complete aesthetics for client validation',
+    'strat2-desc': 'Rather than committing to one aesthetic before stakeholder alignment, I designed two production-ready visual styles — Modern Cultural and Paper Nostalgia — each targeting a distinct facet of Eslite\'s brand identity.',
+    'strat3-num': '03 · Reading Context',
+    'strat3-title': 'Dark mode as a first-class feature',
+    'strat3-desc': 'Book readers read at night. I treated dark mode not as a toggle afterthought, but as a dedicated reading-optimised experience with its own contrast ratios, type sizing, and ambient colour palette.',
+    's03-eyebrow': '03 · Visual Style A',
+    's03-heading': 'Modern Cultural — cosmopolitan energy',
+    's03-p1': 'When we think of Eslite today, it\'s not just a bookstore — you can find modern stationery, local fashion brands, mini craft stores. It combines merchandise with modern culture, where diverse groups of people gather around quality living. This direction visualises that evolution.',
+    'styleA-badge': 'Style A · Modern Cultural',
+    'styleA-h3': 'Geometric, editorial, open',
+    'styleA-p': 'Linear shapes and geometric patterns communicate the cosmopolitan breadth of modern Eslite — a space for readers, designers, travellers, and tastemakers alike. The visual language is intentionally non-literary: it signals that this app is for your whole lifestyle, not just your bookshelf.',
+    'styleA-li1': 'Clean geometric grid with high-contrast typographic hierarchy',
+    'styleA-li2': 'Modular card system supporting books, events, and lifestyle picks',
+    'styleA-li3': 'Bright, airy palette appropriate for Eslite HK\'s urban shopper',
+    'styleA-li4': 'Bold cover art presentation as the primary visual anchor',
+    'community-badge': 'Community Layer',
+    'community-h3': 'Reviews, discovery, and social sharing',
+    'community-p': 'The community section lets readers write structured reviews, follow other readers\' shelves, and receive personalised recommendations. New arrivals and curated lists are surfaced through a feed model — familiar to social app users, but anchored in literary intent.',
+    'community-li1': 'Structured review format with multi-dimension rating (plot, writing, pacing)',
+    'community-li2': 'Follow and shelf system for social discovery between readers',
+    'community-li3': 'Push notification design for new arrivals and special member offers',
+    'community-li4': 'Staff picks and editorial curation integrated into the social feed',
+    's04-eyebrow': '04 · Visual Style B',
+    's04-heading': 'Paper Nostalgia — the original bookstore soul',
+    's04-p1': 'People who love reading often love the physical book itself — the ink-paper smell, the texture of a magazine cover, the quiet footsteps inside a library. This direction doesn\'t try to replicate those sensations digitally; it constructs a visual atmosphere that resonates with them.',
+    'styleB-badge': 'Style B · Paper Nostalgia',
+    'styleB-h3': 'Tactile, warm, and unhurried',
+    'styleB-p': 'Where Modern Cultural accelerates, Paper Nostalgia slows down. The visual system uses warm earthy tones, texture-evocative background treatments, and serif-inflected typography — giving every screen the quality of a well-worn reading journal.',
+    'styleB-li1': 'Warm sepia-adjacent palette evoking aged paper and leather bookmarks',
+    'styleB-li2': 'Texture-inspired background layers adding analogue depth',
+    'styleB-li3': 'Serif-inflected typography lending literary credibility',
+    'styleB-li4': 'Quieter visual hierarchy that lets book covers breathe without competing',
+    's05-eyebrow': '05 · Dark Mode',
+    's05-heading': 'A reading experience designed for night',
+    's05-p1': 'Dark mode was a brief requirement, but I treated it as a product feature in its own right. A reader finishing a chapter at midnight has very different needs from a shopper browsing new arrivals at lunch — the interface should know the difference.',
+    'dark-badge': 'Dark Mode · Reading-Optimised',
+    'dark-h3': 'Not inverted — redesigned',
+    'dark-p': 'Rather than inverting colours with a system toggle, I designed dark mode with its own visual logic: reduced blue-light emission, generous line spacing, warm dark backgrounds (not pure black) to soften contrast, and type sizing recalibrated for sustained nocturnal reading.',
+    'dark-li1': 'Warm dark surface (#1C1C24) rather than pure black — reduces retinal strain',
+    'dark-li2': 'WCAG AA+ contrast ratios maintained across all text sizes in dark palette',
+    'dark-li3': 'Cover imagery desaturated slightly so it doesn\'t break reading immersion',
+    'dark-li4': 'Full feature parity with light mode — nothing hidden or degraded',
+    'dark-li5': 'Consistent with both Modern Cultural and Paper Nostalgia style directions',
+    's06-eyebrow': '06 · Visual Design',
+    's06-heading': 'Full app overview',
+    's06-sub': 'Both style directions at scale — one shared UX architecture, two distinct identities',
+    's07-eyebrow': '07 · Design System',
+    's07-heading': 'Two palettes, one shared system',
+    's07-p1': 'Both visual styles were built on the same component library and spacing grid, with only colour tokens and typeface weights swapped between them. This meant presenting two fully production-ready directions to the client — without doubling the design effort.',
+    'sub-modern-palette': 'Modern Cultural Palette',
+    'sub-nostalgia-palette': 'Paper Nostalgia Palette',
+    'sub-typography': 'Typography',
+    'typo-li1': '<strong>Modern Cultural:</strong> Outfit (headings) · Plus Jakarta Sans (body) — contemporary, geometric, open',
+    'typo-li2': '<strong>Paper Nostalgia:</strong> Playfair Display (headings) · Source Serif (body) — literary warmth and weight',
+    'typo-li3': 'Both systems use a 4pt baseline grid with 16px body minimum for comfortable reading sessions',
+    'next-label': 'Next project',
+    'next-btn-text': 'View case study <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Senior UI/UX Designer · Taipei, Taiwan'
+  },
+  zh: {
+    'back-btn': '<i data-lucide="arrow-left"></i> 所有作品',
+    'hero-cat': '消費生活 · 行動應用 · 香港',
+    'hero-sub': '誠品香港社群書籍探索 App——社群書評、兩套完整視覺風格，以及為讀者打造的深色閱讀模式',
+    'meta-client': '客戶',
+    'meta-client-val': '誠品香港',
+    'meta-agency': '代理商',
+    'meta-role-label': '我的角色',
+    'meta-role-val': 'UX/UI 設計師',
+    'meta-timeline': '時間',
+    'meta-platform-label': '平台',
+    'meta-type': '專案類型',
+    'badge-new-product': '全新產品',
+    's01-eyebrow': '01 · 背景脈絡',
+    's01-heading': '文化機構走向數位',
+    's01-p1': '誠品是亞洲最受喜愛的書店品牌之一——一個從書籍延伸至文具、時尚、餐飲與工藝的文化機構。為了香港市場，誠品需要一款行動 App，既能作為書迷的社群平台，也能反映品牌進化為更廣泛生活方式目的地的歷程。',
+    's01-p2': '核心張力在於：如何在數位產品中保留實體書店那種觸感與懷舊的瀏覽體驗——墨水的氣息、新書脊的重量、書架間的靜謐？同時，如何將這份感受延伸至誠品更新的生活方式識別，而不流失核心的文學讀者群？',
+    's02-eyebrow': '02 · UX 策略',
+    's02-heading': '定義設計走向的三個決策',
+    'strat1-num': '01 · 社群優先',
+    'strat1-title': '社交先於商務',
+    'strat1-desc': '愛書人天生具有社交性——他們互相推薦、爭論、批注。我以社群書評層為設計核心，而非商品目錄，讓 App 感覺像一個讀書俱樂部，而不是零售通路。',
+    'strat2-num': '02 · 雙風格方向',
+    'strat2-title': '雙套完整美學供客戶決策',
+    'strat2-desc': '在取得利害關係人共識之前，我選擇不提前鎖定單一視覺方向，而是設計了兩套可直接量產的視覺風格——Modern Cultural 與 Paper Nostalgia——各自呼應誠品品牌識別的不同面向。',
+    'strat3-num': '03 · 閱讀情境',
+    'strat3-title': '深色模式作為核心功能',
+    'strat3-desc': '讀者在夜間閱讀。我不將深色模式視為事後加裝的切換功能，而是設計成一套有獨立對比度比例、字級與環境色彩配置的閱讀優化體驗。',
+    's03-eyebrow': '03 · 視覺風格 A',
+    's03-heading': 'Modern Cultural——都會能量',
+    's03-p1': '我們今天想到誠品，它不只是一間書店——你能找到現代文具、本地時裝品牌、迷你手作小店。它將商品與現代文化融合，讓不同族群的人因高品質生活而聚集。這個風格方向讓這種進化視覺化。',
+    'styleA-badge': '風格 A · Modern Cultural',
+    'styleA-h3': '幾何、編輯感、開放',
+    'styleA-p': '線性造型與幾何圖案傳遞現代誠品的都會廣度——一個屬於讀者、設計師、旅行者與品味引領者的空間。視覺語言刻意跳脫文學感：它傳達的訊息是，這個 App 服務的是你的整個生活方式，而不只是你的書架。',
+    'styleA-li1': '乾淨的幾何網格搭配高對比的字型層次',
+    'styleA-li2': '支援書籍、活動與生活選品的模組化卡片系統',
+    'styleA-li3': '明亮通透的色彩系統，適配誠品香港都會購物者',
+    'styleA-li4': '以書封大圖為主要視覺錨點的呈現方式',
+    'community-badge': '社群層',
+    'community-h3': '書評、探索與社群分享',
+    'community-p': '社群版塊讓讀者撰寫結構化書評、追蹤其他讀者的書架，並接收個人化推薦。新到書目與精選書單透過動態牆形式呈現——對社群 App 用戶而言熟悉，同時扎根於文學意圖。',
+    'community-li1': '具備多維度評分的結構化書評格式（情節、文筆、節奏）',
+    'community-li2': '追蹤與書架系統，讓讀者之間進行社群探索',
+    'community-li3': '新書到貨與會員限定優惠的推播通知設計',
+    'community-li4': '員工精選與編輯策展整合進社群動態',
+    's04-eyebrow': '04 · 視覺風格 B',
+    's04-heading': 'Paper Nostalgia——書店最初的靈魂',
+    's04-p1': '熱愛閱讀的人往往也鍾愛書本本身——油墨與紙張的氣味、雜誌封面的觸感、圖書館裡輕盈的腳步聲。這個風格方向不試圖在數位端複製這些感受，而是建構出能與之共鳴的視覺氛圍。',
+    'styleB-badge': '風格 B · Paper Nostalgia',
+    'styleB-h3': '觸感、溫暖、不急促',
+    'styleB-p': 'Modern Cultural 在加速，Paper Nostalgia 在放慢。視覺系統使用溫暖的大地色調、喚起質地感的背景處理，以及帶有襯線韻味的字型——讓每個畫面都有一本翻閱多年的閱讀日誌的質感。',
+    'styleB-li1': '暖調復古色系，喚起陳舊紙張與皮革書籤的記憶',
+    'styleB-li2': '紋理感背景層，增添類比深度',
+    'styleB-li3': '帶有襯線韻味的字型，賦予文學可信度',
+    'styleB-li4': '更安靜的視覺層次，讓書封得以自由呼吸而不互相競爭',
+    's05-eyebrow': '05 · 深色模式',
+    's05-heading': '為夜晚打造的閱讀體驗',
+    's05-p1': '深色模式是專案的一個簡要需求，但我將它視為一個獨立的產品功能來對待。午夜讀完一章的讀者，與午間瀏覽新書的購物者，有著截然不同的需求——介面應該懂得這種差異。',
+    'dark-badge': '深色模式 · 閱讀優化',
+    'dark-h3': '不是反轉——而是重新設計',
+    'dark-p': '我沒有使用系統切換來反轉顏色，而是為深色模式設計了自己的視覺邏輯：降低藍光輸出、充裕的行距、溫暖的深色背景（而非純黑）以柔化對比，並重新校準字級以支援持續的夜間閱讀。',
+    'dark-li1': '溫暖深色底面（#1C1C24）而非純黑——減少視網膜疲勞',
+    'dark-li2': '在深色系所有字級下均符合 WCAG AA+ 對比度標準',
+    'dark-li3': '書封圖像略微去飽和，避免破壞閱讀沈浸感',
+    'dark-li4': '與淺色模式完整功能等價——沒有隱藏或降級的功能',
+    'dark-li5': '與 Modern Cultural 和 Paper Nostalgia 兩種風格方向均保持一致',
+    's06-eyebrow': '06 · 視覺設計',
+    's06-heading': '完整 App 總覽',
+    's06-sub': '兩套風格方向的完整呈現——共用 UX 架構，兩種截然不同的視覺識別',
+    's07-eyebrow': '07 · 設計系統',
+    's07-heading': '兩套色彩，一套共用系統',
+    's07-p1': '兩套視覺風格建立在同一套元件庫與間距網格之上，兩者之間只需替換色彩 token 與字型粗細。這讓我得以在不加倍設計工作量的情況下，向客戶提交兩套可直接量產的設計方向。',
+    'sub-modern-palette': 'Modern Cultural 色彩系統',
+    'sub-nostalgia-palette': 'Paper Nostalgia 色彩系統',
+    'sub-typography': '字型系統',
+    'typo-li1': '<strong>Modern Cultural：</strong>Outfit（標題）· Plus Jakarta Sans（內文）——當代、幾何、開放',
+    'typo-li2': '<strong>Paper Nostalgia：</strong>Playfair Display（標題）· Source Serif（內文）——文學溫度與份量',
+    'typo-li3': '兩套系統均採用 4pt 基線網格，內文最小字級 16px，確保舒適的長時間閱讀',
+    'next-label': '下一個專案',
+    'next-btn-text': '查看案例 <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Senior UI/UX Designer · 台北，台灣'
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-opt').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+  localStorage.setItem('kw-lang-eslite', lang);
+  lucide.createIcons();
+}
+
+document.getElementById('langSwitch').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-opt');
+  if (!btn) return;
+  applyLang(btn.getAttribute('data-lang'));
+});
+
+</script>
+</body>
+</html>

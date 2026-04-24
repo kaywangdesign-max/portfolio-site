@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map of Chemical Knowledge — Kay Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../project-page.css" />
+  <style>
+    /* ── Chem-specific ── */
+
+    /* Life category grid */
+    .life-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .life-card {
+      background: var(--card);
+      border: 2px solid var(--fg);
+      border-radius: var(--r-md);
+      padding: 16px 12px;
+      text-align: center;
+      box-shadow: 3px 3px 0 var(--fg);
+    }
+    .life-card-icon {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 10px;
+      border: 2px solid var(--fg);
+      box-shadow: 2px 2px 0 var(--fg);
+    }
+    .life-card-icon [data-lucide] { width: 20px; height: 20px; stroke-width: 2.5px; color: #fff; }
+    .life-card-name {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.8rem;
+      color: var(--fg); margin-bottom: 4px;
+    }
+    .life-card-example {
+      font-size: 0.7rem; color: var(--muted-fg); line-height: 1.4;
+    }
+
+    /* Strategy split: 3 col */
+    .ux-decisions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .ux-decision-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 20px;
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .ux-decision-num {
+      font-family: var(--font-head); font-weight: 900; font-size: 2rem;
+      color: var(--border); line-height: 1; margin-bottom: 8px;
+    }
+    .ux-decision-title {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.9375rem;
+      color: var(--fg); margin-bottom: 8px;
+    }
+    .ux-decision-desc {
+      font-size: 0.8125rem; color: var(--muted-fg); line-height: 1.65;
+    }
+
+    /* Search mode row */
+    .search-modes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .search-mode-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 16px;
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .search-mode-icon {
+      width: 36px; height: 36px;
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 10px;
+      border: 2px solid var(--fg);
+      box-shadow: 2px 2px 0 var(--fg);
+    }
+    .search-mode-icon [data-lucide] { width: 16px; height: 16px; stroke-width: 2.5px; }
+    .search-mode-title {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.875rem;
+      color: var(--fg); margin-bottom: 5px;
+    }
+    .search-mode-desc {
+      font-size: 0.78rem; color: var(--muted-fg); line-height: 1.55;
+    }
+
+    /* Design principle two-col */
+    .design-principles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .dp-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 20px;
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .dp-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 10px; border-radius: 9999px;
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      border: 1.5px solid; margin-bottom: 10px;
+    }
+    .dp-title {
+      font-family: var(--font-head); font-weight: 800; font-size: 0.9375rem;
+      color: var(--fg); margin-bottom: 6px;
+    }
+    .dp-desc {
+      font-size: 0.8125rem; color: var(--muted-fg); line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .life-grid { grid-template-columns: repeat(3, 1fr); }
+      .ux-decisions { grid-template-columns: 1fr; }
+      .search-modes { grid-template-columns: 1fr; }
+      .design-principles { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">K.W.</a>
+  <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+    <button class="lang-opt active" data-lang="en">EN</button>
+    <button class="lang-opt" data-lang="zh">繁中</button>
+  </div>
+  <a href="../index.html#projects" class="back-btn" data-i18n="back-btn"><i data-lucide="arrow-left"></i> All Work</a>
+</nav>
+
+<div class="proj-hero">
+  <div class="proj-hero-bg">
+    <img src="../images/chem.png" alt="Map of Chemical Knowledge" />
+  </div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-content">
+    <div class="proj-hero-cat" data-i18n="hero-cat">Education · Web Platform · Government</div>
+    <h1 class="proj-hero-title">Map of Chemical Knowledge</h1>
+    <p class="proj-hero-sub" data-i18n="hero-sub">Government public-education site turning hazardous chemical data into approachable visual storytelling — through illustrations, life-context categories, and a gamified knowledge map</p>
+  </div>
+</div>
+
+<div class="proj-meta-bar">
+  <div class="proj-meta-row">
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-client">Client</div>
+      <div class="meta-value" data-i18n="meta-client-val">Toxic &amp; Chemical Substances Bureau</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-agency">Agency</div>
+      <div class="meta-value">Cloud Interactive</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-role-label">My Role</div>
+      <div class="meta-value" data-i18n="meta-role-val">UX/UI + Illustration Designer</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-timeline">Timeline</div>
+      <div class="meta-value">2018</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-platform-label">Platform</div>
+      <div class="meta-value">Web</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-type">Project Type</div>
+      <div class="meta-value"><span class="goal-badge new-product" data-i18n="badge-new-product">New Product</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="proj-body">
+  <div class="proj-col">
+
+    <!-- 01 · Context -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s01-eyebrow">01 · Context</div>
+      <h2 class="content-heading" data-i18n="s01-heading">Dense government data. Zero public engagement.</h2>
+      <p class="content-text" data-i18n="s01-p1">Taiwan's Toxic &amp; Chemical Substances Bureau had a public safety problem: how do you help ordinary citizens understand which chemicals in their daily lives are hazardous — and why? The existing resources were thick reference documents written for regulatory professionals. Nobody read them. Nobody was supposed to.</p>
+      <p class="content-text" data-i18n="s01-p2">The subject matter is inherently technical and potentially alarming. The design challenge was to make it approachable — even enjoyable — without trivialising the safety message. Government sites have a reputation for being unusable. This was a chance to prove that public service design can be world-class.</p>
+
+      <div class="challenge-strip">
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="file-text"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch-label-start">Starting Point</div>
+            <div class="challenge-value" data-i18n="ch-val-start">Dense regulatory documents nobody reads</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="users"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch-label-audience">Audience</div>
+            <div class="challenge-value" data-i18n="ch-val-audience">General public — zero chemistry background assumed</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="pen-tool"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="ch-label-scope">Full Scope</div>
+            <div class="challenge-value" data-i18n="ch-val-scope">UX + UI + illustration system + 200+ icon entries</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · The UX Problem -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s02-eyebrow">02 · The UX Problem</div>
+      <h2 class="content-heading" data-i18n="s02-heading">The taxonomy mismatch — experts vs. real people</h2>
+      <p class="content-text" data-i18n="s02-p1">The core design problem wasn't visual — it was structural. Chemical databases are organised the way chemists think: by compound name, molecular formula, CAS number. But the people this site needed to reach don't think in chemical terminology. They think in terms of their daily lives.</p>
+      <p class="content-text" data-i18n="s02-p2">A parent worrying about their child's plastic water bottle doesn't search "Bisphenol A." They think about <em>what their child is drinking from</em>. This mental model gap was the central design challenge: the information had to be reorganised around how citizens actually encounter chemicals — not how scientists classify them.</p>
+
+      <div class="callout">
+        <div class="callout-title" data-i18n="callout-title-pivot">The strategic pivot</div>
+        <p data-i18n="callout-body-pivot">Instead of asking "what chemical are you looking for?" — which requires prior knowledge — we asked "where in your life did you encounter it?" This single structural decision unlocked the entire information architecture.</p>
+      </div>
+    </div>
+
+    <!-- 03 · UX Strategy -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s03-eyebrow">03 · UX Strategy</div>
+      <h2 class="content-heading" data-i18n="s03-heading">Three decisions that defined the design</h2>
+
+      <div class="ux-decisions">
+        <div class="ux-decision-card">
+          <div class="ux-decision-num">01</div>
+          <div class="ux-decision-title" data-i18n="ux1-title">Life Context Over Chemical Taxonomy</div>
+          <div class="ux-decision-desc" data-i18n="ux1-desc">Organise the entire site by how people live — Food, Clothing, Housing, Transport, Education &amp; Entertainment — not by chemical classification. Users enter through a world they already recognise, not a scientific vocabulary they don't.</div>
+        </div>
+        <div class="ux-decision-card">
+          <div class="ux-decision-num">02</div>
+          <div class="ux-decision-title" data-i18n="ux2-title">Illustration as the First Language</div>
+          <div class="ux-decision-desc" data-i18n="ux2-desc">Custom character-based illustrations greet users at every entry point — before any text. Characters signal that this is a safe, friendly space. The approachability of the visual language is what earns permission to deliver the serious content underneath.</div>
+        </div>
+        <div class="ux-decision-card">
+          <div class="ux-decision-num">03</div>
+          <div class="ux-decision-title" data-i18n="ux3-title">Gamification for Dwell Time</div>
+          <div class="ux-decision-desc" data-i18n="ux3-desc">A "knowledge map" mechanic rewards exploration — revealing connections between everyday objects and chemical compounds as users navigate. Progress mechanics encourage users to go beyond their initial entry point, increasing depth of public education.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 · Daily-Life Architecture -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s04-eyebrow">04 · Information Architecture</div>
+      <h2 class="content-heading" data-i18n="s04-heading">Five categories. Five worlds citizens already live in.</h2>
+      <p class="content-text" data-i18n="s04-p1">The top-level navigation is built entirely around daily life contexts. Each category represents a recognisable domain — the kitchen, the closet, the commute. Within each, chemicals are surfaced through the objects and situations that people already encounter. The user never needs to know a chemical name to start exploring.</p>
+
+      <div class="life-grid">
+        <div class="life-card">
+          <div class="life-card-icon" style="background:#F97316;">
+            <i data-lucide="utensils"></i>
+          </div>
+          <div class="life-card-name" data-i18n="life-name-food">Food</div>
+          <div class="life-card-example" data-i18n="life-ex-food">Preservatives, additives, packaging</div>
+        </div>
+        <div class="life-card">
+          <div class="life-card-icon" style="background:#8B5CF6;">
+            <i data-lucide="shirt"></i>
+          </div>
+          <div class="life-card-name" data-i18n="life-name-cloth">Cloth</div>
+          <div class="life-card-example" data-i18n="life-ex-cloth">Dyes, fabric treatments, synthetic fibres</div>
+        </div>
+        <div class="life-card">
+          <div class="life-card-icon" style="background:#0BBBA0;">
+            <i data-lucide="home"></i>
+          </div>
+          <div class="life-card-name" data-i18n="life-name-home">Accommodation</div>
+          <div class="life-card-example" data-i18n="life-ex-home">Cleaning agents, paints, plastics</div>
+        </div>
+        <div class="life-card">
+          <div class="life-card-icon" style="background:#3B82F6;">
+            <i data-lucide="car"></i>
+          </div>
+          <div class="life-card-name" data-i18n="life-name-traffic">Traffic</div>
+          <div class="life-card-example" data-i18n="life-ex-traffic">Fuels, exhaust, road materials</div>
+        </div>
+        <div class="life-card">
+          <div class="life-card-icon" style="background:#F43F5E;">
+            <i data-lucide="graduation-cap"></i>
+          </div>
+          <div class="life-card-name" data-i18n="life-name-edu">Education &amp; Entertainment</div>
+          <div class="life-card-example" data-i18n="life-ex-edu">Art supplies, toys, electronics</div>
+        </div>
+      </div>
+
+      <div class="callout green" style="margin-top:24px;">
+        <div class="callout-title" data-i18n="callout-title-why">Why this works</div>
+        <p data-i18n="callout-body-why">A user worried about a cleaning product doesn't need to know it's called "sodium hypochlorite" — they navigate to Accommodation → Cleaning → and encounter it in its real-world form first, before any chemical name appears. Understanding comes before jargon.</p>
+      </div>
+    </div>
+
+    <!-- 05 · Feature Design -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s05-eyebrow">05 · Feature Design</div>
+      <h2 class="content-heading" data-i18n="s05-heading">Three layers of discovery — browse, search, explore</h2>
+      <p class="content-text" data-i18n="s05-p1">Different users approach the same content with different behaviours. A curious teenager browses visually. A concerned parent searches by object. A student doing research explores connections. The design supports all three simultaneously — without forcing any single mental model onto the experience.</p>
+
+      <div class="search-modes">
+        <div class="search-mode-card">
+          <div class="search-mode-icon" style="background:#E0F4F4;">
+            <i data-lucide="layout-grid"></i>
+          </div>
+          <div class="search-mode-title" data-i18n="sm1-title">Browse by Category</div>
+          <div class="search-mode-desc" data-i18n="sm1-desc">Visual-first entry through life context cards. No prior knowledge required — users choose the world they recognise and explore from there.</div>
+        </div>
+        <div class="search-mode-card">
+          <div class="search-mode-icon" style="background:#FEF9E0;">
+            <i data-lucide="search"></i>
+          </div>
+          <div class="search-mode-title" data-i18n="sm2-title">Search by Keyword</div>
+          <div class="search-mode-desc" data-i18n="sm2-desc">Type a product, object, or chemical name. Results are icon-first, colour-coded by category — visual recognition before reading.</div>
+        </div>
+        <div class="search-mode-card">
+          <div class="search-mode-icon" style="background:#F0F0FF;">
+            <i data-lucide="map"></i>
+          </div>
+          <div class="search-mode-title" data-i18n="sm3-title">Knowledge Map</div>
+          <div class="search-mode-desc" data-i18n="sm3-desc">An interactive visual map reveals connections between everyday items and compound families. Gamified — chemicals "unlock" as users explore adjacent categories.</div>
+        </div>
+      </div>
+
+      <div class="sub-head" style="margin-top:40px;" data-i18n="sub-head-illus">Illustration System — Making Chemistry Feel Safe</div>
+      <p class="content-text" data-i18n="s05-p2">Every category, sub-category, and chemical entry has a corresponding custom illustration character. Characters are friendly and slightly anthropomorphic — designed to signal that this content is approachable, not threatening. The illustration system was designed to scale: the same visual language covers 200+ chemical entries without feeling repetitive.</p>
+
+      <div class="design-principles">
+        <div class="dp-card">
+          <div class="dp-badge" style="background:#FFF3E0; color:#e65100; border-color:#F97316;" data-i18n="dp1-badge"><i data-lucide="smile" style="width:10px;height:10px;"></i> Approachability</div>
+          <div class="dp-title" data-i18n="dp1-title">Warm, Character-Led Visuals</div>
+          <div class="dp-desc" data-i18n="dp1-desc">Characters greet users at every landing page. The visual warmth earns trust before any chemical data is shown — essential when content could otherwise feel alarming or inaccessible to a general audience.</div>
+        </div>
+        <div class="dp-card">
+          <div class="dp-badge" style="background:#E8F5E9; color:#2e7d32; border-color:#4CAF50;" data-i18n="dp2-badge"><i data-lucide="grid" style="width:10px;height:10px;"></i> Scalability</div>
+          <div class="dp-title" data-i18n="dp2-title">Icon System at 200+ Entries</div>
+          <div class="dp-desc" data-i18n="dp2-desc">The iconographic design system covers every entry in the chemical dictionary. Colour-coded by category, consistent in style, and compact enough to work at 40px — ensuring the catalogue remains browsable even at scale.</div>
+        </div>
+        <div class="dp-card">
+          <div class="dp-badge" style="background:#E8EAF6; color:#283593; border-color:#3F51B5;" data-i18n="dp3-badge"><i data-lucide="bar-chart-2" style="width:10px;height:10px;"></i> Infographic</div>
+          <div class="dp-title" data-i18n="dp3-title">Detail Pages — Data Without Walls</div>
+          <div class="dp-desc" data-i18n="dp3-desc">Chemical detail pages replace dense regulatory text with infographic layouts: hazard levels shown as visual scales, exposure routes as illustrated diagrams, and safety precautions as icon-tagged cards. The data is all there — it just no longer requires a chemistry degree to parse.</div>
+        </div>
+        <div class="dp-card">
+          <div class="dp-badge" style="background:#FCE4EC; color:#880e4f; border-color:#E91E63;" data-i18n="dp4-badge"><i data-lucide="gamepad-2" style="width:10px;height:10px;"></i> Gamification</div>
+          <div class="dp-title" data-i18n="dp4-title">Progress Mechanics for Deeper Learning</div>
+          <div class="dp-desc" data-i18n="dp4-desc">The knowledge map tracks which chemicals a user has explored, revealing a visual "completion" state as more entries are visited. This progress mechanic — borrowed from game design — transforms passive reading into active discovery, increasing both dwell time and retention.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /proj-col -->
+</div><!-- /proj-body -->
+
+<!-- 06 · Visual Design — full composite -->
+<div class="layout-section">
+  <div class="layout-section-inner">
+    <div class="section-eyebrow" data-i18n="s06-eyebrow">06 · Visual Design</div>
+    <h2 class="layout-section-heading" data-i18n="s06-heading">Full platform — homepage to detail view</h2>
+    <p class="layout-section-sub" data-i18n="s06-sub">A warm, illustration-led visual system that makes hazardous chemical data feel like a children's encyclopaedia — without compromising accuracy or authority.</p>
+  </div>
+</div>
+
+<div class="proj-body" style="padding-top:0;padding-bottom:80px;">
+  <div class="proj-col">
+    <div class="content-visual-label" data-i18n="vl-complete">Complete site design — homepage · categories · knowledge map · chemical detail</div>
+    <div class="content-visual">
+      <img src="https://static.wixstatic.com/media/c8b53d_a820bcb06ef246149ca643f1cc5f2df1~mv2.png"
+           alt="Map of Chemical Knowledge — full platform UI: homepage, category view, knowledge map, and chemical detail pages" />
+    </div>
+  </div>
+</div>
+
+<!-- 07 · Design System -->
+<div class="ds-section">
+  <div class="proj-col">
+    <div class="section-eyebrow" data-i18n="s07-eyebrow">07 · Design System</div>
+    <h2 class="ds-heading" data-i18n="s07-heading">Visual language — colour, illustration, and type</h2>
+
+    <p class="content-text" style="margin-bottom:24px;" data-i18n="s07-p1">The colour system is dual-purpose: warm, vibrant tones signal approachability at the homepage level, while category colours create a navigational vocabulary across the full dictionary. Each of the five life categories owns a distinct colour — consistent across icons, headers, and detail pages.</p>
+
+    <div class="color-palette">
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#F97316;"></div>
+        <div class="color-chip-hex">#F97316</div>
+        <div class="color-chip-role" data-i18n="chip-food">Food</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#8B5CF6;"></div>
+        <div class="color-chip-hex">#8B5CF6</div>
+        <div class="color-chip-role" data-i18n="chip-cloth">Cloth</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#0BBBA0;"></div>
+        <div class="color-chip-hex">#0BBBA0</div>
+        <div class="color-chip-role" data-i18n="chip-home">Accommodation</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#3B82F6;"></div>
+        <div class="color-chip-hex">#3B82F6</div>
+        <div class="color-chip-role" data-i18n="chip-traffic">Traffic</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#F43F5E;"></div>
+        <div class="color-chip-hex">#F43F5E</div>
+        <div class="color-chip-role" data-i18n="chip-edu">Edu &amp; Ent</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#1A1A2E; border:none;"></div>
+        <div class="color-chip-hex">#1A1A2E</div>
+        <div class="color-chip-role" data-i18n="chip-fg">Foreground</div>
+      </div>
+    </div>
+
+    <div class="type-system">
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-tag-head">Headings</div>
+        <div class="type-sample" style="font-weight:800;">Display Bold</div>
+        <div class="type-detail" data-i18n="type-detail-head">Large, friendly headings with tight tracking — warm and confident, never institutional or cold</div>
+      </div>
+      <div class="type-row">
+        <div class="type-tag" data-i18n="type-tag-body">Body / UI</div>
+        <div class="type-sample">Noto Sans CJK TC</div>
+        <div class="type-detail" data-i18n="type-detail-body">Bilingual body text (Traditional Chinese + English) — critical for a government site serving the Taiwanese public</div>
+      </div>
+    </div>
+
+    <div class="callout green" style="margin-top:32px;">
+      <div class="callout-title" data-i18n="callout-title-outcome">Outcome</div>
+      <p data-i18n="callout-body-outcome">Successfully launched as a public educational resource by Taiwan's Toxic &amp; Chemical Substances Bureau. The life-context visual dictionary format — connecting everyday objects to chemical awareness through illustration and gamification — became a reference model for subsequent government digital communication projects in Taiwan.</p>
+    </div>
+  </div>
+</div>
+
+<div class="proj-tags-row">
+  <span class="proj-tag">Web</span>
+  <span class="proj-tag">Illustration</span>
+  <span class="proj-tag">Information Design</span>
+  <span class="proj-tag">Gov / Public</span>
+  <span class="proj-tag">Gamification</span>
+  <span class="proj-tag">Data Viz</span>
+  <span class="proj-tag">EdTech</span>
+</div>
+
+<div class="next-project-strip">
+  <div>
+    <div class="next-label" data-i18n="next-label">Back to start</div>
+    <div class="next-title">Global MyB2B</div>
+  </div>
+  <a href="cathay.html" class="next-btn" data-i18n="next-btn-text">View case study <i data-lucide="arrow-right"></i></a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Kay Wang</div>
+    <div data-i18n="footer-role">Lead Product Designer at Gogolook · Taipei, Taiwan</div>
+    <div>© 2024 Kay Wang</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script src="../project-page.js"></script>
+<script>
+var translations = {
+  en: {
+    'back-btn': '<i data-lucide="arrow-left"></i> All Work',
+    'hero-cat': 'Education · Web Platform · Government',
+    'hero-sub': 'Government public-education site turning hazardous chemical data into approachable visual storytelling — through illustrations, life-context categories, and a gamified knowledge map',
+    'meta-client': 'Client',
+    'meta-client-val': 'Toxic &amp; Chemical Substances Bureau',
+    'meta-agency': 'Agency',
+    'meta-role-label': 'My Role',
+    'meta-role-val': 'UX/UI + Illustration Designer',
+    'meta-timeline': 'Timeline',
+    'meta-platform-label': 'Platform',
+    'meta-type': 'Project Type',
+    'badge-new-product': 'New Product',
+    's01-eyebrow': '01 · Context',
+    's01-heading': 'Dense government data. Zero public engagement.',
+    's01-p1': 'Taiwan\'s Toxic &amp; Chemical Substances Bureau had a public safety problem: how do you help ordinary citizens understand which chemicals in their daily lives are hazardous — and why? The existing resources were thick reference documents written for regulatory professionals. Nobody read them. Nobody was supposed to.',
+    's01-p2': 'The subject matter is inherently technical and potentially alarming. The design challenge was to make it approachable — even enjoyable — without trivialising the safety message. Government sites have a reputation for being unusable. This was a chance to prove that public service design can be world-class.',
+    'ch-label-start': 'Starting Point',
+    'ch-val-start': 'Dense regulatory documents nobody reads',
+    'ch-label-audience': 'Audience',
+    'ch-val-audience': 'General public — zero chemistry background assumed',
+    'ch-label-scope': 'Full Scope',
+    'ch-val-scope': 'UX + UI + illustration system + 200+ icon entries',
+    's02-eyebrow': '02 · The UX Problem',
+    's02-heading': 'The taxonomy mismatch — experts vs. real people',
+    's02-p1': 'The core design problem wasn\'t visual — it was structural. Chemical databases are organised the way chemists think: by compound name, molecular formula, CAS number. But the people this site needed to reach don\'t think in chemical terminology. They think in terms of their daily lives.',
+    's02-p2': 'A parent worrying about their child\'s plastic water bottle doesn\'t search "Bisphenol A." They think about <em>what their child is drinking from</em>. This mental model gap was the central design challenge: the information had to be reorganised around how citizens actually encounter chemicals — not how scientists classify them.',
+    'callout-title-pivot': 'The strategic pivot',
+    'callout-body-pivot': 'Instead of asking "what chemical are you looking for?" — which requires prior knowledge — we asked "where in your life did you encounter it?" This single structural decision unlocked the entire information architecture.',
+    's03-eyebrow': '03 · UX Strategy',
+    's03-heading': 'Three decisions that defined the design',
+    'ux1-title': 'Life Context Over Chemical Taxonomy',
+    'ux1-desc': 'Organise the entire site by how people live — Food, Clothing, Housing, Transport, Education &amp; Entertainment — not by chemical classification. Users enter through a world they already recognise, not a scientific vocabulary they don\'t.',
+    'ux2-title': 'Illustration as the First Language',
+    'ux2-desc': 'Custom character-based illustrations greet users at every entry point — before any text. Characters signal that this is a safe, friendly space. The approachability of the visual language is what earns permission to deliver the serious content underneath.',
+    'ux3-title': 'Gamification for Dwell Time',
+    'ux3-desc': 'A "knowledge map" mechanic rewards exploration — revealing connections between everyday objects and chemical compounds as users navigate. Progress mechanics encourage users to go beyond their initial entry point, increasing depth of public education.',
+    's04-eyebrow': '04 · Information Architecture',
+    's04-heading': 'Five categories. Five worlds citizens already live in.',
+    's04-p1': 'The top-level navigation is built entirely around daily life contexts. Each category represents a recognisable domain — the kitchen, the closet, the commute. Within each, chemicals are surfaced through the objects and situations that people already encounter. The user never needs to know a chemical name to start exploring.',
+    'life-name-food': 'Food',
+    'life-ex-food': 'Preservatives, additives, packaging',
+    'life-name-cloth': 'Cloth',
+    'life-ex-cloth': 'Dyes, fabric treatments, synthetic fibres',
+    'life-name-home': 'Accommodation',
+    'life-ex-home': 'Cleaning agents, paints, plastics',
+    'life-name-traffic': 'Traffic',
+    'life-ex-traffic': 'Fuels, exhaust, road materials',
+    'life-name-edu': 'Education &amp; Entertainment',
+    'life-ex-edu': 'Art supplies, toys, electronics',
+    'callout-title-why': 'Why this works',
+    'callout-body-why': 'A user worried about a cleaning product doesn\'t need to know it\'s called "sodium hypochlorite" — they navigate to Accommodation → Cleaning → and encounter it in its real-world form first, before any chemical name appears. Understanding comes before jargon.',
+    's05-eyebrow': '05 · Feature Design',
+    's05-heading': 'Three layers of discovery — browse, search, explore',
+    's05-p1': 'Different users approach the same content with different behaviours. A curious teenager browses visually. A concerned parent searches by object. A student doing research explores connections. The design supports all three simultaneously — without forcing any single mental model onto the experience.',
+    'sm1-title': 'Browse by Category',
+    'sm1-desc': 'Visual-first entry through life context cards. No prior knowledge required — users choose the world they recognise and explore from there.',
+    'sm2-title': 'Search by Keyword',
+    'sm2-desc': 'Type a product, object, or chemical name. Results are icon-first, colour-coded by category — visual recognition before reading.',
+    'sm3-title': 'Knowledge Map',
+    'sm3-desc': 'An interactive visual map reveals connections between everyday items and compound families. Gamified — chemicals "unlock" as users explore adjacent categories.',
+    'sub-head-illus': 'Illustration System — Making Chemistry Feel Safe',
+    's05-p2': 'Every category, sub-category, and chemical entry has a corresponding custom illustration character. Characters are friendly and slightly anthropomorphic — designed to signal that this content is approachable, not threatening. The illustration system was designed to scale: the same visual language covers 200+ chemical entries without feeling repetitive.',
+    'dp1-badge': '<i data-lucide="smile" style="width:10px;height:10px;"></i> Approachability',
+    'dp1-title': 'Warm, Character-Led Visuals',
+    'dp1-desc': 'Characters greet users at every landing page. The visual warmth earns trust before any chemical data is shown — essential when content could otherwise feel alarming or inaccessible to a general audience.',
+    'dp2-badge': '<i data-lucide="grid" style="width:10px;height:10px;"></i> Scalability',
+    'dp2-title': 'Icon System at 200+ Entries',
+    'dp2-desc': 'The iconographic design system covers every entry in the chemical dictionary. Colour-coded by category, consistent in style, and compact enough to work at 40px — ensuring the catalogue remains browsable even at scale.',
+    'dp3-badge': '<i data-lucide="bar-chart-2" style="width:10px;height:10px;"></i> Infographic',
+    'dp3-title': 'Detail Pages — Data Without Walls',
+    'dp3-desc': 'Chemical detail pages replace dense regulatory text with infographic layouts: hazard levels shown as visual scales, exposure routes as illustrated diagrams, and safety precautions as icon-tagged cards. The data is all there — it just no longer requires a chemistry degree to parse.',
+    'dp4-badge': '<i data-lucide="gamepad-2" style="width:10px;height:10px;"></i> Gamification',
+    'dp4-title': 'Progress Mechanics for Deeper Learning',
+    'dp4-desc': 'The knowledge map tracks which chemicals a user has explored, revealing a visual "completion" state as more entries are visited. This progress mechanic — borrowed from game design — transforms passive reading into active discovery, increasing both dwell time and retention.',
+    's06-eyebrow': '06 · Visual Design',
+    's06-heading': 'Full platform — homepage to detail view',
+    's06-sub': 'A warm, illustration-led visual system that makes hazardous chemical data feel like a children\'s encyclopaedia — without compromising accuracy or authority.',
+    'vl-complete': 'Complete site design — homepage · categories · knowledge map · chemical detail',
+    's07-eyebrow': '07 · Design System',
+    's07-heading': 'Visual language — colour, illustration, and type',
+    's07-p1': 'The colour system is dual-purpose: warm, vibrant tones signal approachability at the homepage level, while category colours create a navigational vocabulary across the full dictionary. Each of the five life categories owns a distinct colour — consistent across icons, headers, and detail pages.',
+    'chip-food': 'Food',
+    'chip-cloth': 'Cloth',
+    'chip-home': 'Accommodation',
+    'chip-traffic': 'Traffic',
+    'chip-edu': 'Edu &amp; Ent',
+    'chip-fg': 'Foreground',
+    'type-tag-head': 'Headings',
+    'type-detail-head': 'Large, friendly headings with tight tracking — warm and confident, never institutional or cold',
+    'type-tag-body': 'Body / UI',
+    'type-detail-body': 'Bilingual body text (Traditional Chinese + English) — critical for a government site serving the Taiwanese public',
+    'callout-title-outcome': 'Outcome',
+    'callout-body-outcome': 'Successfully launched as a public educational resource by Taiwan\'s Toxic &amp; Chemical Substances Bureau. The life-context visual dictionary format — connecting everyday objects to chemical awareness through illustration and gamification — became a reference model for subsequent government digital communication projects in Taiwan.',
+    'next-label': 'Back to start',
+    'next-btn-text': 'View case study <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Lead Product Designer at Gogolook · Taipei, Taiwan'
+  },
+  zh: {
+    'back-btn': '<i data-lucide="arrow-left"></i> 所有作品',
+    'hero-cat': '教育 · Web 平台 · 政府機關',
+    'hero-sub': '政府公共教育網站，將有害化學物質資料轉化為平易近人的視覺敘事——透過插畫、生活情境分類與遊戲化知識地圖',
+    'meta-client': '客戶',
+    'meta-client-val': '毒性及關注化學物質管理署',
+    'meta-agency': '代理商',
+    'meta-role-label': '我的角色',
+    'meta-role-val': 'UX/UI + 插畫設計師',
+    'meta-timeline': '時間',
+    'meta-platform-label': '平台',
+    'meta-type': '專案類型',
+    'badge-new-product': '全新產品',
+    's01-eyebrow': '01 · 背景脈絡',
+    's01-heading': '密度極高的政府資料，零公眾參與。',
+    's01-p1': '台灣毒性及關注化學物質管理署面臨一個公共安全問題：如何幫助一般民眾了解日常生活中哪些化學物質具有危害性——以及原因？現有資源是專為監管人員撰寫的厚重參考文件。沒有人閱讀它們，也沒有預期一般人會去讀。',
+    's01-p2': '這個主題本質上偏向技術性且可能令人不安。設計挑戰在於讓它變得平易近人——甚至有趣——同時不淡化安全訊息。政府網站向來有難以使用的形象。這是一個證明公共服務設計也能達到世界水準的機會。',
+    'ch-label-start': '起點',
+    'ch-val-start': '沒人閱讀的密集法規文件',
+    'ch-label-audience': '目標受眾',
+    'ch-val-audience': '一般大眾——預設零化學背景知識',
+    'ch-label-scope': '完整範疇',
+    'ch-val-scope': 'UX + UI + 插畫系統 + 200+ 圖示詞條',
+    's02-eyebrow': '02 · UX 問題',
+    's02-heading': '分類方式的錯位——專家思維 vs. 真實用戶',
+    's02-p1': '核心設計問題不在視覺——而在結構。化學資料庫是按化學家的思維方式組織的：依化合物名稱、分子式、CAS 編號。但這個網站需要接觸到的人，並不以化學術語思考，他們以日常生活來思考。',
+    's02-p2': '擔心孩子塑膠水瓶的家長不會搜尋「雙酚 A」，他們想的是<em>孩子在用什麼容器喝水</em>。這個心智模型的落差是核心設計挑戰：資訊必須重新圍繞民眾實際接觸化學物質的方式來組織——而非科學家的分類方式。',
+    'callout-title-pivot': '策略轉向',
+    'callout-body-pivot': '我們不再問「你在找哪種化學物質？」——這需要先備知識——而是改問「你在生活的哪個場景中遇到它？」這個單一結構性決策解鎖了整個資訊架構。',
+    's03-eyebrow': '03 · UX 策略',
+    's03-heading': '定義整個設計的三個決策',
+    'ux1-title': '生活情境優先於化學分類',
+    'ux1-desc': '以民眾的生活方式組織整個網站——食、衣、住、行、育樂——而非化學分類。用戶從自己熟悉的世界進入，而不是陌生的科學詞彙。',
+    'ux2-title': '插畫作為第一語言',
+    'ux2-desc': '自訂角色插畫在每個入口迎接用戶——先於任何文字出現。角色傳遞這是一個安全、友善的空間。視覺語言的平易近人，為後續傳遞嚴肅內容贏得了信任基礎。',
+    'ux3-title': '以遊戲化提升停留時間',
+    'ux3-desc': '「知識地圖」機制獎勵探索行為——隨著用戶導航，逐步揭示日常物品與化合物之間的關聯。進度機制鼓勵用戶超越最初的進入點，加深公共教育的深度。',
+    's04-eyebrow': '04 · 資訊架構',
+    's04-heading': '五大分類，五個民眾早已身處其中的世界。',
+    's04-p1': '頂層導航完全圍繞日常生活情境建構。每個分類代表一個可辨識的生活領域——廚房、衣櫃、通勤路上。在每個類別中，化學物質透過人們已經接觸的物品與情境浮現。用戶無需知道任何化學品名稱就能開始探索。',
+    'life-name-food': '食',
+    'life-ex-food': '防腐劑、添加物、包裝材料',
+    'life-name-cloth': '衣',
+    'life-ex-cloth': '染料、布料處理劑、合成纖維',
+    'life-name-home': '住',
+    'life-ex-home': '清潔劑、油漆、塑膠製品',
+    'life-name-traffic': '行',
+    'life-ex-traffic': '燃料、廢氣、道路材料',
+    'life-name-edu': '育樂',
+    'life-ex-edu': '美術用品、玩具、電子產品',
+    'callout-title-why': '為何這樣有效',
+    'callout-body-why': '擔心清潔產品的用戶不需要知道它叫「次氯酸鈉」——他們只需導航至住 → 清潔 → 就能先以現實生活中的形式接觸到它，化學名稱之後才出現。理解先於術語。',
+    's05-eyebrow': '05 · 功能設計',
+    's05-heading': '三層探索——瀏覽、搜尋、連結',
+    's05-p1': '不同用戶以不同行為接觸相同內容。好奇的青少年以視覺方式瀏覽；擔憂的家長依物品搜尋；研究中的學生探索關聯。設計同時支援三種模式——而不強迫任何單一心智模型套用在體驗上。',
+    'sm1-title': '依分類瀏覽',
+    'sm1-desc': '透過生活情境卡片進行視覺優先的探索。不需要先備知識——用戶選擇自己認識的世界，從那裡展開探索。',
+    'sm2-title': '依關鍵字搜尋',
+    'sm2-desc': '輸入產品、物品或化學品名稱。搜尋結果以圖示優先、依類別色彩標示——視覺辨識先於閱讀文字。',
+    'sm3-title': '知識地圖',
+    'sm3-desc': '互動式視覺地圖揭示日常物品與化合物家族之間的關聯。遊戲化設計——隨著用戶探索相鄰類別，化學物質逐一「解鎖」。',
+    'sub-head-illus': '插畫系統——讓化學知識不再令人卻步',
+    's05-p2': '每個分類、子分類與化學品詞條都有對應的自訂插畫角色。角色風格友善且略帶擬人化——設計目標是傳達這些內容是平易近人的，而非令人威脅的。插畫系統以可擴展為設計原則：同一套視覺語言涵蓋 200+ 個化學品詞條，且不顯得重複。',
+    'dp1-badge': '<i data-lucide="smile" style="width:10px;height:10px;"></i> 平易近人',
+    'dp1-title': '溫暖的角色驅動視覺',
+    'dp1-desc': '角色在每個登陸頁面迎接用戶。視覺溫度在展示任何化學資料之前先贏得信任——當內容可能令一般受眾感到不安或難以接近時，這一點尤為關鍵。',
+    'dp2-badge': '<i data-lucide="grid" style="width:10px;height:10px;"></i> 可擴展性',
+    'dp2-title': '涵蓋 200+ 詞條的圖示系統',
+    'dp2-desc': '圖示設計系統涵蓋化學辭典中的每個詞條。依類別色彩編碼、風格一致，且足夠精簡以在 40px 尺寸下仍能有效呈現——確保整份目錄在規模龐大時依然易於瀏覽。',
+    'dp3-badge': '<i data-lucide="bar-chart-2" style="width:10px;height:10px;"></i> 資訊圖表',
+    'dp3-title': '詳細頁面——無牆的資料呈現',
+    'dp3-desc': '化學品詳細頁面以資訊圖表版面取代密集的法規文字：危害程度以視覺刻度呈現、接觸途徑以圖解說明、安全注意事項以圖示標籤卡片呈現。所有資料都在——只是不再需要化學學位才能解讀。',
+    'dp4-badge': '<i data-lucide="gamepad-2" style="width:10px;height:10px;"></i> 遊戲化',
+    'dp4-title': '促進深度學習的進度機制',
+    'dp4-desc': '知識地圖追蹤用戶已探索的化學物質，隨著更多詞條被造訪，呈現視覺化的「完成」狀態。這個借鑑自遊戲設計的進度機制，將被動閱讀轉化為主動探索，同時提升停留時間與知識留存率。',
+    's06-eyebrow': '06 · 視覺設計',
+    's06-heading': '完整平台——從首頁到詳細頁面',
+    's06-sub': '溫暖的插畫主導視覺系統，讓有害化學物質資料讀來如同兒童百科全書——同時不犧牲準確性與權威性。',
+    'vl-complete': '完整網站設計——首頁 · 類別頁 · 知識地圖 · 化學品詳細頁',
+    's07-eyebrow': '07 · 設計系統',
+    's07-heading': '視覺語言——色彩、插畫與字型',
+    's07-p1': '色彩系統有雙重用途：溫暖鮮豔的色調在首頁層級傳達平易近人感，類別色彩則在整份辭典中建立導航詞彙。五個生活類別各自擁有獨特顏色——在圖示、標題與詳細頁面中保持一致。',
+    'chip-food': '食',
+    'chip-cloth': '衣',
+    'chip-home': '住',
+    'chip-traffic': '行',
+    'chip-edu': '育樂',
+    'chip-fg': '前景色',
+    'type-tag-head': '標題',
+    'type-detail-head': '大型友善標題，字距緊密——溫暖自信，絕不機構化或冷漠',
+    'type-tag-body': '內文 / UI',
+    'type-detail-body': '雙語內文（繁體中文 + 英文）——服務台灣大眾的政府網站不可或缺的字型選擇',
+    'callout-title-outcome': '成果',
+    'callout-body-outcome': '已作為公共教育資源，由台灣毒性及關注化學物質管理署正式上線。這種以生活情境為主軸的視覺辭典格式——透過插畫與遊戲化連結日常物品與化學物質認知——成為台灣後續政府數位傳播專案的參考典範。',
+    'next-label': '回到起點',
+    'next-btn-text': '查看案例 <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Lead Product Designer at Gogolook · 台北，台灣'
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-opt').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+  localStorage.setItem('kw-lang-chem', lang);
+  lucide.createIcons();
+}
+
+document.getElementById('langSwitch').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-opt');
+  if (!btn) return;
+  applyLang(btn.getAttribute('data-lang'));
+});
+
+</script>
+</body>
+</html>

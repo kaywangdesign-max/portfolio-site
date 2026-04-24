@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wing CRM — Kay Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../project-page.css" />
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">K.W.</a>
+  <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+    <button class="lang-opt active" data-lang="en">EN</button>
+    <button class="lang-opt" data-lang="zh">繁中</button>
+  </div>
+  <a href="../index.html#projects" class="back-btn" data-i18n="back-btn"><i data-lucide="arrow-left"></i> All Work</a>
+</nav>
+
+<div class="proj-hero">
+  <div class="proj-hero-bg">
+    <img src="../images/wingcrm.png" alt="Wing CRM" />
+  </div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-content">
+    <div class="proj-hero-cat" data-i18n="hero-cat">Enterprise B2B · Web + Mobile</div>
+    <h1 class="proj-hero-title">Wing CRM</h1>
+    <p class="proj-hero-sub" data-i18n="hero-sub">Field sales CRM with performance tracking, real-time location data, and role-based dashboards</p>
+  </div>
+</div>
+
+<div class="proj-meta-bar">
+  <div class="proj-meta-row">
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-client">Client</div>
+      <div class="meta-value">Skywind Inc.</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-role-label">My Role</div>
+      <div class="meta-value" data-i18n="meta-role-val">UX/UI Designer</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-timeline">Timeline</div>
+      <div class="meta-value">2017 – 2018</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-platform-label">Platform</div>
+      <div class="meta-value" data-i18n="meta-platform-val">Web + Mobile</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-type">Project Type</div>
+      <div class="meta-value"><span class="goal-badge new-product" data-i18n="badge-new-product">New Product</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="proj-body">
+  <div class="proj-col">
+
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s01-eyebrow">01 · Context</div>
+      <h2 class="content-heading" data-i18n="s01-heading">What was it like</h2>
+      <p class="content-text" data-i18n="s01-p1">Field sales teams are notoriously hard to manage — they're distributed, mobile, and their performance data is scattered across spreadsheets, phone calls, and memory. Skywind needed a CRM that worked on the ground with reps, not just in the office with managers.</p>
+      <p class="content-text" data-i18n="s01-p2">The system also needed to motivate through visibility. Research showed that field reps perform better when they can see how they rank against peers — a leaderboard psychology baked into the product architecture.</p>
+    </div>
+
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s02-eyebrow">02 · Project Goal</div>
+      <h2 class="content-heading" data-i18n="s02-heading">What was the goal</h2>
+      <ul class="content-list">
+        <li data-i18n="s02-b1">Give field reps a daily planner with task status and location check-ins</li>
+        <li data-i18n="s02-b2">Give managers a real-time dashboard with team performance and attendance</li>
+        <li data-i18n="s02-b3">Motivate reps through visible competitive rankings</li>
+        <li data-i18n="s02-b4">Build a role-based permission system from admin down to employee level</li>
+      </ul>
+    </div>
+
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s03-eyebrow">03 · My Contribution</div>
+      <h2 class="content-heading" data-i18n="s03-heading">What did I do</h2>
+      <p class="content-text" data-i18n="s03-p1">I designed both the mobile app (used by field reps) and the web dashboard (used by managers and admins). This required understanding two completely different use contexts — a rep checking in from the street vs. a manager reviewing team analytics from their desk.</p>
+      <p class="content-text" data-i18n="s03-p2">I designed the information hierarchy, the data visualisation system, the schedule calendar, and the location tracking map interface.</p>
+    </div>
+
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s04-eyebrow">04 · Design Solutions</div>
+      <h2 class="content-heading" data-i18n="s04-heading">How my design solves the problem</h2>
+
+      <div class="sub-head" data-i18n="sub-head-mobile">Mobile App — Wing App (Field Reps)</div>
+      <ul class="content-list">
+        <li data-i18n="s04-mb1">Home screen: live performance ranking, daily itinerary, and schedule summary at a glance</li>
+        <li data-i18n="s04-mb2">Calendar view with clear status coding: complete / to-do / pending / overdue</li>
+        <li data-i18n="s04-mb3">One-tap location check-in when arriving at client sites</li>
+        <li data-i18n="s04-mb4">Motivation-led interface with visible stats to drive competitive engagement</li>
+      </ul>
+
+      <div class="content-visual-label" data-i18n="vl-mobile">Mobile app — Home · Schedules · Add Now</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:32px;">
+        <div class="content-visual" style="margin:0;">
+          <img src="https://static.wixstatic.com/media/c8b53d_3e4814424f3f4af3ba7336e4e29793f2~mv2.png" alt="Wing App — Home screen" />
+        </div>
+        <div class="content-visual" style="margin:0;">
+          <img src="https://static.wixstatic.com/media/c8b53d_a1beaab4ff6049229c157c4b38e0bff9~mv2.png" alt="Wing App — Schedules screen" />
+        </div>
+        <div class="content-visual" style="margin:0;">
+          <img src="https://static.wixstatic.com/media/c8b53d_aa73fb933f8b4b08882a7948527dce97~mv2.png" alt="Wing App — Add Now screen" />
+        </div>
+      </div>
+
+      <div class="sub-head" data-i18n="sub-head-web">Web Dashboard (Managers &amp; Admins)</div>
+      <ul class="content-list">
+        <li data-i18n="s04-wb1">Customisable analytics charts: visits, deal rates, revenue — filterable by time and team</li>
+        <li data-i18n="s04-wb2">Team attendance rate comparison across regions or squads</li>
+        <li data-i18n="s04-wb3">Real-time location tracking map for all active field reps</li>
+        <li data-i18n="s04-wb4">Role-based permissions: admin → manager → lead → employee hierarchy</li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-title" data-i18n="callout-title">Design decision</div>
+        <p data-i18n="callout-body">Rankings were made visible to all reps — not hidden by management. This transparency was intentional: field research showed that public visibility increases performance more than private dashboards.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Dashboard image — inline at proj-col width -->
+<div class="proj-body" style="padding-top:0;padding-bottom:48px;">
+  <div class="proj-col">
+    <div class="content-visual-label" data-i18n="vl-dashboard">Web dashboard — full overview</div>
+    <img src="../images/Wing CRM/天翼後台_1.avif"
+         alt="Wing CRM — full web dashboard overview"
+         style="width:100%;display:block;cursor:zoom-in;border:2px solid var(--border);border-radius:var(--r-md);"
+         onclick="(function(src,alt){
+           var o=document.createElement('div');
+           o.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,0.92);overflow-y:auto;padding:40px 24px;cursor:zoom-out;';
+           var i=document.createElement('img');
+           i.src=src;i.alt=alt;
+           i.style.cssText='display:block;width:860px;max-width:90vw;height:auto;margin:0 auto;border-radius:8px;border:3px solid #1E293B;box-shadow:0 24px 64px rgba(0,0,0,0.5);';
+           o.appendChild(i);document.body.appendChild(o);
+           o.addEventListener('click',function(){o.remove();});
+           document.addEventListener('keydown',function f(e){if(e.key==='Escape'){o.remove();document.removeEventListener('keydown',f);}});
+         })(this.src,this.alt)" />
+  </div>
+</div>
+
+<div class="proj-tags-row">
+  <span class="proj-tag">Web</span>
+  <span class="proj-tag">Mobile</span>
+  <span class="proj-tag">SaaS / CRM</span>
+  <span class="proj-tag">Data Viz</span>
+  <span class="proj-tag">Enterprise</span>
+</div>
+
+<div class="next-project-strip">
+  <div>
+    <div class="next-label" data-i18n="next-label">Next project</div>
+    <div class="next-title">Resorts World at Sea</div>
+  </div>
+  <a href="genting.html" class="next-btn" data-i18n="next-btn-text">View case study <i data-lucide="arrow-right"></i></a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Kay Wang</div>
+    <div data-i18n="footer-role">Lead Product Designer at Gogolook · Taipei, Taiwan</div>
+    <div>© 2024 Kay Wang</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script src="../project-page.js"></script>
+<script>
+var translations = {
+  en: {
+    'back-btn': '<i data-lucide="arrow-left"></i> All Work',
+    'hero-cat': 'Enterprise B2B · Web + Mobile',
+    'hero-sub': 'Field sales CRM with performance tracking, real-time location data, and role-based dashboards',
+    'meta-client': 'Client',
+    'meta-role-label': 'My Role',
+    'meta-role-val': 'UX/UI Designer',
+    'meta-timeline': 'Timeline',
+    'meta-platform-label': 'Platform',
+    'meta-platform-val': 'Web + Mobile',
+    'meta-type': 'Project Type',
+    'badge-new-product': 'New Product',
+    's01-eyebrow': '01 · Context',
+    's01-heading': 'What was it like',
+    's01-p1': 'Field sales teams are notoriously hard to manage — they\'re distributed, mobile, and their performance data is scattered across spreadsheets, phone calls, and memory. Skywind needed a CRM that worked on the ground with reps, not just in the office with managers.',
+    's01-p2': 'The system also needed to motivate through visibility. Research showed that field reps perform better when they can see how they rank against peers — a leaderboard psychology baked into the product architecture.',
+    's02-eyebrow': '02 · Project Goal',
+    's02-heading': 'What was the goal',
+    's02-b1': 'Give field reps a daily planner with task status and location check-ins',
+    's02-b2': 'Give managers a real-time dashboard with team performance and attendance',
+    's02-b3': 'Motivate reps through visible competitive rankings',
+    's02-b4': 'Build a role-based permission system from admin down to employee level',
+    's03-eyebrow': '03 · My Contribution',
+    's03-heading': 'What did I do',
+    's03-p1': 'I designed both the mobile app (used by field reps) and the web dashboard (used by managers and admins). This required understanding two completely different use contexts — a rep checking in from the street vs. a manager reviewing team analytics from their desk.',
+    's03-p2': 'I designed the information hierarchy, the data visualisation system, the schedule calendar, and the location tracking map interface.',
+    's04-eyebrow': '04 · Design Solutions',
+    's04-heading': 'How my design solves the problem',
+    'sub-head-mobile': 'Mobile App — Wing App (Field Reps)',
+    's04-mb1': 'Home screen: live performance ranking, daily itinerary, and schedule summary at a glance',
+    's04-mb2': 'Calendar view with clear status coding: complete / to-do / pending / overdue',
+    's04-mb3': 'One-tap location check-in when arriving at client sites',
+    's04-mb4': 'Motivation-led interface with visible stats to drive competitive engagement',
+    'vl-mobile': 'Mobile app — Home · Schedules · Add Now',
+    'sub-head-web': 'Web Dashboard (Managers &amp; Admins)',
+    's04-wb1': 'Customisable analytics charts: visits, deal rates, revenue — filterable by time and team',
+    's04-wb2': 'Team attendance rate comparison across regions or squads',
+    's04-wb3': 'Real-time location tracking map for all active field reps',
+    's04-wb4': 'Role-based permissions: admin → manager → lead → employee hierarchy',
+    'callout-title': 'Design decision',
+    'callout-body': 'Rankings were made visible to all reps — not hidden by management. This transparency was intentional: field research showed that public visibility increases performance more than private dashboards.',
+    'vl-dashboard': 'Web dashboard — full overview',
+    'next-label': 'Next project',
+    'next-btn-text': 'View case study <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Lead Product Designer at Gogolook · Taipei, Taiwan'
+  },
+  zh: {
+    'back-btn': '<i data-lucide="arrow-left"></i> 所有作品',
+    'hero-cat': '企業 B2B · Web + 行動裝置',
+    'hero-sub': '外勤業務 CRM，具備績效追蹤、即時定位資料與角色分級儀表板',
+    'meta-client': '客戶',
+    'meta-role-label': '我的角色',
+    'meta-role-val': 'UX/UI 設計師',
+    'meta-timeline': '時間',
+    'meta-platform-label': '平台',
+    'meta-platform-val': 'Web + 行動裝置',
+    'meta-type': '專案類型',
+    'badge-new-product': '全新產品',
+    's01-eyebrow': '01 · 背景脈絡',
+    's01-heading': '專案背景',
+    's01-p1': '外勤業務團隊向來難以管理——人員分散、行動辦公，績效資料也分散於試算表、電話與記憶中。Skywind 需要一套能在業務現場派上用場的 CRM，而不只是供辦公室管理者使用的工具。',
+    's01-p2': '系統同時需要透過「可見性」來激勵業務。研究顯示，當外勤業務能看到自己在團隊中的排名，表現會顯著提升——這種排行榜心理學被直接納入產品架構設計之中。',
+    's02-eyebrow': '02 · 專案目標',
+    's02-heading': '設計目標',
+    's02-b1': '為外勤業務提供含任務狀態與定位打卡的每日行程規劃工具',
+    's02-b2': '為管理者提供涵蓋團隊績效與出勤狀況的即時儀表板',
+    's02-b3': '透過公開的競爭排名激勵業務代表',
+    's02-b4': '建立從管理員到員工層級的角色分權系統',
+    's03-eyebrow': '03 · 我的貢獻',
+    's03-heading': '我做了什麼',
+    's03-p1': '我同時設計了手機 App（供外勤業務使用）與 Web 後台（供管理者與管理員使用）。這需要深入理解兩種截然不同的使用情境——在街頭打卡的業務代表，與在辦公桌前審閱團隊分析數據的管理者。',
+    's03-p2': '我負責設計資訊層級架構、資料視覺化系統、行程日曆，以及定位追蹤地圖介面。',
+    's04-eyebrow': '04 · 設計解法',
+    's04-heading': '設計如何解決問題',
+    'sub-head-mobile': '手機 App — Wing App（外勤業務代表）',
+    's04-mb1': '首頁：即時績效排名、每日行程與任務摘要一目了然',
+    's04-mb2': '日曆視圖搭配清晰狀態標示：已完成 / 待辦 / 處理中 / 逾期',
+    's04-mb3': '抵達客戶地點時，一鍵完成定位打卡',
+    's04-mb4': '以激勵為導向的介面，透過可見數據驅動競爭積極性',
+    'vl-mobile': '手機 App — 首頁 · 行程 · 即時新增',
+    'sub-head-web': 'Web 後台（管理者與管理員）',
+    's04-wb1': '可自訂的分析圖表：拜訪次數、成交率、營收——支援按時間與團隊篩選',
+    's04-wb2': '跨區域或小組的團隊出勤率比較',
+    's04-wb3': '所有在線外勤業務的即時定位追蹤地圖',
+    's04-wb4': '角色分權機制：管理員 → 主管 → 組長 → 員工層級',
+    'callout-title': '設計決策',
+    'callout-body': '排名對所有業務代表公開——而非由管理層隱藏。這種透明度是刻意為之的：現場研究顯示，公開可見的排名比私密儀表板更能提升業務表現。',
+    'vl-dashboard': 'Web 後台 — 完整總覽',
+    'next-label': '下一個專案',
+    'next-btn-text': '查看案例 <i data-lucide="arrow-right"></i>',
+    'footer-role': 'Lead Product Designer at Gogolook · 台北，台灣'
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-opt').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+  localStorage.setItem('kw-lang-wingcrm', lang);
+  lucide.createIcons();
+}
+
+document.getElementById('langSwitch').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-opt');
+  if (!btn) return;
+  applyLang(btn.getAttribute('data-lang'));
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TSMC-Online Redesign — Kay Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../project-page.css" />
+  <style>
+    /* ── TSMC-specific additions ── */
+    .stat-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .stat-bar-item {
+      background: var(--card);
+      border: 2px solid var(--fg);
+      border-radius: var(--r-md);
+      padding: 20px 16px;
+      box-shadow: 4px 4px 0 var(--fg);
+      text-align: center;
+    }
+    .stat-bar-num {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #C8102E;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-bar-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted-fg);
+      line-height: 1.4;
+    }
+    .role-breakdown {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .role-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      border: 2px solid var(--border);
+      background: var(--card);
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+    .role-pill-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .role-pill-pct {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #C8102E;
+    }
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .pain-card {
+      background: var(--card);
+      border: 2px solid var(--fg);
+      border-radius: var(--r-md);
+      padding: 22px;
+      box-shadow: 4px 4px 0 var(--fg);
+      position: relative;
+    }
+    .pain-number {
+      font-family: var(--font-head);
+      font-size: 3rem;
+      font-weight: 800;
+      color: #C8102E;
+      opacity: 0.12;
+      position: absolute;
+      top: 10px; right: 16px;
+      line-height: 1;
+    }
+    .pain-icon {
+      width: 40px; height: 40px;
+      border-radius: var(--r-sm);
+      background: #FEF2F2;
+      border: 2px solid #C8102E;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+    }
+    .pain-icon [data-lucide] { width: 18px; height: 18px; color: #C8102E; stroke-width: 2.5px; }
+    .pain-title {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 0.9375rem;
+      color: var(--fg);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .pain-desc {
+      font-size: 0.8125rem;
+      color: var(--muted-fg);
+      line-height: 1.6;
+    }
+    .research-flow-wrap {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0 !important;
+    }
+    .research-flow-wrap .flow-node {
+      width: 100%;
+      text-align: center;
+      white-space: normal;
+    }
+    .research-flow-wrap .flow-arrow {
+      margin: 2px 0;
+      justify-content: center;
+    }
+    .strategy-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--fg);
+      box-shadow: 2px 2px 0 var(--fg);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+    }
+    .strategy-icon [data-lucide] { width: 22px; height: 22px; stroke-width: 2.5px; }
+    .strategy-card:nth-child(1) .strategy-icon { background: #FEE2E2; }
+    .strategy-card:nth-child(1) .strategy-icon [data-lucide] { color: #C8102E; }
+    .strategy-card:nth-child(2) .strategy-icon { background: #FED7AA; }
+    .strategy-card:nth-child(2) .strategy-icon [data-lucide] { color: #d97706; }
+    .strategy-card:nth-child(3) .strategy-icon { background: #D1FAE5; }
+    .strategy-card:nth-child(3) .strategy-icon [data-lucide] { color: #059669; }
+    .ba-panel img {
+      cursor: zoom-in;
+      transition: opacity 0.2s;
+    }
+    .ba-panel img:hover { opacity: 0.88; }
+    .strategy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .strategy-card {
+      border-radius: var(--r-md);
+      padding: 22px;
+      border: 2px solid var(--fg);
+      box-shadow: 4px 4px 0 var(--fg);
+    }
+    .strategy-card:nth-child(1) { background: #FEF2F2; }
+    .strategy-card:nth-child(2) { background: #FFF7ED; }
+    .strategy-card:nth-child(3) { background: #F0FDF4; }
+    .strategy-num {
+      font-family: var(--font-head);
+      font-size: 0.6875rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted-fg);
+      margin-bottom: 10px;
+    }
+    .strategy-title {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--fg);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .strategy-desc {
+      font-size: 0.8125rem;
+      color: var(--muted-fg);
+      line-height: 1.6;
+    }
+    .zone-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .zone-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .zone-badge {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: var(--r-sm);
+      background: #C8102E;
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--fg);
+      box-shadow: 2px 2px 0 var(--fg);
+    }
+    .zone-badge [data-lucide] { width: 20px; height: 20px; stroke-width: 2px; color: #fff; }
+    .zone-title {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 0.9375rem;
+      color: var(--fg);
+      margin-bottom: 4px;
+    }
+    .zone-desc {
+      font-size: 0.8125rem;
+      color: var(--muted-fg);
+      line-height: 1.6;
+    }
+    .ba-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .ba-panel {
+      border: 2px solid var(--fg);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      box-shadow: 4px 4px 0 var(--fg);
+    }
+    .ba-label {
+      padding: 8px 16px;
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .ba-panel:first-child .ba-label { background: #f1f5f9; color: var(--muted-fg); }
+    .ba-panel:last-child  .ba-label { background: #1a1a2e; color: #fff; }
+    .ba-panel img { width: 100%; display: block; }
+    .takeaway-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .takeaway-card {
+      background: var(--card);
+      border: 2px solid var(--fg);
+      border-radius: var(--r-md);
+      padding: 22px;
+      box-shadow: 4px 4px 0 var(--fg);
+    }
+    .takeaway-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+      border: 2px solid var(--fg);
+    }
+    .takeaway-icon [data-lucide] { width: 18px; height: 18px; stroke-width: 2.5px; }
+    .takeaway-card:nth-child(1) .takeaway-icon { background: #FEF2F2; }
+    .takeaway-card:nth-child(1) .takeaway-icon [data-lucide] { color: #C8102E; }
+    .takeaway-card:nth-child(2) .takeaway-icon { background: #FFF7ED; }
+    .takeaway-card:nth-child(2) .takeaway-icon [data-lucide] { color: #d97706; }
+    .takeaway-card:nth-child(3) .takeaway-icon { background: #F0FDF4; }
+    .takeaway-card:nth-child(3) .takeaway-icon [data-lucide] { color: #059669; }
+    .takeaway-title {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 0.9375rem;
+      color: var(--fg);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .takeaway-desc {
+      font-size: 0.8125rem;
+      color: var(--muted-fg);
+      line-height: 1.6;
+    }
+    @media (max-width: 768px) {
+      .stat-bar       { grid-template-columns: repeat(2, 1fr); }
+      .pain-grid      { grid-template-columns: 1fr; }
+      .strategy-grid  { grid-template-columns: 1fr; }
+      .zone-grid      { grid-template-columns: 1fr; }
+      .ba-compare     { grid-template-columns: 1fr; }
+      .takeaway-grid  { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">K.W.</a>
+  <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+    <button class="lang-opt active" data-lang="en">EN</button>
+    <button class="lang-opt" data-lang="zh">繁中</button>
+  </div>
+  <a href="../index.html#projects" class="back-btn" data-i18n="back-btn"><i data-lucide="arrow-left"></i> All Work</a>
+</nav>
+
+<!-- HERO BANNER -->
+<div class="proj-hero">
+  <div class="proj-hero-bg" style="background:#0f0f1a;">
+    <img src="../images/tsmc/slide-27.png" alt="TSMC-Online Redesign" style="opacity:0.45;" />
+  </div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-content">
+    <div class="proj-hero-cat" data-i18n="hero-cat">Enterprise · SaaS · B2B</div>
+    <h1 class="proj-hero-title">TSMC-Online</h1>
+    <p class="proj-hero-sub" data-i18n="hero-sub">10-year platform renewal for the world's largest semiconductor manufacturer — redesigning how global clients manage tape-out services end to end</p>
+  </div>
+</div>
+
+<!-- META BAR -->
+<div class="proj-meta-bar">
+  <div class="proj-meta-row">
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-client">Client</div>
+      <div class="meta-value">TSMC</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-role">My Role</div>
+      <div class="meta-value" data-i18n="role-value">UX/UI Designer</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-team">Team</div>
+      <div class="meta-value" data-i18n="team-value">5 Designers (Cross-functional)</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-timeline">Timeline</div>
+      <div class="meta-value">Apr 2021 – Dec 2021</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-platform">Platform</div>
+      <div class="meta-value" data-i18n="platform-value">Web Platform (SaaS)</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-projtype">Project Type</div>
+      <div class="meta-value"><span class="goal-badge" style="background:#FEF2F2;color:#C8102E;border-color:#C8102E;" data-i18n="badge-redesign">Redesign</span></div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label" data-i18n="meta-live">Live Platform</div>
+      <div class="meta-value">
+        <a href="https://online.tsmc.com/online2/login" target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:6px;color:#C8102E;font-weight:700;font-size:0.875rem;text-decoration:none;border-bottom:2px solid #C8102E;padding-bottom:1px;">
+          <i data-lucide="external-link" style="width:14px;height:14px;stroke-width:2.5px;"></i>
+          online.tsmc.com
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="proj-body">
+  <div class="proj-col">
+
+    <!-- 01 · Problem Statement -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s1-eyebrow">01 · Problem Statement</div>
+      <h2 class="content-heading" data-i18n="s1-heading">A platform that powers the global chip supply chain — due for renewal</h2>
+      <p class="content-text" data-i18n="s1-text1">TSMC-Online is the tape-out service platform that TSMC's international clients depend on to manage their entire manufacturing process — from selecting reticle field layout templates, to requesting technical documents, examining prototype stages, iterating on designs, and reviewing logistics reports. The platform is rebuilt every 10 years, and this was our window.</p>
+      <p class="content-text" data-i18n="s1-text2">The core challenge: TSMC-Online was constructed by multiple IT departments independently, resulting in an IA that is fractured and inconsistent. Users couldn't build navigation habits, got lost mid-task, and struggled to understand why certain functions were inaccessible to them.</p>
+
+      <div class="challenge-strip">
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="users"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="c1-label">Team</div>
+            <div class="challenge-value" data-i18n="c1-value">5 designers — UX/UI, UX, UI specialists</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="layout-dashboard"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="c2-label">Challenge</div>
+            <div class="challenge-value" data-i18n="c2-value">Fragmented IA across many IT departments</div>
+          </div>
+        </div>
+        <div class="challenge-divider"></div>
+        <div class="challenge-item">
+          <div class="challenge-icon"><i data-lucide="calendar"></i></div>
+          <div>
+            <div class="challenge-label" data-i18n="c3-label">Timeline</div>
+            <div class="challenge-value" data-i18n="c3-value">Apr 2021 – Dec 2021 (10-yr renewal cycle)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:32px;">
+        <div class="callout-title" data-i18n="callout1-title">Kay's scope</div>
+        <p data-i18n="callout1-body">In a team of 5 designers, I owned <strong>UX/UI design</strong> end-to-end — conducting user research, running tree testing sessions, producing wireframes, high-fidelity UI mockups, and interactive prototypes. My work directly shaped the homepage architecture and the navigation system.</p>
+      </div>
+    </div>
+
+    <!-- 02 · User Research -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s2-eyebrow">02 · User Research</div>
+      <h2 class="content-heading" data-i18n="s2-heading">488 users surveyed — two distinct personas, one broken experience</h2>
+      <p class="content-text" data-i18n="s2-text">Before touching any wireframe, we ran a structured survey across TSMC's entire international client base. Two user groups emerged with fundamentally different relationships to the platform: expert end users who use it regularly, and cross-role users who juggle multiple responsibilities.</p>
+
+      <div class="stat-bar">
+        <div class="stat-bar-item">
+          <div class="stat-bar-num">488</div>
+          <div class="stat-bar-label" data-i18n="stat1-label">Total end users<br />surveyed</div>
+        </div>
+        <div class="stat-bar-item">
+          <div class="stat-bar-num">76.8%</div>
+          <div class="stat-bar-label" data-i18n="stat2-label">Expert users<br />(375 people)</div>
+        </div>
+        <div class="stat-bar-item">
+          <div class="stat-bar-num">23.2%</div>
+          <div class="stat-bar-label" data-i18n="stat3-label">Cross-role users<br />(113 people)</div>
+        </div>
+        <div class="stat-bar-item">
+          <div class="stat-bar-num">2</div>
+          <div class="stat-bar-label" data-i18n="stat4-label">Distinct personas<br />identified</div>
+        </div>
+      </div>
+
+      <div class="sub-head" style="margin-top:32px;" data-i18n="sub-roles">Expert user breakdown by job function</div>
+      <div class="role-breakdown">
+        <div class="role-pill"><span class="role-pill-dot" style="background:#C8102E;"></span><span data-i18n="rp-foundry">Foundry Manager</span> <span class="role-pill-pct">24%</span></div>
+        <div class="role-pill"><span class="role-pill-dot" style="background:#d97706;"></span><span data-i18n="rp-planner">Planner</span> <span class="role-pill-pct">17.6%</span></div>
+        <div class="role-pill"><span class="role-pill-dot" style="background:#8B5CF6;"></span><span data-i18n="rp-designer">Designer</span> <span class="role-pill-pct">11.5%</span></div>
+        <div class="role-pill"><span class="role-pill-dot" style="background:#0891b2;"></span><span data-i18n="rp-rd">R&amp;D</span> <span class="role-pill-pct">10.9%</span></div>
+        <div class="role-pill"><span class="role-pill-dot" style="background:#059669;"></span><span data-i18n="rp-procurement">Procurement</span> <span class="role-pill-pct">3.7%</span></div>
+        <div class="role-pill"><span class="role-pill-dot" style="background:#64748B;"></span><span data-i18n="rp-pm">Project Manager &amp; Others</span> <span class="role-pill-pct">31.3%</span></div>
+      </div>
+
+      <div class="persona-grid" style="margin-top:28px;">
+        <div class="persona-card">
+          <div>
+            <div class="persona-name">PERSONA 1</div>
+            <div class="persona-role" data-i18n="p1-role">End User — TSMC's International Client</div>
+            <p data-i18n="p1-desc">Uses TSMC-Online regularly for tape-out workflows. Deeply familiar with a narrow set of functions but struggles to locate documents across the fragmented IA. Wants faster access to frequently used tools without having to re-navigate every session.</p>
+          </div>
+        </div>
+        <div class="persona-card">
+          <div>
+            <div class="persona-name">PERSONA 2</div>
+            <div class="persona-role" data-i18n="p2-role">CSV &amp; Region Admin — TSMC Internal User</div>
+            <p data-i18n="p2-desc">Manages multiple client accounts and cross-role permissions simultaneously. Regularly needs to give instructions across functions but faces unclear permission boundaries. Needs visibility into what clients can and cannot access — and why.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-visual-label" style="margin-top:32px;" data-i18n="vis-difficulties">Difficulties reported — Expert users vs Cross-Role users (raw data)</div>
+      <div class="content-visual">
+        <img src="../images/tsmc/slide-11.png" alt="Difficulties common grounds — survey data comparison" />
+      </div>
+
+      <div class="sub-head" data-i18n="sub-findings">Key research findings</div>
+      <div class="insights-grid">
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="bar-chart-2"></i></div>
+          <div class="insight-title" data-i18n="ins1-title">Expert ≠ Self-sufficient</div>
+          <div class="insight-body" data-i18n="ins1-body">Expert users give fewer instructions than cross-role users — meaning expertise doesn't prevent navigation struggles. Even power users get stuck.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="user-check"></i></div>
+          <div class="insight-title" data-i18n="ins2-title">Foundry Managers carry the load</div>
+          <div class="insight-body" data-i18n="ins2-body">96% of Cross Role users who frequently give instructions (&gt;80%) are cross-roled as Foundry Managers — a single role type carrying disproportionate workflow burden.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon"><i data-lucide="file-question"></i></div>
+          <div class="insight-title" data-i18n="ins3-title">Documents are the #1 pain point</div>
+          <div class="insight-body" data-i18n="ins3-body">"Not easy to find documents" ranked as the top difficulty across both Expert and Cross Role users. The platform's document architecture was the most urgent problem to solve.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 · Problem Statement Summary -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s3-eyebrow">03 · Problem Statement</div>
+      <h2 class="content-heading" data-i18n="s3-heading">Three pain points. One fragmented platform.</h2>
+      <p class="content-text" data-i18n="s3-text">From the survey data, tree testing sessions, and user interviews, three core pain points consistently emerged across both user groups. These became the design brief — every UX decision had to directly address at least one of them.</p>
+
+      <div class="content-visual-label" data-i18n="vis-pain">Pain points validated by survey data</div>
+      <div class="content-visual">
+        <img src="../images/tsmc/slide-14.png" alt="Key common pain points — Problem Statement" />
+      </div>
+
+      <div class="pain-grid">
+        <div class="pain-card">
+          <span class="pain-number">1</span>
+          <div class="pain-icon"><i data-lucide="file-search"></i></div>
+          <div class="pain-title" data-i18n="pain1-title">Not easy to find documents</div>
+          <div class="pain-desc" data-i18n="pain1-desc">Documents are distributed across multiple IT-owned sections with no consistent naming or location logic. Users resort to memorizing exact paths rather than navigating by meaning.</div>
+        </div>
+        <div class="pain-card">
+          <span class="pain-number">2</span>
+          <div class="pain-icon"><i data-lucide="layers"></i></div>
+          <div class="pain-title" data-i18n="pain2-title">Can't identify the right function</div>
+          <div class="pain-desc" data-i18n="pain2-desc">The platform's function labels are technical and role-ambiguous. Cross-role users especially struggle to identify which of several similar functions applies to their current task.</div>
+        </div>
+        <div class="pain-card">
+          <span class="pain-number">3</span>
+          <div class="pain-icon"><i data-lucide="lock"></i></div>
+          <div class="pain-title" data-i18n="pain3-title">Unclear access permissions</div>
+          <div class="pain-desc" data-i18n="pain3-desc">Users encounter locked functions with no explanation of why access is restricted or how to request it. This creates dead-ends mid-workflow and erodes trust in the platform.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 · UX Strategy -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s4-eyebrow">04 · UX Strategy</div>
+      <h2 class="content-heading" data-i18n="s4-heading">From pain points to design principles</h2>
+      <p class="content-text" data-i18n="s4-text">Before redesigning any screen, we established three strategic directions that would guide every information architecture and UI decision in the project. These weren't aesthetic choices — they were structural responses to the research findings.</p>
+
+      <div class="research-flow-wrap">
+        <div class="flow-node" data-i18n="flow-research">User Research</div>
+        <div class="flow-arrow"><i data-lucide="arrow-down"></i></div>
+        <div class="flow-node" data-i18n="flow-problem">Problem Statement</div>
+        <div class="flow-arrow"><i data-lucide="arrow-down"></i></div>
+        <div class="flow-node highlight" data-i18n="flow-strategy">UX Strategy</div>
+        <div class="flow-arrow"><i data-lucide="arrow-down"></i></div>
+        <div class="flow-node" data-i18n="flow-concept">Concept Design</div>
+      </div>
+
+      <div class="content-visual-label" style="margin-top:32px;" data-i18n="vis-original">Original TSMC-Online — before redesign</div>
+      <div class="content-visual">
+        <img src="../images/tsmc/slide-25.png" alt="TSMC-Online original design — before redesign" />
+      </div>
+
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="strategy-icon"><i data-lucide="layout-list"></i></div>
+          <div class="strategy-num" data-i18n="strat1-num">Direction 01</div>
+          <div class="strategy-title" data-i18n="strat1-title">Navigation clarity &amp; future flexibility</div>
+          <div class="strategy-desc" data-i18n="strat1-desc">Restructure the left-side navigation with consistent icons and labels. Build a system that can accommodate new functions as the platform grows — without breaking existing user habits.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-icon"><i data-lucide="star"></i></div>
+          <div class="strategy-num" data-i18n="strat2-num">Direction 02</div>
+          <div class="strategy-title" data-i18n="strat2-title">Personal shortcuts on homepage</div>
+          <div class="strategy-desc" data-i18n="strat2-desc">Surface each user's most-used functions and latest status on the homepage — replacing a generic entry point with a role-aware, personalized workspace overview.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-icon"><i data-lucide="circle-user"></i></div>
+          <div class="strategy-num" data-i18n="strat3-num">Direction 03</div>
+          <div class="strategy-title" data-i18n="strat3-title">"My Online" — personal hub</div>
+          <div class="strategy-desc" data-i18n="strat3-desc">Introduce a centralized personal data panel (My Space) for notifications, subscriptions, favorite functions, and permission management — giving users a single place to understand their access context.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 · Concept Design -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s5-eyebrow">05 · Concept Design</div>
+      <h2 class="content-heading" data-i18n="s5-heading">Homepage redesigned around four functional zones</h2>
+      <p class="content-text" data-i18n="s5-text">The redesigned homepage isn't just visually cleaner — it's architecturally intentional. Every zone maps directly to a user need identified in research. The layout builds a spatial habit: users know exactly where to look for what, every time they log in.</p>
+
+      <div class="zone-grid">
+        <div class="zone-card">
+          <div class="zone-badge"><i data-lucide="search"></i></div>
+          <div>
+            <div class="zone-title" data-i18n="zone1-title">Header — Global search + identity</div>
+            <div class="zone-desc" data-i18n="zone1-desc">A unified search bar lets users find any function or document from anywhere on the platform. "My Online" profile chip gives instant access to personal settings — solving the access-confusion pain point.</div>
+          </div>
+        </div>
+        <div class="zone-card">
+          <div class="zone-badge"><i data-lucide="panel-left"></i></div>
+          <div>
+            <div class="zone-title" data-i18n="zone2-title">Navigation — Persistent sidebar with icons</div>
+            <div class="zone-desc" data-i18n="zone2-desc">All platform functions displayed in a structured, icon-anchored sidebar. Icons provide visual memory anchors so users build navigation habits quickly — even across infrequent sessions.</div>
+          </div>
+        </div>
+        <div class="zone-card">
+          <div class="zone-badge"><i data-lucide="layout-grid"></i></div>
+          <div>
+            <div class="zone-title" data-i18n="zone3-title">Main Content — Role-filtered workspace</div>
+            <div class="zone-desc" data-i18n="zone3-desc">What's New, Favorite Function, and You Might Also Like — three content blocks that surface relevant, role-specific items. Users see what matters to them, not everything that exists.</div>
+          </div>
+        </div>
+        <div class="zone-card">
+          <div class="zone-badge"><i data-lucide="circle-user"></i></div>
+          <div>
+            <div class="zone-title" data-i18n="zone4-title">My Space — Personal command center</div>
+            <div class="zone-desc" data-i18n="zone4-desc">Right-panel hub for online notifications, subscriptions, favorite functions, and permission status. The first place on TSMC-Online where users can see and understand their own access context at a glance.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-visual-label" style="margin-top:32px;" data-i18n="vis-anatomy">Final homepage design — annotated anatomy</div>
+      <div class="content-visual">
+        <img src="../images/tsmc/slide-21.png" alt="TSMC-Online redesigned homepage — full anatomy" />
+      </div>
+
+      <div class="content-visual-label" data-i18n="vis-production">Final design — production-ready UI</div>
+      <div class="content-visual">
+        <img src="../images/tsmc/slide-27.png" alt="TSMC-Online final UI — production homepage" />
+      </div>
+
+      <div class="sub-head" data-i18n="sub-ba">Before &amp; After</div>
+      <div class="ba-compare">
+        <div class="ba-panel">
+          <div class="ba-label" data-i18n="ba-before">Before — Original TSMC-Online</div>
+          <img src="../images/tsmc/slide-25.png" alt="TSMC-Online before redesign — original design" />
+        </div>
+        <div class="ba-panel">
+          <div class="ba-label" data-i18n="ba-after">After — Redesigned Platform</div>
+          <img src="../images/tsmc/slide-28.png" alt="TSMC-Online after redesign — concept design comparison" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 · Results & Takeaways -->
+    <div class="content-section">
+      <div class="section-eyebrow" data-i18n="s6-eyebrow">06 · Results &amp; Takeaways</div>
+      <h2 class="content-heading" data-i18n="s6-heading">What a 10-year redesign taught us about design strategy</h2>
+      <p class="content-text" data-i18n="s6-text">This project is now live for TSMC's international clients. Beyond the shipped product, the process surfaced three lessons that apply to any large-scale, long-lifecycle enterprise platform.</p>
+
+      <div class="takeaway-grid">
+        <div class="takeaway-card">
+          <div class="takeaway-icon"><i data-lucide="map"></i></div>
+          <div class="takeaway-title" data-i18n="tw1-title">Plan your MVP with iron discipline</div>
+          <div class="takeaway-desc" data-i18n="tw1-desc">A platform renewing every 10 years attracts enormous scope creep. A clear MVP plan — anchored to the three validated pain points — was the only way to protect delivery quality and timeline from out-of-scope requests.</div>
+        </div>
+        <div class="takeaway-card">
+          <div class="takeaway-icon"><i data-lucide="refresh-cw"></i></div>
+          <div class="takeaway-title" data-i18n="tw2-title">User testing never ends</div>
+          <div class="takeaway-desc" data-i18n="tw2-desc">Design doesn't stop at handoff. Continuous iteration after launch — collecting feedback, monitoring usage, running follow-up tests — is what separates a shipped product from a good product.</div>
+        </div>
+        <div class="takeaway-card">
+          <div class="takeaway-icon"><i data-lucide="code-2"></i></div>
+          <div class="takeaway-title" data-i18n="tw3-title">Involve engineering upfront</div>
+          <div class="takeaway-desc" data-i18n="tw3-desc">Enterprise platforms carry deep technical constraints. Understanding those limitations at the strategy stage — not after mockups are done — prevents costly redesigns and keeps the design-to-dev relationship collaborative, not adversarial.</div>
+        </div>
+      </div>
+
+      <div class="callout callout--green" style="margin-top:32px;">
+        <div class="callout-title" data-i18n="callout2-title">Live product</div>
+        <p data-i18n="callout2-body">TSMC-Online is now live for TSMC's international clients worldwide. Access is restricted to TSMC's global client network. <a href="https://online.tsmc.com/online2/login" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px;">online.tsmc.com</a></p>
+      </div>
+    </div>
+
+  </div><!-- /proj-col -->
+</div><!-- /proj-body -->
+
+<!-- DESIGN SYSTEM -->
+<div class="ds-section">
+  <div class="proj-col">
+    <div class="section-eyebrow" data-i18n="s7-eyebrow">07 · Design System</div>
+    <h2 class="ds-heading" data-i18n="s7-heading">Color &amp; Type</h2>
+
+    <div class="color-palette">
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#C8102E;"></div>
+        <div class="color-chip-hex">#C8102E</div>
+        <div class="color-chip-role" data-i18n="color-tsmc">TSMC Red</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#1A1A2E;"></div>
+        <div class="color-chip-hex">#1A1A2E</div>
+        <div class="color-chip-role" data-i18n="color-nav">Nav Dark</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#F5F5F5;border:2px solid #E2E8F0;"></div>
+        <div class="color-chip-hex">#F5F5F5</div>
+        <div class="color-chip-role" data-i18n="color-surface">Surface</div>
+      </div>
+      <div class="color-chip">
+        <div class="color-chip-block" style="background:#FFFFFF;border:2px solid #E2E8F0;"></div>
+        <div class="color-chip-hex">#FFFFFF</div>
+        <div class="color-chip-role" data-i18n="color-card">Card</div>
+      </div>
+    </div>
+
+    <div class="type-system">
+      <div class="type-row">
+        <div class="type-tag">Web</div>
+        <div class="type-sample" style="font-family:system-ui,sans-serif;">System UI</div>
+        <div class="type-detail" data-i18n="type-noto">Noto Sans — headings, body, labels (multilingual client support)</div>
+      </div>
+      <div class="type-row">
+        <div class="type-tag">Data</div>
+        <div class="type-sample" style="font-family:monospace;font-size:1.125rem;">Mono</div>
+        <div class="type-detail" data-i18n="type-mono">Monospaced — order numbers, document IDs, version strings</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAGS -->
+<div class="proj-tags-row">
+  <span class="proj-tag">UX Research</span>
+  <span class="proj-tag">Information Architecture</span>
+  <span class="proj-tag">B2B SaaS</span>
+  <span class="proj-tag">Enterprise Platform</span>
+  <span class="proj-tag">Redesign</span>
+  <span class="proj-tag">Web Platform</span>
+  <span class="proj-tag">Data-Driven Design</span>
+  <span class="proj-tag">Tree Testing</span>
+  <span class="proj-tag">Semiconductor</span>
+</div>
+
+<!-- NEXT PROJECT -->
+<div class="next-project-strip">
+  <div>
+    <div class="next-label" data-i18n="next-label">Next project</div>
+    <div class="next-title">Fitbit Connect</div>
+  </div>
+  <a href="fitbit.html" class="next-btn" data-i18n="next-btn-text">View case study <i data-lucide="arrow-right"></i></a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Kay Wang</div>
+    <div data-i18n="footer-role">Lead Product Designer at Gogolook · Taipei, Taiwan</div>
+    <div>© 2024 Kay Wang</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script src="../project-page.js"></script>
+<script>
+  // Before/After image lightbox
+  (function () {
+    function openLightbox(src, alt) {
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,0.92);display:flex;align-items:center;justify-content:center;padding:24px;cursor:zoom-out;opacity:0;transition:opacity 0.2s ease;';
+      var img = document.createElement('img');
+      img.src = src; img.alt = alt || '';
+      img.style.cssText = 'max-width:90vw;max-height:88vh;display:block;border-radius:12px;border:3px solid #1E293B;box-shadow:0 24px 64px rgba(0,0,0,0.5);';
+      var closeBtn = document.createElement('button');
+      closeBtn.innerHTML = '&times;';
+      closeBtn.style.cssText = 'position:absolute;top:calc(50% - 44vh - 20px);right:calc(5vw - 20px);width:40px;height:40px;border-radius:50%;background:#fff;border:2px solid #1E293B;box-shadow:3px 3px 0 #1E293B;font-size:1.25rem;font-weight:700;color:#1E293B;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;';
+      overlay.appendChild(img);
+      overlay.appendChild(closeBtn);
+      document.body.appendChild(overlay);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { overlay.style.opacity = '1'; });
+      });
+      function close() {
+        overlay.style.opacity = '0';
+        overlay.addEventListener('transitionend', function () { overlay.remove(); }, { once: true });
+      }
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay || e.target === closeBtn) close();
+      });
+      document.addEventListener('keydown', function onKey(e) {
+        if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onKey); }
+      });
+    }
+    document.querySelectorAll('.ba-panel img').forEach(function (img) {
+      img.addEventListener('click', function () { openLightbox(img.src, img.alt); });
+    });
+  })();
+</script>
+
+<script>
+// ── i18n ──────────────────────────────────────────────
+var translations = {
+  en: {
+    'back-btn':        '<i data-lucide="arrow-left"></i> All Work',
+    'hero-cat':        'Enterprise · SaaS · B2B',
+    'hero-sub':        '10-year platform renewal for the world\'s largest semiconductor manufacturer — redesigning how global clients manage tape-out services end to end',
+    'meta-client':     'Client',
+    'meta-role':       'My Role',
+    'meta-team':       'Team',
+    'meta-timeline':   'Timeline',
+    'meta-platform':   'Platform',
+    'meta-projtype':   'Project Type',
+    'meta-live':       'Live Platform',
+    'role-value':      'UX/UI Designer',
+    'team-value':      '5 Designers (Cross-functional)',
+    'platform-value':  'Web Platform (SaaS)',
+    'badge-redesign':  'Redesign',
+    's1-eyebrow':      '01 · Problem Statement',
+    's1-heading':      'A platform that powers the global chip supply chain — due for renewal',
+    's1-text1':        'TSMC-Online is the tape-out service platform that TSMC\'s international clients depend on to manage their entire manufacturing process — from selecting reticle field layout templates, to requesting technical documents, examining prototype stages, iterating on designs, and reviewing logistics reports. The platform is rebuilt every 10 years, and this was our window.',
+    's1-text2':        'The core challenge: TSMC-Online was constructed by multiple IT departments independently, resulting in an IA that is fractured and inconsistent. Users couldn\'t build navigation habits, got lost mid-task, and struggled to understand why certain functions were inaccessible to them.',
+    'c1-label':        'Team',
+    'c1-value':        '5 designers — UX/UI, UX, UI specialists',
+    'c2-label':        'Challenge',
+    'c2-value':        'Fragmented IA across many IT departments',
+    'c3-label':        'Timeline',
+    'c3-value':        'Apr 2021 – Dec 2021 (10-yr renewal cycle)',
+    'callout1-title':  'Kay\'s scope',
+    'callout1-body':   'In a team of 5 designers, I owned <strong>UX/UI design</strong> end-to-end — conducting user research, running tree testing sessions, producing wireframes, high-fidelity UI mockups, and interactive prototypes. My work directly shaped the homepage architecture and the navigation system.',
+    's2-eyebrow':      '02 · User Research',
+    's2-heading':      '488 users surveyed — two distinct personas, one broken experience',
+    's2-text':         'Before touching any wireframe, we ran a structured survey across TSMC\'s entire international client base. Two user groups emerged with fundamentally different relationships to the platform: expert end users who use it regularly, and cross-role users who juggle multiple responsibilities.',
+    'stat1-label':     'Total end users<br />surveyed',
+    'stat2-label':     'Expert users<br />(375 people)',
+    'stat3-label':     'Cross-role users<br />(113 people)',
+    'stat4-label':     'Distinct personas<br />identified',
+    'sub-roles':       'Expert user breakdown by job function',
+    'rp-foundry':      'Foundry Manager',
+    'rp-planner':      'Planner',
+    'rp-designer':     'Designer',
+    'rp-rd':           'R&amp;D',
+    'rp-procurement':  'Procurement',
+    'rp-pm':           'Project Manager &amp; Others',
+    'p1-role':         'End User — TSMC\'s International Client',
+    'p1-desc':         'Uses TSMC-Online regularly for tape-out workflows. Deeply familiar with a narrow set of functions but struggles to locate documents across the fragmented IA. Wants faster access to frequently used tools without having to re-navigate every session.',
+    'p2-role':         'CSV &amp; Region Admin — TSMC Internal User',
+    'p2-desc':         'Manages multiple client accounts and cross-role permissions simultaneously. Regularly needs to give instructions across functions but faces unclear permission boundaries. Needs visibility into what clients can and cannot access — and why.',
+    'vis-difficulties':'Difficulties reported — Expert users vs Cross-Role users (raw data)',
+    'sub-findings':    'Key research findings',
+    'ins1-title':      'Expert ≠ Self-sufficient',
+    'ins1-body':       'Expert users give fewer instructions than cross-role users — meaning expertise doesn\'t prevent navigation struggles. Even power users get stuck.',
+    'ins2-title':      'Foundry Managers carry the load',
+    'ins2-body':       '96% of Cross Role users who frequently give instructions (&gt;80%) are cross-roled as Foundry Managers — a single role type carrying disproportionate workflow burden.',
+    'ins3-title':      'Documents are the #1 pain point',
+    'ins3-body':       '"Not easy to find documents" ranked as the top difficulty across both Expert and Cross Role users. The platform\'s document architecture was the most urgent problem to solve.',
+    's3-eyebrow':      '03 · Problem Statement',
+    's3-heading':      'Three pain points. One fragmented platform.',
+    's3-text':         'From the survey data, tree testing sessions, and user interviews, three core pain points consistently emerged across both user groups. These became the design brief — every UX decision had to directly address at least one of them.',
+    'vis-pain':        'Pain points validated by survey data',
+    'pain1-title':     'Not easy to find documents',
+    'pain1-desc':      'Documents are distributed across multiple IT-owned sections with no consistent naming or location logic. Users resort to memorizing exact paths rather than navigating by meaning.',
+    'pain2-title':     'Can\'t identify the right function',
+    'pain2-desc':      'The platform\'s function labels are technical and role-ambiguous. Cross-role users especially struggle to identify which of several similar functions applies to their current task.',
+    'pain3-title':     'Unclear access permissions',
+    'pain3-desc':      'Users encounter locked functions with no explanation of why access is restricted or how to request it. This creates dead-ends mid-workflow and erodes trust in the platform.',
+    's4-eyebrow':      '04 · UX Strategy',
+    's4-heading':      'From pain points to design principles',
+    's4-text':         'Before redesigning any screen, we established three strategic directions that would guide every information architecture and UI decision in the project. These weren\'t aesthetic choices — they were structural responses to the research findings.',
+    'flow-research':   'User Research',
+    'flow-problem':    'Problem Statement',
+    'flow-strategy':   'UX Strategy',
+    'flow-concept':    'Concept Design',
+    'vis-original':    'Original TSMC-Online — before redesign',
+    'strat1-num':      'Direction 01',
+    'strat1-title':    'Navigation clarity &amp; future flexibility',
+    'strat1-desc':     'Restructure the left-side navigation with consistent icons and labels. Build a system that can accommodate new functions as the platform grows — without breaking existing user habits.',
+    'strat2-num':      'Direction 02',
+    'strat2-title':    'Personal shortcuts on homepage',
+    'strat2-desc':     'Surface each user\'s most-used functions and latest status on the homepage — replacing a generic entry point with a role-aware, personalized workspace overview.',
+    'strat3-num':      'Direction 03',
+    'strat3-title':    '"My Online" — personal hub',
+    'strat3-desc':     'Introduce a centralized personal data panel (My Space) for notifications, subscriptions, favorite functions, and permission management — giving users a single place to understand their access context.',
+    's5-eyebrow':      '05 · Concept Design',
+    's5-heading':      'Homepage redesigned around four functional zones',
+    's5-text':         'The redesigned homepage isn\'t just visually cleaner — it\'s architecturally intentional. Every zone maps directly to a user need identified in research. The layout builds a spatial habit: users know exactly where to look for what, every time they log in.',
+    'zone1-title':     'Header — Global search + identity',
+    'zone1-desc':      'A unified search bar lets users find any function or document from anywhere on the platform. "My Online" profile chip gives instant access to personal settings — solving the access-confusion pain point.',
+    'zone2-title':     'Navigation — Persistent sidebar with icons',
+    'zone2-desc':      'All platform functions displayed in a structured, icon-anchored sidebar. Icons provide visual memory anchors so users build navigation habits quickly — even across infrequent sessions.',
+    'zone3-title':     'Main Content — Role-filtered workspace',
+    'zone3-desc':      'What\'s New, Favorite Function, and You Might Also Like — three content blocks that surface relevant, role-specific items. Users see what matters to them, not everything that exists.',
+    'zone4-title':     'My Space — Personal command center',
+    'zone4-desc':      'Right-panel hub for online notifications, subscriptions, favorite functions, and permission status. The first place on TSMC-Online where users can see and understand their own access context at a glance.',
+    'vis-anatomy':     'Final homepage design — annotated anatomy',
+    'vis-production':  'Final design — production-ready UI',
+    'sub-ba':          'Before &amp; After',
+    'ba-before':       'Before — Original TSMC-Online',
+    'ba-after':        'After — Redesigned Platform',
+    's6-eyebrow':      '06 · Results &amp; Takeaways',
+    's6-heading':      'What a 10-year redesign taught us about design strategy',
+    's6-text':         'This project is now live for TSMC\'s international clients. Beyond the shipped product, the process surfaced three lessons that apply to any large-scale, long-lifecycle enterprise platform.',
+    'tw1-title':       'Plan your MVP with iron discipline',
+    'tw1-desc':        'A platform renewing every 10 years attracts enormous scope creep. A clear MVP plan — anchored to the three validated pain points — was the only way to protect delivery quality and timeline from out-of-scope requests.',
+    'tw2-title':       'User testing never ends',
+    'tw2-desc':        'Design doesn\'t stop at handoff. Continuous iteration after launch — collecting feedback, monitoring usage, running follow-up tests — is what separates a shipped product from a good product.',
+    'tw3-title':       'Involve engineering upfront',
+    'tw3-desc':        'Enterprise platforms carry deep technical constraints. Understanding those limitations at the strategy stage — not after mockups are done — prevents costly redesigns and keeps the design-to-dev relationship collaborative, not adversarial.',
+    'callout2-title':  'Live product',
+    'callout2-body':   'TSMC-Online is now live for TSMC\'s international clients worldwide. Access is restricted to TSMC\'s global client network. <a href="https://online.tsmc.com/online2/login" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px;">online.tsmc.com</a>',
+    's7-eyebrow':      '07 · Design System',
+    's7-heading':      'Color &amp; Type',
+    'color-tsmc':      'TSMC Red',
+    'color-nav':       'Nav Dark',
+    'color-surface':   'Surface',
+    'color-card':      'Card',
+    'type-noto':       'Noto Sans — headings, body, labels (multilingual client support)',
+    'type-mono':       'Monospaced — order numbers, document IDs, version strings',
+    'next-label':      'Next project',
+    'next-btn-text':   'View case study <i data-lucide="arrow-right"></i>',
+    'footer-role':     'Lead Product Designer at Gogolook · Taipei, Taiwan',
+  },
+  zh: {
+    'back-btn':        '<i data-lucide="arrow-left"></i> 返回作品集',
+    'hero-cat':        '企業 · SaaS · B2B',
+    'hero-sub':        '全球最大半導體廠商的十年平台更新——重新設計全球客戶管理下線服務的端對端流程',
+    'meta-client':     '客戶',
+    'meta-role':       '我的角色',
+    'meta-team':       '團隊',
+    'meta-timeline':   '時間',
+    'meta-platform':   '平台',
+    'meta-projtype':   '專案類型',
+    'meta-live':       '線上平台',
+    'role-value':      'UX/UI 設計師',
+    'team-value':      '5 位設計師（跨職能）',
+    'platform-value':  '網頁平台（SaaS）',
+    'badge-redesign':  '重新設計',
+    's1-eyebrow':      '01 · 問題定義',
+    's1-heading':      '驅動全球晶片供應鏈的平台——是時候更新了',
+    's1-text1':        'TSMC-Online 是台積電國際客戶賴以管理整個製造流程的下線服務平台——從選擇光罩欄位佈局模板、申請技術文件、審查原型階段、迭代設計，到檢視物流報告。平台每十年重建一次，這正是我們的機會之窗。',
+    's1-text2':        '核心挑戰：TSMC-Online 由多個 IT 部門各自獨立建構，導致資訊架構支離破碎且缺乏一致性。用戶無法建立導航習慣、在操作途中迷失方向，也難以理解為何某些功能對他們不可用。',
+    'c1-label':        '團隊',
+    'c1-value':        '5 位設計師——UX/UI、UX、UI 專才',
+    'c2-label':        '挑戰',
+    'c2-value':        '多個 IT 部門各自為政，IA 支離破碎',
+    'c3-label':        '時間',
+    'c3-value':        '2021 年 4 月 – 12 月（十年更新週期）',
+    'callout1-title':  'Kay 的職責範圍',
+    'callout1-body':   '在 5 位設計師的團隊中，我全程負責 <strong>UX/UI 設計</strong>——進行使用者研究、主持樹狀測試、製作線框稿、高保真 UI 模型與互動原型。我的工作直接形塑了首頁架構與導航系統。',
+    's2-eyebrow':      '02 · 使用者研究',
+    's2-heading':      '488 位用戶調查——兩種截然不同的人物誌，一套破碎的體驗',
+    's2-text':         '在接觸任何線框稿之前，我們對台積電所有國際客戶進行了一次結構化問卷調查。兩種用戶群浮現，他們與平台的關係根本不同：定期使用的專業終端用戶，以及身兼多職的跨角色用戶。',
+    'stat1-label':     '受訪終端<br />用戶總數',
+    'stat2-label':     '專業用戶<br />（375 人）',
+    'stat3-label':     '跨角色用戶<br />（113 人）',
+    'stat4-label':     '歸納出的<br />不同人物誌',
+    'sub-roles':       '專業用戶職能分布',
+    'rp-foundry':      '晶圓廠管理員',
+    'rp-planner':      '規劃師',
+    'rp-designer':     '設計師',
+    'rp-rd':           '研發',
+    'rp-procurement':  '採購',
+    'rp-pm':           '專案經理 &amp; 其他',
+    'p1-role':         '終端用戶——台積電國際客戶',
+    'p1-desc':         '定期使用 TSMC-Online 處理下線工作流程。對一組特定功能非常熟悉，但在破碎的 IA 中難以找到文件。希望能更快速存取常用工具，而不必每次都重新摸索導航。',
+    'p2-role':         'CSV &amp; 區域管理員——台積電內部用戶',
+    'p2-desc':         '同時管理多個客戶帳戶與跨角色權限。經常需要跨功能給予指引，但面臨不清楚的權限邊界。需要了解客戶可以和不可以存取的內容——以及原因。',
+    'vis-difficulties':'各項困難回報——專業用戶 vs 跨角色用戶（原始數據）',
+    'sub-findings':    '關鍵研究發現',
+    'ins1-title':      '專家 ≠ 自給自足',
+    'ins1-body':       '專業用戶給予的指示少於跨角色用戶——這意味著專業程度無法避免導航困難。即使是進階用戶也會卡關。',
+    'ins2-title':      '晶圓廠管理員承擔最多',
+    'ins2-body':       '96% 頻繁給予指示（&gt;80%）的跨角色用戶都兼任晶圓廠管理員——單一角色類型承擔了不成比例的工作流程負擔。',
+    'ins3-title':      '文件查找是頭號痛點',
+    'ins3-body':       '「不易找到文件」在專業用戶與跨角色用戶中均名列最大困難之首。平台的文件架構是最迫切需要解決的問題。',
+    's3-eyebrow':      '03 · 問題定義',
+    's3-heading':      '三大痛點。一個破碎的平台。',
+    's3-text':         '從問卷數據、樹狀測試與用戶訪談中，兩種用戶群不斷浮現三個核心痛點。這些成為設計需求書——每一個 UX 決策都必須直接回應其中至少一項。',
+    'vis-pain':        '由調查數據驗證的痛點',
+    'pain1-title':     '難以找到文件',
+    'pain1-desc':      '文件分散在多個 IT 部門各自管理的欄位，缺乏一致的命名或位置邏輯。用戶只能靠死記路徑，而非依據語意導航。',
+    'pain2-title':     '無法辨識正確功能',
+    'pain2-desc':      '平台的功能標籤偏向技術術語且角色定義模糊。跨角色用戶尤其難以判斷幾個相似功能中哪一個適用於當前任務。',
+    'pain3-title':     '存取權限不清楚',
+    'pain3-desc':      '用戶遇到被鎖定的功能卻沒有說明為何受限或如何申請開通。這在工作流程中途造成死路，並削弱了對平台的信任。',
+    's4-eyebrow':      '04 · UX 策略',
+    's4-heading':      '從痛點到設計原則',
+    's4-text':         '在重新設計任何畫面之前，我們確立了三個策略方向，以指導整個專案中每一個資訊架構與 UI 決策。這些不是美學選擇——而是對研究發現的結構性回應。',
+    'flow-research':   '使用者研究',
+    'flow-problem':    '問題定義',
+    'flow-strategy':   'UX 策略',
+    'flow-concept':    '概念設計',
+    'vis-original':    '原始 TSMC-Online——重新設計前',
+    'strat1-num':      '方向 01',
+    'strat1-title':    '導航清晰度與未來擴展彈性',
+    'strat1-desc':     '以一致的圖示與標籤重構左側導航。建立一套能隨平台成長容納新功能的系統——同時不破壞現有用戶的導航習慣。',
+    'strat2-num':      '方向 02',
+    'strat2-title':    '首頁個人化快捷鍵',
+    'strat2-desc':     '在首頁呈現每位用戶最常用的功能與最新狀態——以角色感知的個人化工作區概覽取代通用入口頁。',
+    'strat3-num':      '方向 03',
+    'strat3-title':    '「My Online」——個人中心',
+    'strat3-desc':     '引入集中式個人數據面板（My Space），涵蓋通知、訂閱、常用功能與權限管理——讓用戶擁有一個可以了解自身存取情境的單一場所。',
+    's5-eyebrow':      '05 · 概念設計',
+    's5-heading':      '以四個功能區塊為核心重新設計首頁',
+    's5-text':         '重新設計的首頁不只是視覺上更簡潔——它在架構上是刻意為之的。每個區塊直接對應研究中識別出的用戶需求。這個佈局建立了空間習慣：用戶每次登入都確切知道在哪裡找到什麼。',
+    'zone1-title':     '頁首——全站搜尋 + 身份識別',
+    'zone1-desc':      '統一的搜尋列讓用戶從平台任何位置都能找到任何功能或文件。「My Online」個人資料晶片提供個人設定的即時存取——解決了存取混亂的痛點。',
+    'zone2-title':     '導航——附圖示的固定側邊欄',
+    'zone2-desc':      '所有平台功能以結構化、圖示錨定的側邊欄呈現。圖示提供視覺記憶錨點，讓用戶能快速建立導航習慣——即使是在不頻繁使用的情況下。',
+    'zone3-title':     '主要內容——角色篩選的工作區',
+    'zone3-desc':      '「最新消息」、「常用功能」與「你可能也需要」——三個內容區塊呈現相關的、針對角色的項目。用戶看到的是對他們重要的內容，而非所有存在的一切。',
+    'zone4-title':     'My Space——個人指揮中心',
+    'zone4-desc':      '右側面板中心，涵蓋線上通知、訂閱、常用功能與權限狀態。這是 TSMC-Online 上第一個讓用戶能一目了然地查看並理解自身存取情境的地方。',
+    'vis-anatomy':     '最終首頁設計——標注說明',
+    'vis-production':  '最終設計——正式上線 UI',
+    'sub-ba':          '改版前後對比',
+    'ba-before':       '改版前——原始 TSMC-Online',
+    'ba-after':        '改版後——重新設計的平台',
+    's6-eyebrow':      '06 · 成果與收穫',
+    's6-heading':      '一次十年重設計讓我們學到的事',
+    's6-text':         '這個專案現已正式上線供台積電的國際客戶使用。除了已交付的產品，這個過程也浮現了三個適用於任何大規模、長生命週期企業平台的課題。',
+    'tw1-title':       '以鐵的紀律規劃 MVP',
+    'tw1-desc':        '一個每十年更新一次的平台會吸引巨大的範疇蔓延。一份清晰的 MVP 計畫——錨定在三個經驗證的痛點上——是保護交付品質與時程不受範疇外需求影響的唯一方法。',
+    'tw2-title':       '使用者測試永不結束',
+    'tw2-desc':        '設計不會在交付時結束。上線後的持續迭代——收集回饋、監控使用情況、進行後續測試——才是區分「已上線的產品」與「優秀產品」的關鍵。',
+    'tw3-title':       '從一開始就納入工程師',
+    'tw3-desc':        '企業平台帶有深層的技術限制。在策略階段就理解這些限制——而非等到模型完成後——可以避免昂貴的重新設計，並讓設計與開發的關係保持協作，而非對立。',
+    'callout2-title':  '已上線產品',
+    'callout2-body':   'TSMC-Online 現已正式上線供台積電全球國際客戶使用。存取限於台積電的全球客戶網絡。<a href="https://online.tsmc.com/online2/login" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px;">online.tsmc.com</a>',
+    's7-eyebrow':      '07 · 設計系統',
+    's7-heading':      '顏色 &amp; 字體',
+    'color-tsmc':      '台積電紅',
+    'color-nav':       '導航深色',
+    'color-surface':   '背景色',
+    'color-card':      '卡片色',
+    'type-noto':       'Noto Sans——標題、內文、標籤（支援多語系客戶）',
+    'type-mono':       '等寬字體——訂單編號、文件 ID、版本號碼',
+    'next-label':      '下一個專案',
+    'next-btn-text':   '查看作品 <i data-lucide="arrow-right"></i>',
+    'footer-role':     'Gogolook 首席產品設計師 · 台灣台北',
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-opt').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+  localStorage.setItem('kw-lang-tsmc', lang);
+  lucide.createIcons();
+}
+
+document.getElementById('langSwitch').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-opt');
+  if (!btn) return;
+  applyLang(btn.getAttribute('data-lang'));
+});
+
+</script>
+
+</body>
+</html>
